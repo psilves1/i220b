@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../../assets/styles/article.css" rel="stylesheet" type="text/css" /> 
+    <title>CS 220: Project 1 Bit Twiddling in C</title>
+    
+  </head>
+  <body>
+    <nav>
+      <ul>
+	<li><a href="../../index.html" class="material-icons">house</a></li>
+	<li><a href="../../docs/index.html">Docs</a></li>
+	<li><a href="../../exams-quizzes/index.html">Exams &amp; Quizzes</a></li>
+	<li><a href="../../exercises/index.html">Exercises</a></li>
+	<li><a href="../../hws/index.html">Homeworks</a></li>
+	<li><a href="../../labs/index.html">Labs</a></li>
+	<li><a href="../../misc/index.html">Misc</a></li>
+	<li><a href="../../projects/index.html">Projects</a></li>
+	<li><a href="../../slides/index.html">Slides</a></li>
+      </ul>
+    </nav>
+    <div class="content">
+      <section data-coord="prj1.umt:1:0"><h1 data-coord="prj1.umt:1:0">Project 1 Bit Twiddling in C</h1><p data-coord="prj1.umt:3:0"><strong data-coord="prj1.umt:3:0">Due</strong>: Sep 10 by 11:59p
+</p><p data-coord="prj1.umt:5:0"><strong data-coord="prj1.umt:5:0">Important Reminder</strong>: As per the course <em data-coord="prj1.umt:5:110"><a href="../../misc/academic-honesty-statement/academic-honesty-policy.html" data-coord="prj1.umt:5:110">Academic Honesty Statement</a></em>,
+cheating of any kind will minimally result in receiving an F letter
+grade for the entire course.
+</p><p data-coord="prj1.umt:9:0">This document first provides the aims of this project. It then
+provides some background information. It then lists the requirements
+as explicitly as possible.  It lists the files with which you have
+been provided and describes how those files are organized into
+modules.  It then provides some hints as to how those requirements can
+be met.  Finally, it describes how to submit the project for grading.
+</p><section data-coord="prj1.umt:16:0"><h2 data-coord="prj1.umt:16:0">Aims</h2><p data-coord="prj1.umt:19:0">The aims of this project are as follows:
+</p><ul data-coord="prj1.umt:21:0"><li data-coord="prj1.umt:21:0"><p data-coord="prj1.umt:21:4">To expose you to a typical Unix-based C development environment.
+</p></li><li data-coord="prj1.umt:23:0"><p data-coord="prj1.umt:23:4">To introduce the implementation of modules in C.
+</p></li><li data-coord="prj1.umt:25:0"><p data-coord="prj1.umt:25:4">To force you to understand the use of bitwise operations in C.
+</p></li></ul></section><section data-coord="prj1.umt:28:0"><h2 data-coord="prj1.umt:28:0">Background</h2><p data-coord="prj1.umt:32:0">Binary data is often transmitted serially, i.e. sequentially,
+bit-by-bit.  Examples of serial communication protocols include most
+popular network protocols and I/O devices like USB.
+</p><p data-coord="prj1.umt:36:0">When data is transmitted serially, reading it often involves
+segmenting the bit-stream into higher order entities like "words".
+This segmenting depends on the following parameters:
+</p><dl data-coord="prj1.umt:40:0"><dt data-coord="prj1.umt:40:2"> <strong data-coord="prj1.umt:40:1">Number of bits within a word</strong></dt><dd data-coord="prj1.umt:41:0"><p data-coord="prj1.umt:41:4">This parameter is used to find word boundaries within a bit stream.
+</p></dd><dt data-coord="prj1.umt:43:2"> <strong data-coord="prj1.umt:43:1">Order of bytes within a word</strong> </dt><dd data-coord="prj1.umt:44:0"><p data-coord="prj1.umt:44:4">This parameter specifies the order in which the bytes which
+constitute a word are transmitted within a bit-stream.  Common
+byte orders are most-significant byte to least-significant byte
+referred to as <strong data-coord="prj1.umt:44:218">big-endian</strong>, and least-significant to
+most-significant, referred to as <strong data-coord="prj1.umt:44:294">little-endian</strong>.
+</p></dd><dt data-coord="prj1.umt:50:2"> <strong data-coord="prj1.umt:50:1">Order of bits within a byte</strong></dt><dd data-coord="prj1.umt:51:0"><p data-coord="prj1.umt:51:4">This parameter specifies the order in which the bits which
+constitute a byte are transmitted within a bit-stream.  Common bit
+orders are most-significant bit to least-significant bit referred
+to again as <strong data-coord="prj1.umt:51:220">big-endian</strong>, and least-significant bit to
+most-significant bit, referred to again as <strong data-coord="prj1.umt:51:310">little-endian</strong>.
+</p></dd></dl><p data-coord="prj1.umt:58:0">Disregarding second-order considerations, the values of these
+parameters can pretty much be chosen arbitrarily. However, in order to
+achieve correct communication, it is <strong data-coord="prj1.umt:58:170">imperative</strong> that both sender and
+receiver agree on the values of these parameters.
+</p><p data-coord="prj1.umt:63:0">This project uses a fixed big-endian order for the byte order of a
+word, and a fixed little-endian order for the bits within a byte, but
+allows the number of bits within a word to be specified at runtime.
+</p></section><section data-coord="prj1.umt:68:0"><h2 data-coord="prj1.umt:68:0">Requirements</h2><p data-coord="prj1.umt:71:0">Submit a <samp data-coord="prj1.umt:71:9">submit/prj1-sol</samp> folder in your <samp data-coord="prj1.umt:71:42">i220</samp><em data-coord="prj1.umt:71:48">X</em> repository in
+github such that typing <samp data-coord="prj1.umt:71:90">make</samp> within that folder produces a
+<samp data-coord="prj1.umt:71:127">bits-to-ints</samp> executable within that directory with usage:
+</p><pre data-coord="prj1.umt:76:0">./bits-to-ints N_BITS [FILE...]
+</pre><p data-coord="prj1.umt:79:0"><samp data-coord="prj1.umt:79:0">N_BITS</samp> should specify the number of bits in a word which should
+be a power-of-2 between 8 and 64 inclusive and <samp data-coord="prj1.umt:79:113">[FILE...]</samp> specifies
+0-or-more filenames.
+</p><p data-coord="prj1.umt:83:0">Each specified file should contain the characters <samp data-coord="prj1.umt:83:50">'0'</samp>, <samp data-coord="prj1.umt:83:57">'1'</samp> or
+whitespace, where a whitespace character is any character <samp data-coord="prj1.umt:83:124">c</samp> such
+that <samp data-coord="prj1.umt:83:138">isspace(c)</samp> from <samp data-coord="prj1.umt:83:156">&lt;ctype.h&gt;</samp> returns non-zero.  The number of
+non-whitespace characters within each file should be an integral
+multiple of <samp data-coord="prj1.umt:83:278">N_BITS</samp>; i.e., words cannot span multiple files.
+</p><p data-coord="prj1.umt:89:0">The program should segment the bit stream contained in each file into
+an unsigned word of <samp data-coord="prj1.umt:89:90">N_BITS</samp>, assuming that the bytes within a word
+are in big-endian order and the bits within a byte are in
+little-endian order.  Whitespace characters should be ignored.  It
+should print out the resulting value of each word in hexadecimal on
+standard output, one word per line, where each value is preceeded by
+the requisite number of <samp data-coord="prj1.umt:89:424">0</samp> hexets needed to pad out the value to
+<samp data-coord="prj1.umt:89:466">N_BITS</samp>.
+</p><p data-coord="prj1.umt:98:0">The program should read from standard input if zero file names are
+specified on the command-line.
+</p><p data-coord="prj1.umt:101:0">The program should print out error messages on standard error
+for the following error conditions:
+</p><ul data-coord="prj1.umt:104:0"><li data-coord="prj1.umt:104:0"><p data-coord="prj1.umt:104:4">An invalid character which is not one of <samp data-coord="prj1.umt:104:45">'0'</samp>, <samp data-coord="prj1.umt:104:52">'1'</samp> or
+whitespace is encountered in one of the <samp data-coord="prj1.umt:104:105">[FILE...]</samp> arguments.
+</p></li><li data-coord="prj1.umt:107:0"><p data-coord="prj1.umt:107:4">End-of-file is encountered within a word.
+</p></li></ul><p data-coord="prj1.umt:109:0">You are being provided with much of the necessary code.  What you
+really need to provide is an implementation for this
+<em data-coord="prj1.umt:109:146"><a href="prj1-sol/bits-to-ints.h" data-coord="prj1.umt:109:146">specification header file</a></em>.
+</p><p data-coord="prj1.umt:113:0">The behavior of the program is illustrated in the provided
+<a href="aux-files/test1.LOG" data-coord="prj1.umt:113:82">aux-files/test1.LOG</a> log file.
+</p></section><section data-coord="prj1.umt:117:0"><h2 data-coord="prj1.umt:117:0">Provided Files</h2><p data-coord="prj1.umt:120:0">The provided <a href="prj1-sol" data-coord="prj1.umt:120:25">prj1-sol</a> directory includes the following
+files:
+</p><dl data-coord="prj1.umt:123:0"><dt data-coord="prj1.umt:123:2"> <a href="prj1-sol/bits-to-ints.c" data-coord="prj1.umt:123:28">bits-to-ints.c</a></dt><dd data-coord="prj1.umt:124:0"><p data-coord="prj1.umt:124:4">A skeleton file which you will need to modify.
+</p></dd><dt data-coord="prj1.umt:126:2"> <a href="prj1-sol/bits-to-ints.h" data-coord="prj1.umt:126:28">bits-to-ints.h</a></dt><dd data-coord="prj1.umt:127:0"><p data-coord="prj1.umt:127:4">A specification header file which provides the specification you
+need to implement.  You should not modify this file.
+</p></dd><dt data-coord="prj1.umt:130:2"> <a href="prj1-sol/errors.c" data-coord="prj1.umt:130:22">errors.c</a> and <a href="prj1-sol/errors.h" data-coord="prj1.umt:130:56">errors.h</a></dt><dd data-coord="prj1.umt:131:0"><p data-coord="prj1.umt:131:4">Specification and implementation of a trivial error reporting
+module.  It provides two functions <samp data-coord="prj1.umt:131:105">error()</samp> and <samp data-coord="prj1.umt:131:119">fatal()</samp> where
+each function takes <samp data-coord="prj1.umt:131:159">printf()</samp>-style arguments and prints the
+message specified by its arguments on standard error; the
+difference between the two is that <samp data-coord="prj1.umt:131:302">fatal()</samp> additionally
+terminates the program. You should not need to modify these files.
+</p></dd><dt data-coord="prj1.umt:139:2"> <a href="prj1-sol/main.c" data-coord="prj1.umt:139:20">main.c</a></dt><dd data-coord="prj1.umt:140:0"><p data-coord="prj1.umt:140:4">This provides the necessary command-line behavior for the program.
+You should not need to modify this file.
+</p></dd><dt data-coord="prj1.umt:144:2"> <a href="prj1-sol/Makefile" data-coord="prj1.umt:144:22">Makefile</a></dt><dd data-coord="prj1.umt:145:0"><p data-coord="prj1.umt:145:4">A <samp data-coord="prj1.umt:145:6">Makefile</samp> with default target which builds the entire program.
+It also provides a <samp data-coord="prj1.umt:145:93">clean</samp> target for cleaning out object and
+executable files and emacs backup files.  You should not need to
+modify this file.
+</p></dd><dt data-coord="prj1.umt:150:2"><a href="prj1-sol/test1.txt" data-coord="prj1.umt:150:22">test1.txt</a></dt><dd data-coord="prj1.umt:151:0"><p data-coord="prj1.umt:151:4">A file containing test data; one byte per line.
+</p></dd></dl></section><section data-coord="prj1.umt:153:0"><h2 data-coord="prj1.umt:153:0">Modules</h2><p data-coord="prj1.umt:156:0">Modules are available in many programming languages to provide a unit
+of encapsulation larger than a function.  The encapsulation serves to
+export some useful functionality to the rest of the program, while
+keeping the details of the implementation of that functionality
+hidden.
+</p><p data-coord="prj1.umt:162:0">Unfortunately, C does not provide any language support for modules.
+Fortunately,\ is possible to implement modules in C by following some
+simple rules:
+</p><ol data-coord="prj1.umt:166:0"><li data-coord="prj1.umt:166:0"><p data-coord="prj1.umt:166:4">Provide a specification file usually named with a <samp data-coord="prj1.umt:166:54">.h</samp> extension,
+which declares the functions and types exported by the module.
+</p></li><li data-coord="prj1.umt:169:0"><p data-coord="prj1.umt:169:4">Provide an implementation file usually named with a <samp data-coord="prj1.umt:169:56">.c</samp>
+extension, which implements the specifications.  All
+implementation details should be hidden within this implementation
+file by being declared using a <samp data-coord="prj1.umt:169:224">static</samp> modifier, thus restricting
+the visibilitity to within that file.
+</p></li><li data-coord="prj1.umt:175:0"><p data-coord="prj1.umt:175:4"><samp data-coord="prj1.umt:175:4">#include</samp> the <samp data-coord="prj1.umt:175:19">.h</samp> specification file into the <samp data-coord="prj1.umt:175:52">.c</samp> implementation
+file.  Doing so guarantees that any syntactic incompatibility
+between the specification and the implementation is caught by the
+compiler.
+</p></li><li data-coord="prj1.umt:180:0"><p data-coord="prj1.umt:180:4"><samp data-coord="prj1.umt:180:4">#include</samp> the <samp data-coord="prj1.umt:180:19">.h</samp> specification file into any client files which
+require the functionality exported by the module.
+</p></li><li data-coord="prj1.umt:183:0"><p data-coord="prj1.umt:183:4">Link the implementation file into the executable.
+</p></li></ol><p data-coord="prj1.umt:185:0">The provided files provide an error-reporting module with specification
+file <a href="prj1-sol/errors.h" data-coord="prj1.umt:185:98">errors.h</a> and implementation file
+<a href="prj1-sol/errors.c" data-coord="prj1.umt:185:152">errors.c,</a>  Similarly, the <samp data-coord="prj1.umt:185:178">bits-to-ints</samp> module
+uses the <a href="prj1-sol/bits-to-ints.h" data-coord="prj1.umt:185:236">bits-to-ints.h</a> specification file
+and a <a href="prj1-sol/bits-to-ints.c" data-coord="prj1.umt:185:303">bits-to-ints.c</a> implementation file.
+</p><p data-coord="prj1.umt:191:0">Note that it is possible to extend the above ideas for implementing
+modules in C to handle object encapsulation.
+</p></section><section data-coord="prj1.umt:195:0"><h2 data-coord="prj1.umt:195:0">Hints</h2><p data-coord="prj1.umt:198:0">This project will require some C knowledge which has not yet been
+explicitly covered in class:
+</p><ul data-coord="prj1.umt:201:0"><li data-coord="prj1.umt:201:0"><p data-coord="prj1.umt:201:4">One of the parameters to the <samp data-coord="prj1.umt:201:33">bits_to_ints()</samp> function is
+declared <samp data-coord="prj1.umt:201:75">bool *isEof</samp>, which means <samp data-coord="prj1.umt:201:102">isEof</samp> is a pointer to
+a <samp data-coord="prj1.umt:201:132">bool</samp>.  We have not yet covered pointers in class, but
+assigning a value through this pointer is as simple as
+<samp data-coord="prj1.umt:201:251">*isEof = true;</samp> or <samp data-coord="prj1.umt:201:271">*isEof = false;</samp>.
+</p></li><li data-coord="prj1.umt:207:0"><p data-coord="prj1.umt:207:4">You will need to read characters from the input stream <samp data-coord="prj1.umt:207:59">inFile</samp>.
+You can do so using the <samp data-coord="prj1.umt:207:97">&lt;stdio.h&gt;</samp> function <samp data-coord="prj1.umt:207:118">fgetc(inFile)</samp> which
+will return an <samp data-coord="prj1.umt:207:159">int</samp> representing the ASCII code of the next
+character read from stream <samp data-coord="prj1.umt:207:236">inFile</samp>.  The return value is set to
+the special value <samp data-coord="prj1.umt:207:296">EOF</samp> (also defined in <samp data-coord="prj1.umt:207:319">&lt;stdio.h&gt;</samp>) on
+end-of-file.
+</p></li><li data-coord="prj1.umt:214:0"><p data-coord="prj1.umt:214:4">You can check if an integer <samp data-coord="prj1.umt:214:32">c</samp> represents the code for a
+whitespace character using the <samp data-coord="prj1.umt:214:97">&lt;ctype.h&gt;</samp> <samp data-coord="prj1.umt:214:109">isspace(c)</samp> function.
+</p></li></ul><p data-coord="prj1.umt:217:0">The following steps are not prescriptive in that you may choose to ignore
+them as long as you meet all project requirements.
+</p><ol data-coord="prj1.umt:220:0"><li data-coord="prj1.umt:220:0"><p data-coord="prj1.umt:220:4">Review all relevant material, specifically the
+<a href="../../slides/c-intro/c-intro.html#out-bits" data-coord="prj1.umt:220:101">out_bits()</a> function
+in the slides and the sections 2.1 <em data-coord="prj1.umt:220:160">Information Storage</em> and 2.2
+<em data-coord="prj1.umt:220:194">Integer Representations</em> of the text.
+</p></li><li data-coord="prj1.umt:225:0"><p data-coord="prj1.umt:225:4">Identify suitable abstractions for your problem:
+</p><ul data-coord="prj1.umt:227:0"><li data-coord="prj1.umt:227:0"><p data-coord="prj1.umt:227:8">You need to read a bit at a time from the <samp data-coord="prj1.umt:227:50">inFile</samp> stream.
+</p></li><li data-coord="prj1.umt:229:0"><p data-coord="prj1.umt:229:8">You need to assemble bits into bytes.
+</p></li><li data-coord="prj1.umt:231:0"><p data-coord="prj1.umt:231:8">You need to assemble bytes into words.
+</p></li></ul><p data-coord="prj1.umt:233:4">It is reasonable to create different functions for each of these
+abstractions.
+</p></li><li data-coord="prj1.umt:236:0"><p data-coord="prj1.umt:236:4">Identify a strategy to assemble bits into a byte.  Note that since
+the order of bits within a byte is little-endian, you will need to
+ensure that the bits are inserted into the byte LSB to MSB.
+</p></li><li data-coord="prj1.umt:240:0"><p data-coord="prj1.umt:240:4">Identify a strategy to assemble bytes into a word.  Note that
+since the order of bytes within a word is big-endian, this
+strategy turns out to be quite simple.
+</p></li><li data-coord="prj1.umt:244:0"><p data-coord="prj1.umt:244:4">Come up with a way of handling terminating conditions:
+</p><ul data-coord="prj1.umt:246:0"><li data-coord="prj1.umt:246:0"><p data-coord="prj1.umt:246:8">An invalid character within the bit-stream.
+</p></li><li data-coord="prj1.umt:248:0"><p data-coord="prj1.umt:248:8">An end-of-file is encountered after an integral number
+(possibly 0) of words have been read.
+</p></li><li data-coord="prj1.umt:251:0"><p data-coord="prj1.umt:251:8">An end-of-file is encountered while reading a byte.
+</p></li><li data-coord="prj1.umt:253:0"><p data-coord="prj1.umt:253:8">An end-of-file is encountered on a byte boundary but
+within a word.
+</p></li></ul><p data-coord="prj1.umt:256:4">You should try to do this without using global variables.
+</p></li><li data-coord="prj1.umt:258:0"><p data-coord="prj1.umt:258:4">Get started on your project by copying over the provided
+<a href="prj1-sol" data-coord="prj1.umt:258:77">prj1-sol</a> directory to your <samp data-coord="prj1.umt:258:104">work</samp> directory.
+Assuming that you have set up your course account as
+instructed, the following should work:
+</p><pre data-coord="prj1.umt:264:0">    $ cd ~/i220?/work 
+    $ cp -r ~/cs220/projects/prj1/prj1-sol .
+    $ cd prj1-sol
+</pre><p data-coord="prj1.umt:269:4">You can compile the project by simply typing <samp data-coord="prj1.umt:269:49">make</samp>.  You can even
+run it but it will not perform any useful functionality.
+</p></li><li data-coord="prj1.umt:272:0"><p data-coord="prj1.umt:272:4">Implement the above strategies by making suitable changes to your
+copy of the <samp data-coord="prj1.umt:272:86">bits-to-ints.c</samp> skeleton file.  The amount of code
+involved should be minimal; around 100 lines or so.
+</p></li><li data-coord="prj1.umt:276:0"><p data-coord="prj1.umt:276:4">Test and iterate the above steps until your project meets all the
+requirements.  While working on the project be sure to <samp data-coord="prj1.umt:276:129">commit</samp>
+and <samp data-coord="prj1.umt:276:146">push</samp> your changes to git frequently in order to avoid
+loosing your work accidentally.
+</p></li></ol></section><section data-coord="prj1.umt:281:0"><h2 data-coord="prj1.umt:281:0">Submission</h2><p data-coord="prj1.umt:284:0">When you are happy with your project, move it over from your work
+directory to your submit directory:
+</p><pre data-coord="prj1.umt:288:0">$ cd ~/cs220X #X is either a or b
+$ git mv work/prj1-sol submit
+$ git commit -a -m 'suitable comment'
+$ git push
+</pre><p data-coord="prj1.umt:294:0">This should submit your project as <samp data-coord="prj1.umt:294:35">submit/prj1-sol</samp> via github.  Your
+submission should not include any object files or executables; this
+will be prevented by the provided <em data-coord="prj1.umt:294:196"><a href="prj1-sol/.gitignore" data-coord="prj1.umt:294:196">.gitignore</a></em>
+file.
+</p><p data-coord="prj1.umt:299:0">If submitting late, please drop an email to the TA for
+your section:
+</p><dl data-coord="prj1.umt:302:0"><dt data-coord="prj1.umt:302:2"> <strong data-coord="prj1.umt:302:1">Section A</strong></dt><dd data-coord="prj1.umt:303:0"><p data-coord="prj1.umt:303:4"><a href="mailto:yli241@binghamton.edu" data-coord="prj1.umt:303:36">yli241@binghamton.edu</a>
+</p></dd><dt data-coord="prj1.umt:305:2"> <strong data-coord="prj1.umt:305:1">Section B</strong></dt><dd data-coord="prj1.umt:306:0"><p data-coord="prj1.umt:306:4"><a href="mailto:rrausha1@binghamton.edu" data-coord="prj1.umt:306:38">rrausha1@binghamton.edu</a>
+</p></dd></dl></section></section>
+    </div> <!-- #content -->
+  </body>
+</html>

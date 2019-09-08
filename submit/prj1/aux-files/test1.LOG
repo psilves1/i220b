@@ -1,0 +1,75 @@
+#output usage message.  The FILE... denotes 1-or-more, the [FILE...]
+#makes it optional; hence [FILE...] means 0-or-more files.
+$ ./bits-to-ints 
+usage: ./bits-to-ints N_BITS [FILE...]
+
+#show file used for tests
+$ cat test1.txt 
+1 0 0 0 0 0 0 0
+1 1 0 0 0 1 0 0
+1 0 1 0 0 0 1 0
+1 1 1 0 0 1 1 0
+1 0 0 1 0 0 0 1
+1 1 0 1 0 1 0 1
+1 0 1 1 0 0 1 1
+1 1 1 1 0 1 1 1
+
+#show erroneous command-line argument
+$ ./bits-to-ints 12
+N_BITS must be a power of 2 between 8 and 64
+
+# Segment bit-stream as 8-bit words
+$ ./bits-to-ints 8 test1.txt 
+01
+23
+45
+67
+89
+ab
+cd
+ef
+
+# Segment bit-stream as 16-bit words
+$ ./bits-to-ints 16 test1.txt 
+0123
+4567
+89ab
+cdef
+
+# Segment bit-stream as 32-bit words
+$ ./bits-to-ints 32 test1.txt 
+01234567
+89abcdef
+
+# Segment bit-stream as 64-bit words
+$ ./bits-to-ints 64 test1.txt 
+0123456789abcdef
+
+# Allow multiple input files
+$ ./bits-to-ints 64 test1.txt test1.txt 
+0123456789abcdef
+0123456789abcdef
+
+#If no FILE specified then read from stdin.  Input terminated by ^D
+$ ./bits-to-ints 16 
+1111 0000 1100 1011
+0fd3
+
+#Show handling of a bad input character
+$ ./bits-to-ints 16 
+1111 0000 1100 101x
+unexpected character 'x' in file <stdin>
+
+#Show handling of EOF within a byte
+$ ./bits-to-ints 16 
+1111 0000 1100 101
+unexpected EOF within byte in file <stdin>
+
+#Show handling of EOF between bytes
+$ ./bits-to-ints 16 
+1111 0000 
+unexpected EOF within value in file <stdin>
+
+#Empty input is fine
+$ ./bits-to-ints 16 
+$ 

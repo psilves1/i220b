@@ -91,7 +91,7 @@ bits_to_ints(FILE *inFile, const char *inName, int nBits, bool *isEof)
 
      
 
-     if(c == EOF && i%4 != 0){
+     if(c == EOF && i%8 != 0){
        printf("Unexpected EOF within byte in data file \n" );
        *isEof = true;
        break;

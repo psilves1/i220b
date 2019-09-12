@@ -87,9 +87,7 @@ bits_to_ints(FILE *inFile, const char *inName, int nBits, bool *isEof)
   
     for(int i = 0; i < nBits; i++){
 
-     char c = fgetc(inFile);
-
-     
+     char c = fgetc(inFile);     
 
      if(c == EOF && i%4 != 0){
        printf("Unexpected EOF within byte in data file \n" );
@@ -105,7 +103,7 @@ bits_to_ints(FILE *inFile, const char *inName, int nBits, bool *isEof)
 
      if(c == EOF){
        *isEof = true;
-       break;
+       break;;
      }
      
      if(c != '1' && c != '0' &&  !isspace(c)){

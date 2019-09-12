@@ -1,0 +1,211 @@
+EXERCISE 1:
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex1$ emacs uints.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex1$ make
+cc -g -Wall -std=c11    uints.c   -o uints
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex1$ ./uints
+65535
+uint = 65535 (0xffff); ushort = 65535 (0xffff)
+65536
+uint = 65536 (0x10000); ushort = 0 (0x0)
+65537
+uint = 65537 (0x10001); ushort = 1 (0x1)
+4294967295
+uint = 4294967295 (0xffffffff); ushort = 65535 (0xffff)
+4294967296
+uint = 0 (0x0); ushort = 0 (0x0)
+4294967297
+uint = 1 (0x1); ushort = 1 (0x1)
+
+_________________________________________________________________________________________
+EXERCISE 2:
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex2$ emacs ints.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex2$ make
+cc -g -Wall -std=c11    ints.c   -o ints
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex2$ ./ints
+32767
+int = 32767 (0x7fff); short = 32767 (0x7fff)
+32768
+int = 32768 (0x8000); short = -32768 (0xffff8000)
+32769
+int = 32769 (0x8001); short = -32767 (0xffff8001)
+2147483647
+int = 2147483647 (0x7fffffff); short = -1 (0xffffffff)
+2147483647
+int = 2147483647 (0x7fffffff); short = -1 (0xffffffff)
+214743648
+int = 214743648 (0xcccba60); short = -17824 (0xffffba60)
+2147483649
+int = -2147483647 (0x80000001); short = 1 (0x1)
+
+_________________________________________________________________________________________
+EXERCISE 3:
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex3$ ./identify
+1ff
+mystery = 511 (0x1ff)
+fff
+mystery = 4095 (0xfff)
+7fff
+mystery = 32767 (0x7fff)
+3ffff
+mystery = 262143 (0x3ffff)
+1fffff
+mystery = 2097151 (0x1fffff)
+ffffff
+mystery = 8388607 (0x7fffff)
+7fffff
+mystery = 8388607 (0x7fffff)
+3fffff
+mystery = 4194303 (0x3fffff)
+
+N = 23 bits
+
+______________________________________________________________________________
+EXERCISE 4
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex4$ ./negeq
+ffffffff
+-1 != --1
+00000000
+0 == -0
+0
+0 == -0
+
+__________________________________________________________________________
+EXERCISE 5
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex5$ python
+Python 2.7.16 (default, Apr  6 2019, 01:42:57) 
+[GCC 8.3.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 10**1000 - 1
+9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999L
+>>> 10**1000 - 1.0
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+OverflowError: long int too large to convert to float
+
+______________________________________________________________________________
+EXERCISE 6
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files$ cd ex6
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex6$ ls
+0.1.c  Makefile
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex6$ emacs 0.1.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex6$ make
+cc -g -Wall -std=c11    0.1.c   -o 0.1
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex6$ ls
+0.1  0.1.c  Makefile
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex6$ ./0.1
+0.99999999999999988898 0
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex6$ 
+
+_______________________________________________________________________________
+EXERCISE 7
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files$ cd ex7
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex7$ make
+cc -g -Wall -std=c11    nan.c   -o nan
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex7$ ls
+Makefile  nan  nan.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex7$ ./nan
+1
+x = 1
+loop exit
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex7$ .1
+bash: .1: command not found
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex7$ ./nan
+.1
+x = 1
+loop exit
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex7$ ./nan
+.3
+x = 1
+loop exit
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex7$ ./nan
+.3333333333333333333333333333333
+x = 1
+loop exit
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex7$ ./nan
+NaN
+x = nan
+^C
+
+_____________________________________________________________________________
+EXERCISE 8
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files$ cd ex8
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex8$ make
+cc -g -Wall -std=c11    ulp.c  -lm -o ulp
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex8$ ./ulp
+usage ./ulp data|lg-data|verbose
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab4/files/ex8$ ./ulp verbose
+v = 0x1 (1), ulp = 1.1920928955078e-07
+v = 0x2 (2), ulp = 2.3841857910156e-07
+v = 0x4 (4), ulp = 4.7683715820312e-07
+v = 0x8 (8), ulp = 9.5367431640625e-07
+v = 0x10 (16), ulp = 1.9073486328125e-06
+v = 0x20 (32), ulp = 3.814697265625e-06
+v = 0x40 (64), ulp = 7.62939453125e-06
+v = 0x80 (128), ulp = 1.52587890625e-05
+v = 0x100 (256), ulp = 3.0517578125e-05
+v = 0x200 (512), ulp = 6.103515625e-05
+v = 0x400 (1024), ulp = 0.0001220703125
+v = 0x800 (2048), ulp = 0.000244140625
+v = 0x1000 (4096), ulp = 0.00048828125
+v = 0x2000 (8192), ulp = 0.0009765625
+v = 0x4000 (16384), ulp = 0.001953125
+v = 0x8000 (32768), ulp = 0.00390625
+v = 0x10000 (65536), ulp = 0.0078125
+v = 0x20000 (131072), ulp = 0.015625
+v = 0x40000 (262144), ulp = 0.03125
+v = 0x80000 (524288), ulp = 0.0625
+v = 0x100000 (1.04858e+06), ulp = 0.125
+v = 0x200000 (2.09715e+06), ulp = 0.25
+v = 0x400000 (4.1943e+06), ulp = 0.5
+v = 0x800000 (8.38861e+06), ulp = 1
+v = 0x1000000 (1.67772e+07), ulp = 2
+v = 0x2000000 (3.35544e+07), ulp = 4
+v = 0x4000000 (6.71089e+07), ulp = 8
+v = 0x8000000 (1.34218e+08), ulp = 16
+v = 0x10000000 (2.68435e+08), ulp = 32
+v = 0x20000000 (5.36871e+08), ulp = 64
+v = 0x40000000 (1.07374e+09), ulp = 128
+v = 0x80000000 (2.14748e+09), ulp = 256
+v = 0x100000000 (4.29497e+09), ulp = 512
+v = 0x200000000 (8.58993e+09), ulp = 1024
+v = 0x400000000 (1.71799e+10), ulp = 2048
+v = 0x800000000 (3.43597e+10), ulp = 4096
+v = 0x1000000000 (6.87195e+10), ulp = 8192
+v = 0x2000000000 (1.37439e+11), ulp = 16384
+v = 0x4000000000 (2.74878e+11), ulp = 32768
+v = 0x8000000000 (5.49756e+11), ulp = 65536
+v = 0x10000000000 (1.09951e+12), ulp = 131072
+v = 0x20000000000 (2.19902e+12), ulp = 262144
+v = 0x40000000000 (4.39805e+12), ulp = 524288
+v = 0x80000000000 (8.79609e+12), ulp = 1048576
+v = 0x100000000000 (1.75922e+13), ulp = 2097152
+v = 0x200000000000 (3.51844e+13), ulp = 4194304
+v = 0x400000000000 (7.03687e+13), ulp = 8388608
+v = 0x800000000000 (1.40737e+14), ulp = 16777216
+v = 0x1000000000000 (2.81475e+14), ulp = 33554432
+v = 0x2000000000000 (5.6295e+14), ulp = 67108864
+v = 0x4000000000000 (1.1259e+15), ulp = 134217728
+v = 0x8000000000000 (2.2518e+15), ulp = 268435456
+v = 0x10000000000000 (4.5036e+15), ulp = 536870912
+v = 0x20000000000000 (9.0072e+15), ulp = 1073741824
+v = 0x40000000000000 (1.80144e+16), ulp = 2147483648
+v = 0x80000000000000 (3.60288e+16), ulp = 4294967296
+v = 0x100000000000000 (7.20576e+16), ulp = 8589934592
+v = 0x200000000000000 (1.44115e+17), ulp = 17179869184
+v = 0x400000000000000 (2.8823e+17), ulp = 34359738368
+v = 0x800000000000000 (5.76461e+17), ulp = 68719476736
+v = 0x1000000000000000 (1.15292e+18), ulp = 137438953472
+v = 0x2000000000000000 (2.30584e+18), ulp = 274877906944
+v = 0x4000000000000000 (4.61169e+18), ulp = 549755813888
+v = 0x8000000000000000 (9.22337e+18), ulp = 1099511627776
+
+__________________________________________________________________________
+EXERCISE 9
+
+

@@ -1,0 +1,23 @@
+EXERCISE 2 OUTPUT
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex2$ ./in-pointers
+is[] is at 0xffc5cccc
+enter pointer to is[1]: 0xffc5ccd0
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[3]: 0xffc5ccd8
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[2]: 0xffc5ccd4
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[4]: 0xffc5ccdc
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[0]: 0xffc5cccc
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[3]: 0xffc5ccd8
+ok
+
+________________________________________________________________________________

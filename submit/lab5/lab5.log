@@ -1,0 +1,148 @@
+EXERCISE 1
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files$ cd ex1
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex1$ ls
+Makefile  pointers.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex1$ emacs pointers.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex1$ make
+cc -g -Wall -std=c11 -m32    pointers.c   -o pointers
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex1$ ./pointers
+char pointer cp = 0xffbed1bb, pointing at char a
+char pointer cp = 0xffbed1bc, pointing at char b
+char pointer cp = 0xffbed1bd, pointing at char c
+char pointer cp = 0xffbed1be, pointing at char d
+char pointer cp = 0xffbed1bf, pointing at char e
+int pointer ip = 0xffbed1a4, pointing at int 1
+int pointer ip = 0xffbed1a8, pointing at int 2
+int pointer ip = 0xffbed1ac, pointing at int 3
+int pointer ip = 0xffbed1b0, pointing at int 4
+int pointer ip = 0xffbed1b4, pointing at int 5
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex1$ emacs pointers.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex1$ ./pointers
+char pointer cp = 0xffce8fab, pointing at char a
+char pointer cp = 0xffce8fac, pointing at char b
+char pointer cp = 0xffce8fad, pointing at char c
+char pointer cp = 0xffce8fae, pointing at char d
+char pointer cp = 0xffce8faf, pointing at char e
+int pointer ip = 0xffce8f94, pointing at int 1
+int pointer ip = 0xffce8f98, pointing at int 2
+int pointer ip = 0xffce8f9c, pointing at int 3
+int pointer ip = 0xffce8fa0, pointing at int 4
+int pointer ip = 0xffce8fa4, pointing at int 5
+
+___________________________________________________________________________
+EXERCISE 2
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files$ cd ex2
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex2$ emacs in-pointers.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex2$ make
+cc -g -Wall -std=c11 -m32    in-pointers.c   -o in-pointers
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex2$ ./in-pointers
+is[] is at 0xffc5cccc
+enter pointer to is[1]: 0xffc5ccd0
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[3]: 0xffc5ccd8
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[2]: 0xffc5ccd4
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[4]: 0xffc5ccdc
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[0]: 0xffc5cccc
+ok
+is[] is at 0xffc5cccc
+enter pointer to is[3]: 0xffc5ccd8
+ok
+
+_________________________________________________________________________
+EXERCISE 3
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files$ cd ex3
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex3$ emacs bad-types.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex3$ make
+cc -g -Wall -std=c11 -m32    bad-types.c   -o bad-types
+bad-types.c: In function ‘main’:
+bad-types.c:6:14: warning: initialization of ‘char *’ from incompatible pointer type ‘int *’ [-Wincompatible-pointer-types]
+   char *cp = is;
+              ^~
+bad-types.c:7:13: warning: initialization of ‘int *’ from incompatible pointer type ‘char *’ [-Wincompatible-pointer-types]
+   int *ip = cs;
+             ^~
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex3$ ./bad-types
+char pointer cp = 0xffbce6d4, pointing at char '' (0x1)
+char pointer cp = 0xffbce6d5, pointing at char '' (0x0)
+char pointer cp = 0xffbce6d6, pointing at char '' (0x0)
+char pointer cp = 0xffbce6d7, pointing at char '' (0x0)
+char pointer cp = 0xffbce6d8, pointing at char '' (0x2)
+int pointer ip = 0xffbce6eb, pointing at int 1684234849 (0x64636261)
+int pointer ip = 0xffbce6ef, pointing at int 357 (0x165)
+int pointer ip = 0xffbce6f3, pointing at int 1280 (0x500)
+int pointer ip = 0xffbce6f7, pointing at int -1125714176 (0xbce6f700)
+int pointer ip = 0xffbce6fb, pointing at int -1125721601 (0xbce6d9ff)
+_______________________________________________________________________________
+EXERCISE 4
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5$ cd files/ex4
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex4$ emacs cast-types.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex4$ make
+cc -g -Wall -std=c11 -m32    cast-types.c   -o cast-types
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex4$ ./cast-types
+char pointer cp = 0xfff15254, pointing at int 1 (0x1)
+char pointer cp = 0xfff15258, pointing at int 2 (0x2)
+char pointer cp = 0xfff1525c, pointing at int 3 (0x3)
+char pointer cp = 0xfff15260, pointing at int 4 (0x4)
+char pointer cp = 0xfff15264, pointing at int 5 (0x5)
+int pointer ip = 0xfff1526b, pointing at char 'a' (0x64636261)
+int pointer ip = 0xfff1526c, pointing at char 'b' (0x65646362)
+int pointer ip = 0xfff1526d, pointing at char 'c' (0x2656463)
+int pointer ip = 0xfff1526e, pointing at char 'd' (0x36564)
+int pointer ip = 0xfff1526f, pointing at char 'e' (0x465)
+
+_____________________________________________________________________________
+EXERCISE 5
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5$ cd files/ex5
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex5$ emacs void-pointers.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex5$ make
+cc -g -Wall -std=c11 -m32    void-pointers.c   -o void-pointers
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex5$ ./void-pointers
+void pointer p = 0xff8e89df, pointing at char a
+void pointer p = 0xff8e89e0, pointing at char b
+void pointer p = 0xff8e89e1, pointing at char c
+void pointer p = 0xff8e89e2, pointing at char d
+void pointer p = 0xff8e89e3, pointing at char e
+void pointer p = 0xff8e89c8, pointing at int 1
+void pointer p = 0xff8e89cc, pointing at int 2
+void pointer p = 0xff8e89d0, pointing at int 3
+void pointer p = 0xff8e89d4, pointing at int 4
+void pointer p = 0xff8e89d8, pointing at int 5
+
+___________________________________________________________________________
+EXERCISE 6
+
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5$ cd files/ex6
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex6$ emacs in-voids.c
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex6$ make
+cc -g -Wall -std=c11 -m32    in-voids.c   -o in-voids
+psilves1@g7-28:/import/linux/home1/psilves1/i220b/work/lab5/files/ex6$ ./in-voids
+cs[] is at 0xffdeb26b; is[] is at 0xffdeb254
+enter pointer to is[2]: 0xffdeb25c
+ok
+cs[] is at 0xffdeb26b; is[] is at 0xffdeb254
+enter pointer to cs[3]: 0xffdeb26e
+ok
+cs[] is at 0xffdeb26b; is[] is at 0xffdeb254
+enter pointer to is[4]: 0xffdeb264
+ok
+cs[] is at 0xffdeb26b; is[] is at 0xffdeb254
+enter pointer to cs[1]: 0xffdeb26c
+ok
+cs[] is at 0xffdeb26b; is[] is at 0xffdeb254
+enter pointer to cs[4]: 0xffdeb26f
+ok
+cs[] is at 0xffdeb26b; is[] is at 0xffdeb254
+enter pointer to is[1]: 0xffdeb258
+ok

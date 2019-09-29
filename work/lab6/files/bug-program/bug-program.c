@@ -18,10 +18,11 @@ static struct KeyValue *
 add_key_value(struct KeyValue *keyValues, const char *k, int v)
 {
   //allocate storage for new KeyValue struct
-  struct KeyValue *kv = malloc(sizeof(struct KeyValue *));
-
+  struct KeyValue *kv = malloc(sizeof(struct KeyValue *) * 4);
+  //  printf("size of kv : %ld \n" , sizeof(struct KeyValue *));
+  
   //allocate storage for string pointed to by k
-  char *s = malloc(sizeof(k)+1);
+  char *s = malloc(strlen(k)+1);
 
   if (kv == NULL || s == NULL) { //check if allocations succeeded
     fprintf(stderr, "malloc failure: %s\n", strerror(errno));
@@ -39,27 +40,16 @@ add_key_value(struct KeyValue *keyValues, const char *k, int v)
 static void
 free_key_values(struct KeyValue *keyValues)
 {
-  struct KeyValue *p = keyValues;
-  char *c;
-
-  if(p->succ != NULL){
-    free_key_values(p->succ);
-  }
-
-  c = p -> key;
-  free(p);
-  free(c);
-
-  /*
-  char* c;
+  
+  struct KeyValue *temp;
   //go thru chain of keyValues
-  for (struct KeyValue *p = keyValues; p != NULL; p = p->succ) {
-    c = p->key;
-    free(p); //free KeyValue struct
-    free(c);
-    
+  for (struct KeyValue *p = keyValues; p != NULL; p = p) {
+    temp = p;
+    p = p->succ;
+    free(temp->key);
+    free(temp);    
   }
-  */
+ 
 }
 
 /** Make key-values for all the words in the first verse of Carroll's
@@ -67,12 +57,12 @@ free_key_values(struct KeyValue *keyValues)
  */
 static struct KeyValue *
 make_key_values(void) {
-  const char *keys[] = {"words"};/*
+  const char *keys[] = {
     "twas", "brillig", "and", "the", "slithy", "toves",
     "did", "gyre", "and", "gimble", "in", "the", "wabe",
     "all", "mimsy", "were", "the", "borogoves",
     "and", "the", "mome", "raths", "outgrabe",
-  };*/
+  };
   struct KeyValue *p = NULL;
   for (int i = 0; i < sizeof(keys)/sizeof(keys[0]); i++) {
     p = add_key_value(p, keys[i], i);

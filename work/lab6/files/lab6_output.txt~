@@ -1,0 +1,29 @@
+EXERCISE 1
+
+psilves1@remote01:~/i220b$ cd work/
+psilves1@remote01:~/i220b/work$ cd lab6
+psilves1@remote01:~/i220b/work/lab6$ cd files
+psilves1@remote01:~/i220b/work/lab6/files$ ls
+brk  bug-program  process-memory
+psilves1@remote01:~/i220b/work/lab6/files$ emacs lab6_output.txt
+psilves1@remote01:~/i220b/work/lab6/files$ cd process-memory
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ make
+cc -g -Wall -std=c11 -O1    process-memory.c   -o process-memory
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ ./process-memory 10 &
+[2] 9745
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 10 MB allocated at 0x7f40fcdb1010
+return
+-bash: return: can only `return' from a function or sourced script
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ man ps
+[2]-  Done                    ./process-memory 10
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ ./process-memory 100 &
+[2] 10778
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 100 MB allocated at 0x7f06b243c010
+
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 
+
+____________________________________________________________________________________________
+EXERCISE 2,3,4
+

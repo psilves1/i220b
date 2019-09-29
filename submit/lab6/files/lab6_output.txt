@@ -1,0 +1,63 @@
+EXERCISE 1
+
+psilves1@remote01:~/i220b$ cd work/
+psilves1@remote01:~/i220b/work$ cd lab6
+psilves1@remote01:~/i220b/work/lab6$ cd files
+psilves1@remote01:~/i220b/work/lab6/files$ ls
+brk  bug-program  process-memory
+psilves1@remote01:~/i220b/work/lab6/files$ emacs lab6_output.txt
+psilves1@remote01:~/i220b/work/lab6/files$ cd process-memory
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ make
+cc -g -Wall -std=c11 -O1    process-memory.c   -o process-memory
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ ./process-memory 10 &
+[2] 9745
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 10 MB allocated at 0x7f40fcdb1010
+return
+-bash: return: can only `return' from a function or sourced script
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ man ps
+[2]-  Done                    ./process-memory 10
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ ./process-memory 100 &
+[2] 10778
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 100 MB allocated at 0x7f06b243c010
+
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 
+psilves1@remote01:~/i220b/work/lab6/files/process-memory$ 
+
+____________________________________________________________________________________________
+EXERCISE 2,3,4 (I forgot to log, that is why there are very few outputs)
+
+psilves1@remote01:~/i220b/work/lab6/files/bug-program$ ls
+bug-program  bug-program.c  bug-program.valgrind  bug-program.valgrind~  Makefile
+psilves1@remote01:~/i220b/work/lab6/files/bug-program$ emacs bug-program.c
+psilves1@remote01:~/i220b/work/lab6/files/bug-program$ make
+cc -g -Wall -std=c11 -O1    bug-program.c   -o bug-program
+psilves1@remote01:~/i220b/work/lab6/files/bug-program$ valgrind -v --leak-check=yes ./bug-program 2>bug-program.valgrind
+outgrabe: 22
+raths: 21
+mome: 20
+the: 19
+and: 18
+borogoves: 17
+the: 16
+were: 15
+mimsy: 14
+all: 13
+wabe: 12
+the: 11
+in: 10
+gimble: 9
+and: 8
+gyre: 7
+did: 6
+toves: 5
+slithy: 4
+the: 3
+and: 2
+brillig: 1
+twas: 0
+psilves1@remote01:~/i220b/work/lab6/files/bug-program$ emacs bug-program.valgrind
+psilves1@remote01:~/i220b/work/lab6/files/bug-program$ 
+
+
+

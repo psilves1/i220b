@@ -1,6 +1,8 @@
 #include "big-bits.h"
 #include "hex-util.h"
 
+#include <stdio.h>
+
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
@@ -12,6 +14,8 @@
  */
 struct BigBits {
   //@TODO
+  char *arr;
+  int *size;
 };
 
 
@@ -30,7 +34,23 @@ newBigBits(const char *hex)
 {
   assert(CHAR_BIT == 8);
   //@TODO
-  return NULL;
+  struct BigBits *num;
+  num = (struct BigBits*) malloc(sizeof(num));
+  num->arr = (char*) malloc(strlen(hex));
+  num->size = (int *) malloc(sizeof(int));
+
+  num->size[0] = 0;
+  
+  while(isHexChar(hex[num->size[0]])){
+
+    num->arr[num->size[0]] = charToHexet(hex[num->size[0]]);
+    num->size[0]++;
+  }
+
+  printf("size: %d \n", num->size[0]);
+
+  
+  return num;
 }
 
 /** Frees all resources used by currently valid bigBits.  bigBits
@@ -40,6 +60,9 @@ void
 freeBigBits(BigBits *bigBits)
 {
   //@TODO
+  free(bigBits->arr);
+  free(bigBits->size);
+  free(bigBits);
 }
 
 
@@ -50,9 +73,27 @@ freeBigBits(BigBits *bigBits)
  */
 const char *
 stringBigBits(const BigBits *bigBits)
-{
+{ 
   //@TODO
-  return NULL;
+  
+  printf("size: %d \n", bigBits->size[0]);
+  
+  char str[bigBits->size[0]];
+
+  int counter = bigBits->size[0];
+
+  while(counter > 0){
+
+    if(bigBits->arr[counter-1] != '0'){
+
+      str[bigBits->size[0] - counter] = bigBits->arr[counter - 1] + '0';
+    }
+
+    counter--;
+  }
+
+   
+  return str;
 }
 
 

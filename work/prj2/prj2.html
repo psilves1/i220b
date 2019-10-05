@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../../assets/styles/article.css" rel="stylesheet" type="text/css" /> 
+    <title>CS 220: Project 2 Big Bits</title>
+    <link href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" 
+       rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" async=""></script>    
+
+  </head>
+  <body>
+    <nav>
+      <ul>
+	<li><a href="../../index.html" class="material-icons">house</a></li>
+	<li><a href="../../docs/index.html">Docs</a></li>
+	<li><a href="../../exams-quizzes/index.html">Exams &amp; Quizzes</a></li>
+	<li><a href="../../exercises/index.html">Exercises</a></li>
+	<li><a href="../../hws/index.html">Homeworks</a></li>
+	<li><a href="../../labs/index.html">Labs</a></li>
+	<li><a href="../../misc/index.html">Misc</a></li>
+	<li><a href="../../projects/index.html">Projects</a></li>
+	<li><a href="../../slides/index.html">Slides</a></li>
+      </ul>
+    </nav>
+    <div class="content">
+      <section data-coord="prj2.umt:1:0"><h1 data-coord="prj2.umt:1:0">Project 2 Big Bits</h1><p data-coord="prj2.umt:3:0"><strong data-coord="prj2.umt:3:0">Due</strong>: Oct 11 by 11:59p
+</p><p data-coord="prj2.umt:5:0"><strong data-coord="prj2.umt:5:0">Important Reminder</strong>: As per the course <em data-coord="prj2.umt:5:110"><a href="../../misc/academic-honesty-statement/academic-honesty-policy.html" data-coord="prj2.umt:5:110">Academic Honesty Statement</a></em>,
+cheating of any kind will minimally result in receiving an F letter
+grade for the entire course.
+</p><p data-coord="prj2.umt:9:0">This document first provides the aims of this project. It then
+provides some background information. It then lists the requirements
+as explicitly as possible.  It lists the files with which you have
+been provided and describes how those files are organized into
+modules.  It considers tradeoffs between different design
+possibilities.  It then provides some hints as to how those
+requirements can be met.  Finally, it describes how to submit the
+project for grading.
+</p><section data-coord="prj2.umt:18:0"><h2 data-coord="prj2.umt:18:0">Aims</h2><p data-coord="prj2.umt:21:0">The aims of this project are to expose you to:
+</p><ul data-coord="prj2.umt:23:0"><li data-coord="prj2.umt:23:0"><p data-coord="prj2.umt:23:4">Abstract data types.
+</p></li><li data-coord="prj2.umt:25:0"><p data-coord="prj2.umt:25:4">The use of pointers in C.
+</p></li><li data-coord="prj2.umt:27:0"><p data-coord="prj2.umt:27:4">Postfix expressions.
+</p></li><li data-coord="prj2.umt:29:0"><p data-coord="prj2.umt:29:4">The C API for dynamic memory allocation.
+</p></li></ul></section><section data-coord="prj2.umt:32:0"><h2 data-coord="prj2.umt:32:0">Background</h2><p data-coord="prj2.umt:35:0">This section reviews material on multi-precision integers, postfix
+expressions and a short-hand notation for inputting large repetitive
+hexadecimal numbers.
+</p><section data-coord="prj2.umt:39:0"><h3 data-coord="prj2.umt:39:0">Multi-Precision Integers</h3><p data-coord="prj2.umt:42:0">C provides operations on standard integer types <samp data-coord="prj2.umt:42:48">int</samp>'s, <samp data-coord="prj2.umt:42:57">long</samp>'s, and
+<samp data-coord="prj2.umt:42:71">long long</samp>'s.  Even the last guarantees only 64 bits, so if bigger
+integers are needed it is necessary to use some kind of bigint package
+like the <em data-coord="prj2.umt:42:242"><a href="https://gmplib.org/" data-coord="prj2.umt:42:242">GNU Multiprecision Arithmetic
+Library</a></em> <samp data-coord="prj2.umt:42:282">gmp</samp> which allows the use of integers of size limited only
+by available memory.  Such a general package would be extremely full
+featured and support highly optimized arithmetic and bitwise
+operations on a wide variety of multiprecision numeric types.
+</p><p data-coord="prj2.umt:51:0">This project only requires you to implement some of the simplest
+operations: the bitwise operations, with minimal optimization.
+</p></section><section data-coord="prj2.umt:54:0"><h3 data-coord="prj2.umt:54:0">Postfix Expressions</h3><p data-coord="prj2.umt:57:0">In order to test your project, you are being provided with a
+command-line program which works as a simple calculator for bitwise
+operations.  This calculator allows the input of bitwise expressions
+using <strong data-coord="prj2.umt:57:204">postfix notation</strong>.  Hence in order to test your project, you
+will need to understand
+<em data-coord="prj2.umt:57:347"><a href="https://en.wikipedia.org/wiki/Reverse_Polish_notation" data-coord="prj2.umt:57:347">postfix
+notation</a></em>; the next few paragraphs provide a overview.
+</p><p data-coord="prj2.umt:65:0">The standard notation for arithmetic expressions uses <em data-coord="prj2.umt:65:54">infix notation</em>
+where an operator is written in between its operands, as in <samp data-coord="prj2.umt:65:131">4 + 2 *
+5</samp>.  One problem with this notation is that it is ambiguous and
+requires additional information about the associativity and precedence
+of the operators in order to disambiguate.  For example, in the
+absence of knowledge about associativity and precedence, <samp data-coord="prj2.umt:65:396">4 + 2 * 5</samp>
+could be interpreted as either <samp data-coord="prj2.umt:65:439">(4 + 2) * 5</samp> or as <samp data-coord="prj2.umt:65:459">4 + (2 * 5)</samp>; we
+normally interpret it as <samp data-coord="prj2.umt:65:502">4 + (2 * 5)</samp> only because of the rule that
+<samp data-coord="prj2.umt:65:546">*</samp> has precedence over <samp data-coord="prj2.umt:65:570">+</samp>.  If the former interpretation is desired
+with the standard precedence rule, then it is necessary to use
+explicit parentheses as in <samp data-coord="prj2.umt:65:706">(4 + 2) * 5</samp>.
+</p><p data-coord="prj2.umt:77:0">In postfix notation, the operator is written after its operands, and
+it is possible to write an expression unambiguously without needing
+any parentheses.  For example the infix expression <samp data-coord="prj2.umt:77:188">4 + (2 * 5)</samp> can
+be written in postfix as <samp data-coord="prj2.umt:77:231">4 2 5 * +</samp>, while the infix expression <samp data-coord="prj2.umt:77:271">(4 +
+2) * 5</samp> can be written as the postfix expression <samp data-coord="prj2.umt:77:326">4 2 + 5 *</samp>.
+</p><p data-coord="prj2.umt:83:0">Evaluating of postfix expressions is particularly simple, which is why
+it was chosen as the syntax for the bitwise calculator for this
+project.  The evaluation uses a <em data-coord="prj2.umt:83:167">last-in first-out LIFO</em> stack.  The
+algorithm for evaluation scans the "words" in the expression
+left-to-right, proceeding as follows:
+</p><ol data-coord="prj2.umt:89:0"><li data-coord="prj2.umt:89:0"><p data-coord="prj2.umt:89:4">Initialize the input to the words in the postfix expression
+and the stack to an empty stack.
+</p></li><li data-coord="prj2.umt:92:0"><p data-coord="prj2.umt:92:4">If the leftmost word in the input corresponds to an operand,
+push it on to the stack.
+</p></li><li data-coord="prj2.umt:95:0"><p data-coord="prj2.umt:95:4">If the leftmost word in the input corresponds to an operator, then
+pop the 2 topmost operands off the stack, operate on them using
+the operator and push the result on to the stack.  It is an error
+if there are not at least two entries on the stack to pop.
+</p></li><li data-coord="prj2.umt:100:0"><p data-coord="prj2.umt:100:4">Remove the leftmost word in the input.
+</p></li><li data-coord="prj2.umt:102:0"><p data-coord="prj2.umt:102:4">If there are words left in the input, then go back to step (2).
+</p></li><li data-coord="prj2.umt:104:0"><p data-coord="prj2.umt:104:4">The value of the expression is on top of the stack.  If there is
+more than one expression in the stack, then we are missing an
+operator.
+</p></li></ol><p data-coord="prj2.umt:108:0">For example, the evaluation of the postfix expression <samp data-coord="prj2.umt:108:54">4 2 + 5 *</samp>
+would proceed as follows (the stack is shown with its "top" on the
+right):
+</p>\[\begin{array}{|l|*{4}{l|}}
+  \hline
+\mathbf{Input}    &\mathbf{Stack}\\
+ \hline
+ \mathtt{4\;2\;+\;5\;*} & \mathtt{[]} \\
+ \mathtt{2\; +\; 5\; *} & \mathtt{[4]} \\
+ \mathtt{+\;5\;*} & \mathtt{[4, 2]} \\
+ \mathtt{5\;*} & \mathtt{[6]} \\
+ \mathtt{*} & \mathtt{[6, 5]} \\
+  & \mathtt{[30]}\\ 
+  \hline
+\end{array}
+\]<p data-coord="prj2.umt:127:0">OTOH, the evaluation of the postfix expression <samp data-coord="prj2.umt:127:47">4 2 5 * +</samp>
+would proceed as follows:
+</p>\[\begin{array}{|l|*{4}{l|}}
+  \hline
+\mathbf{Input}    &\mathbf{Stack}\\
+ \hline
+ \mathtt{4\;2\;5\;*\;+} & \mathtt{[]} \\
+ \mathtt{2\; 5\; *\; +} & \mathtt{[4]} \\
+ \mathtt{5\;*\;+} & \mathtt{[4, 2]} \\
+ \mathtt{*\;+} & \mathtt{[4, 2, 5]} \\
+ \mathtt{+} & \mathtt{[4, 10]} \\
+  & \mathtt{[14]}\\ 
+  \hline
+\end{array}
+\]<p data-coord="prj2.umt:145:0">The examples above involved arithmetic expressions. The project uses
+involves bitwise expressions involving hexadecimal operands and
+postfix bitwise operators <samp data-coord="prj2.umt:145:159">|</samp>, <samp data-coord="prj2.umt:145:164">&amp;</samp> and <samp data-coord="prj2.umt:145:172">^</samp>.
+</p></section><section data-coord="prj2.umt:149:0"><h3 data-coord="prj2.umt:149:0">Easy Input of Long Hexadecimal Integers</h3><p data-coord="prj2.umt:152:0">Since this project deals with big bits, testing is facilitated by
+having some easy way to input large hexadecimal integers.  Hence the
+provided command-line program allows a compact representation of
+hexadecimal numbers having a prefix repeated some number of times.
+</p><p data-coord="prj2.umt:157:0">Specifically, a hexadecimal literal can can contain a <samp data-coord="prj2.umt:157:54">*</samp> followed
+by a single positive hexadecimal character specifying a repetition
+count for the prefix of the literal seen so far.  Examples (underscores
+are merely used to aid readability):
+</p><ul data-coord="prj2.umt:162:0"><li data-coord="prj2.umt:162:0"><p data-coord="prj2.umt:162:4"><samp data-coord="prj2.umt:162:4">0xf*4</samp> represents <samp data-coord="prj2.umt:162:23">0xffff</samp>.
+</p></li><li data-coord="prj2.umt:164:0"><p data-coord="prj2.umt:164:4"><samp data-coord="prj2.umt:164:4">0x2a*a</samp> represents <samp data-coord="prj2.umt:164:24">0x2a2a_2a2a_2a2a_2a2a_2a2a</samp>.
+</p></li><li data-coord="prj2.umt:166:0"><p data-coord="prj2.umt:166:4"><samp data-coord="prj2.umt:166:4">0x3*4*2</samp> represents <samp data-coord="prj2.umt:166:25">0x3333_3333</samp>.
+</p></li><li data-coord="prj2.umt:168:0"><p data-coord="prj2.umt:168:4"><samp data-coord="prj2.umt:168:4">0xab*2c*2</samp> represents <samp data-coord="prj2.umt:168:27">0xab_abca_babc</samp>.  This can be analyzed as
+follows: <samp data-coord="prj2.umt:168:83">0xab*2</samp> represents <samp data-coord="prj2.umt:168:103">0xabab</samp>; <samp data-coord="prj2.umt:168:113">0xab*2c</samp> represents
+<samp data-coord="prj2.umt:168:138">0xa_babc</samp> and the final repetition by 2 in <samp data-coord="prj2.umt:168:182">0xab*2c*2</samp> represents
+<samp data-coord="prj2.umt:168:209">0xab_abca_babc</samp>.
+</p></li></ul></section></section><section data-coord="prj2.umt:175:0"><h2 data-coord="prj2.umt:175:0">Requirements</h2><p data-coord="prj2.umt:178:0">Submit a <samp data-coord="prj2.umt:178:9">submit/prj2-sol</samp> folder in your <samp data-coord="prj2.umt:178:42">i220</samp><em data-coord="prj2.umt:178:48">X</em> repository in
+github such that typing <samp data-coord="prj2.umt:178:90">make</samp> within that folder produces a
+<samp data-coord="prj2.umt:178:127">big-bits</samp> executable within that directory which when run
+enters an interactive postfix bitwise calculator with interaction
+similar to that shown in this <a href="aux-files/big-bits.LOG" data-coord="prj2.umt:178:308">log.</a>
+</p><p data-coord="prj2.umt:184:0">The input and output for the program as well as the postfix
+evaluation algorithm is implemented by code which you are
+already being provided with.  What you need to write is
+an implementation of the big-bits ADT specified in
+<a href="prj2-sol/big-bits.h" data-coord="prj2.umt:184:248">big-bits.h.</a>
+</p><p data-coord="prj2.umt:190:0">There is no requirement that your implementation is highly optimized,
+but it should meet the following additional requirements:
+</p><ul data-coord="prj2.umt:193:0"><li data-coord="prj2.umt:193:0"><p data-coord="prj2.umt:193:4">There should not be any restriction on the size of a big-bits
+integer beyond that imposed by the amount of available memory.
+</p></li><li data-coord="prj2.umt:196:0"><p data-coord="prj2.umt:196:4">If every big-bits created by calling <samp data-coord="prj2.umt:196:41">newBigBits()</samp>,
+<samp data-coord="prj2.umt:196:61">andBigBits()</samp>, <samp data-coord="prj2.umt:196:77">orBigBits()</samp> or <samp data-coord="prj2.umt:196:94">xorBigBits()</samp> is freed up by
+calling <samp data-coord="prj2.umt:196:136">freeBigBits()</samp>, then all allocated memory should be
+cleaned up.
+</p></li></ul></section><section data-coord="prj2.umt:204:0"><h2 data-coord="prj2.umt:204:0">Provided Files</h2><p data-coord="prj2.umt:207:0">The provided <a href="prj2-sol" data-coord="prj2.umt:207:25">prj2-sol</a> directory includes the following
+files:
+</p><dl data-coord="prj2.umt:210:0"><dt data-coord="prj2.umt:210:2"> <a href="prj2-sol/big-bits.c" data-coord="prj2.umt:210:24">big-bits.c</a></dt><dd data-coord="prj2.umt:211:0"><p data-coord="prj2.umt:211:4">A skeleton file which you will need to modify.
+</p></dd><dt data-coord="prj2.umt:213:2"> <a href="prj2-sol/big-bits.h" data-coord="prj2.umt:213:24">big-bits.h</a></dt><dd data-coord="prj2.umt:214:0"><p data-coord="prj2.umt:214:4">A specification header file which provides the specification you
+need to implement.  You should not modify this file.
+</p></dd><dt data-coord="prj2.umt:217:2"> <a href="prj2-sol/hex-util.c" data-coord="prj2.umt:217:24">hex-util.c</a> and <a href="prj2-sol/hex-util.h" data-coord="prj2.umt:217:62">hex-util.h</a></dt><dd data-coord="prj2.umt:218:0"><p data-coord="prj2.umt:218:4">Some utility functions for dealing with hexadecimal representations
+of integers.  You may find some of these functions useful in your
+code.
+</p></dd><dt data-coord="prj2.umt:222:2"> <a href="prj2-sol/main.c" data-coord="prj2.umt:222:20">main.c</a></dt><dd data-coord="prj2.umt:223:0"><p data-coord="prj2.umt:223:4">This provides the postfix bitwise calculator.  You should not need
+to modify this file.
+</p></dd><dt data-coord="prj2.umt:226:2"> <a href="prj2-sol/stack.c" data-coord="prj2.umt:226:21">stack.c</a> and <a href="prj2-sol/stack.h" data-coord="prj2.umt:226:53">stack.h</a></dt><dd data-coord="prj2.umt:227:0"><p data-coord="prj2.umt:227:4">Specification and implementation of a stack ADT which is used
+by the postfix calculator.  You should not need to use this
+module directly, but you can use it as an example of how
+an ADT can be implemented when you are implementing your bit-bits
+ADT.
+</p></dd><dt data-coord="prj2.umt:233:2"> <a href="prj2-sol/errors.c" data-coord="prj2.umt:233:22">errors.c</a> and <a href="prj2-sol/errors.h" data-coord="prj2.umt:233:56">errors.h</a></dt><dd data-coord="prj2.umt:234:0"><p data-coord="prj2.umt:234:4">Specification and implementation of a trivial error reporting
+module.  It provides two functions <samp data-coord="prj2.umt:234:105">error()</samp> and <samp data-coord="prj2.umt:234:119">fatal()</samp> where
+each function takes <samp data-coord="prj2.umt:234:159">printf()</samp>-style arguments and prints the
+message specified by its arguments on standard error; the
+difference between the two is that <samp data-coord="prj2.umt:234:302">fatal()</samp> additionally
+terminates the program. You should not need to modify these files.
+</p><p data-coord="prj2.umt:241:4">You should not need to use the functions provided in these files
+as a module should depend on its client for error reporting.  This
+module is used by the command-line postfix calculator program.
+</p></dd><dt data-coord="prj2.umt:245:2"> <a href="prj2-sol/Makefile" data-coord="prj2.umt:245:22">Makefile</a></dt><dd data-coord="prj2.umt:246:0"><p data-coord="prj2.umt:246:4">A <samp data-coord="prj2.umt:246:6">Makefile</samp> with default target which builds the entire program.
+It also provides a <samp data-coord="prj2.umt:246:93">clean</samp> target for cleaning out object and
+executable files and emacs backup files.  You should not need to
+modify this file.
+</p></dd><dt data-coord="prj2.umt:251:2"> <a href="./prj2-sol/README" data-coord="prj2.umt:251:22">README</a></dt><dd data-coord="prj2.umt:252:0"><p data-coord="prj2.umt:252:5">A README file which must be submitted along with your project.
+It contains an initial header which you must complete (replace
+the dummy entries with your name, B-number and email address at
+which you would like to receive project-related email).  After
+the header you may include any content which you would like read
+during the grading of your project.
+</p></dd></dl><p data-coord="prj2.umt:259:0">Additionally, the <a href="aux-files" data-coord="prj2.umt:259:31">aux-files</a> directory contains the following
+files:
+</p><dl data-coord="prj2.umt:262:0"><dt data-coord="prj2.umt:262:2"> Interactive log file <a href="aux-files/big-bits.LOG" data-coord="prj2.umt:262:48">big-bits.LOG</a> </dt><dd data-coord="prj2.umt:263:0"><p data-coord="prj2.umt:263:4">A log of an interactive session with the postfix calculator.
+</p></dd><dt data-coord="prj2.umt:265:2"> Test files </dt><dd data-coord="prj2.umt:266:0"><p data-coord="prj2.umt:266:4">The input data <a href="aux-files/big-bits_test1.in" data-coord="prj2.umt:266:50">big-bits_test1.in</a>
+for the above log and a file containing the corresponding output
+<a href="aux-files/big-bits_test1.out" data-coord="prj2.umt:266:173">big-bits_test1.out.</a>  These files
+can be used for non-interactive
+<em data-coord="prj2.umt:266:298"><a href="https://en.wikipedia.org/wiki/Regression_testing" data-coord="prj2.umt:266:298">regression
+    testing</a></em> which is much less tedious than testing interactively:
+</p><pre data-coord="prj2.umt:274:0">    $ PRJ2_AUX=$HOME/cs220/projects/prj2/aux-files
+    $ ./big-bits &lt;$PRJ2_AUX/big-bits_test1.in &gt;t.out
+    $ diff $PRJ2_AUX/big-bits_test1.out t.out
+</pre><p data-coord="prj2.umt:279:4">If the tests are successfully, the <samp data-coord="prj2.umt:279:39">diff</samp> command should complete
+silently; if they fail, then it will show the difference between
+the expected and actual output.
+</p></dd></dl></section><section data-coord="prj2.umt:284:0"><h2 id="design" data-coord="prj2.umt:284:0">Design Considerations </h2><p data-coord="prj2.umt:287:0">You should design your implementation of the big-bits ADT before you
+start coding.
+</p><p data-coord="prj2.umt:290:0">It is important to clearly distinguish different concepts and use
+clear and consistent names for them:
+</p><dl data-coord="prj2.umt:293:0"><dt data-coord="prj2.umt:293:2"> Hex Char </dt><dd data-coord="prj2.umt:294:0"><p data-coord="prj2.umt:294:5">A character represented by a C <samp data-coord="prj2.umt:294:36">char</samp> <samp data-coord="prj2.umt:294:43">'0'</samp> \(\ldots\) <samp data-coord="prj2.umt:294:59">'9'</samp>,
+<samp data-coord="prj2.umt:294:71">'a'</samp> \(\ldots\) <samp data-coord="prj2.umt:294:87">'f'</samp> or <samp data-coord="prj2.umt:294:96">'A'</samp> \(\ldots\) <samp data-coord="prj2.umt:294:112">'F'</samp>.
+</p></dd><dt data-coord="prj2.umt:297:2"> Hexet </dt><dd data-coord="prj2.umt:298:0"><p data-coord="prj2.umt:298:5">A value between <samp data-coord="prj2.umt:298:21">0</samp> \(\ldots\) <samp data-coord="prj2.umt:298:35">15</samp> representing
+the integer represented by a hex char.
+</p></dd><dt data-coord="prj2.umt:301:2"> <em data-coord="prj2.umt:301:41"><a href="https://en.wikipedia.org/wiki/Nibble" data-coord="prj2.umt:301:41">Nybble or Nibble</a></em> </dt><dd data-coord="prj2.umt:302:0"><p data-coord="prj2.umt:302:5">A representation of a hexet when packed into a memory
+word, often two per byte.
+</p></dd></dl><p data-coord="prj2.umt:305:0">There are two obvious implementations for the big-bits ADT:
+</p><ol data-coord="prj2.umt:307:0"><li data-coord="prj2.umt:307:0"><p data-coord="prj2.umt:307:4">Represent it using a hexadecimal string.  The conversion to/from a
+string (represented by <samp data-coord="prj2.umt:307:98">stringBigBits()</samp> and <samp data-coord="prj2.umt:307:120">newBigBits()</samp>) will
+be straight-forward.  The bitwise operations will be complex and
+relatively inefficient because of the need to convert each
+hexadecimal character to binary, do the operation and covert the
+result back from binary to a hexadecimal character.
+</p><p data-coord="prj2.umt:314:4">An advantage of this representation is that it is possible to
+start testing your code as soon as you implement the relatively
+simple <samp data-coord="prj2.umt:314:145">newBigBits()</samp> and <samp data-coord="prj2.umt:314:164">stringBigBits()</samp> functions.
+</p></li><li data-coord="prj2.umt:318:0"><p data-coord="prj2.umt:318:4">Represent it by multiple occurrences of a <strong data-coord="prj2.umt:318:46">unit</strong> representing some
+C integer primitive.  The conversion to/from a string (represented
+by <samp data-coord="prj2.umt:318:149">stringBigBits()</samp> and <samp data-coord="prj2.umt:318:171">newBigBits()</samp>) will be complicated.  The
+bitwise operations will be straight-forward and simply involve
+iterating that operation over all the units in the big-bits
+representation.
+</p><p data-coord="prj2.umt:325:4">A disadvantage of this representation is that it is not possible to
+start testing your code until you implement the relatively
+complex <samp data-coord="prj2.umt:325:147">newBigBits()</samp> and <samp data-coord="prj2.umt:325:166">stringBigBits()</samp> functions.
+</p></li></ol><p data-coord="prj2.umt:329:0">The rest of this section deals with the second representation.
+</p><p data-coord="prj2.umt:331:0">Some choices for the unit:
+</p><dl data-coord="prj2.umt:333:0"><dt data-coord="prj2.umt:333:2"> <samp data-coord="prj2.umt:333:1">char</samp> </dt><dd data-coord="prj2.umt:334:0"><p data-coord="prj2.umt:334:4">A big-bits is represented by a sequence of multiple bytes.  A
+choice in this representation is whether each byte should contain
+only a single nybble or two nybbles.  The former is simpler but
+less efficient.  In the former case, one nybble is wasted per
+byte; in the latter case, at most one nybble would be wasted per
+big-bits representation.
+</p></dd><dt data-coord="prj2.umt:341:2"> <samp data-coord="prj2.umt:341:1">short</samp>, <samp data-coord="prj2.umt:341:10">int</samp>, <samp data-coord="prj2.umt:341:17">long</samp>, <samp data-coord="prj2.umt:341:25">long long</samp> </dt><dd data-coord="prj2.umt:342:0"><p data-coord="prj2.umt:342:4">In all these cases, multiple nybbles would be packed into a unit
+and a big-bits would be represented by a sequence of <samp data-coord="prj2.umt:342:126">short</samp>,
+<samp data-coord="prj2.umt:342:139">int</samp>, <samp data-coord="prj2.umt:342:146">long</samp>, <samp data-coord="prj2.umt:342:154">long long</samp> depending on the unit chosen.  The
+advantage of using these bigger units is that bitwise operations
+for big-bits will require fewer iterations.  A disadvantage is that
+the representation for each big-bits could waste up to <samp data-coord="prj2.umt:342:401">2 *
+    sizeof(unit) - 1</samp> nybbles and that the code for dealing with the
+most significant unit would be complex.
+</p><p data-coord="prj2.umt:351:4">C merely guarantees a minimum size for these types. Hence the code
+cannot assume a fixed number of nybbles per unit if it is to be
+portable; instead, it will need to calculate that number
+dynamically.
+</p></dd></dl><p data-coord="prj2.umt:356:0">The <samp data-coord="prj2.umt:356:4">BigBits</samp> structure would merely contain a dynamically allocated
+array of units and track the number of units in the array.
+</p><p data-coord="prj2.umt:359:0">Once you decide on a unit for your representation, you will need to
+decide on endian issues:
+</p><ul data-coord="prj2.umt:362:0"><li data-coord="prj2.umt:362:0"><p data-coord="prj2.umt:362:4">Are the units in the representation of a big-bits stored
+little-endian or big-endian?  A little-endian representation makes
+the bitwise operations easy, but the conversion to-and-from hex
+strings harder.  A big-endian representation makes the conversion
+to-and-from hex strings easier, but the bitwise operations harder.
+</p></li><li data-coord="prj2.umt:368:0"><p data-coord="prj2.umt:368:4">Are the nybbles within a unit stored big-endian or little-endian.
+This should not make any difference in implementing the bitwise
+operators as you can operate on all the nybbles within a unit
+using a single operation.  It could however make a difference in
+the complexity of converting to-and-from hex strings.
+</p></li></ul><p data-coord="prj2.umt:374:0">Another design decision is whether your representations should be
+normalized to contain the fewest number of units needed to represent
+the value of the big-bits.
+</p><ul data-coord="prj2.umt:378:0"><li data-coord="prj2.umt:378:0"><p data-coord="prj2.umt:378:4">A normalized representation of a postfix expression like <samp data-coord="prj2.umt:378:61">0xf*a*a
+    0xf*a*a ^</samp> would contain only a single unit containing <samp data-coord="prj2.umt:378:129">0</samp>,
+whereas an unnormalized representation could contain up to 100
+zero nybbles.
+</p></li><li data-coord="prj2.umt:383:0"><p data-coord="prj2.umt:383:4">A normalized representation may make the code for converting
+the representation back to a hex string easier but
+the code for the bitwise operations may become more complex.
+</p></li><li data-coord="prj2.umt:387:0"><p data-coord="prj2.umt:387:4">An unnormalized representation may make the code for converting
+the representation back to a hex string somewhat harder but
+the code for the bitwise operations may become simpler.
+</p></li></ul></section><section data-coord="prj2.umt:392:0"><h2 data-coord="prj2.umt:392:0">Hints</h2><p data-coord="prj2.umt:395:0">My implementation currently clocks in at 185 lines including all the
+boilerplate comments and declarations included in the provided
+<em data-coord="prj2.umt:395:155"><a href="prj2-sol/big-bits.c" data-coord="prj2.umt:395:155">skeleton file</a></em>.
+</p><p data-coord="prj2.umt:399:0">With the representation I chose, the functions for converting between
+my representation and hex strings were relatively complex.  Hence it
+was not possible to easily test my code until these functions were
+implemented completed.  This did not allow incremental development of
+those functions interspersed with testing.  The flip side was the code
+for doing the bitwise operations turned out to be extremely
+straight-forward.
+</p><p data-coord="prj2.umt:407:0">The following steps are not prescriptive in that you may choose to ignore
+them as long as you meet all project requirements.
+</p><ol data-coord="prj2.umt:410:0"><li data-coord="prj2.umt:410:0"><p data-coord="prj2.umt:410:4">Review all relevant material, specifically the material
+<a href="../../slides/adts/adts.html" data-coord="prj2.umt:410:95">ADTS</a> in detail and the
+<em data-coord="prj2.umt:410:159"><a href="../../slides/c-intro/c-intro.html" data-coord="prj2.umt:410:159">C Introduction</a></em> in general.
+</p></li><li data-coord="prj2.umt:414:0"><p data-coord="prj2.umt:414:4">Come up with a design for your representation, based on the
+tradeoffs outlined <a href="#design" data-coord="prj2.umt:414:98">earlier.</a>
+</p></li><li data-coord="prj2.umt:417:0"><p data-coord="prj2.umt:417:4">Make sure your local <samp data-coord="prj2.umt:417:25">cs220</samp> repository is up-to-date:
+</p><pre data-coord="prj2.umt:420:0">    # assumes you have set up your account as directed
+    $ cd ~/cs220
+    $ git pull
+</pre></li><li data-coord="prj2.umt:425:0"><p data-coord="prj2.umt:425:4">Copy over the provided files to your <samp data-coord="prj2.umt:425:41">work</samp> folder in your
+<samp data-coord="prj2.umt:425:67">i220X</samp> local repository:
+</p><pre data-coord="prj2.umt:429:0">    # also assumes you have set up your account as directed
+    $ cd ~/i220X/work  #X will be a or b
+    $ cp -pr ~/cs220/projects/prj2/prj2-sol .
+    $ cd prj2-sol
+</pre></li><li data-coord="prj2.umt:435:0"><p data-coord="prj2.umt:435:4">Fill in the <a href="prj2-sol/README" data-coord="prj2.umt:435:35">README</a> template.
+</p></li><li data-coord="prj2.umt:437:0"><p data-coord="prj2.umt:437:4">Implement the <samp data-coord="prj2.umt:437:18">newBigBits()</samp> function.  Some of the functions
+in the provided <a href="prj2-sol/hex-util.h" data-coord="prj2.umt:437:109">hex-util</a> module may be
+useful.  
+</p><p data-coord="prj2.umt:441:4">It is important to realize that the <samp data-coord="prj2.umt:441:40">0x</samp> prefix, ignored <samp data-coord="prj2.umt:441:61">_</samp>
+characters and the <samp data-coord="prj2.umt:441:88">*</samp>-repeat feature within hexadecimal literals
+are handled entirely by the provided code; your ADT implementation
+needs to only handle pure hexadecimal strings containing only
+hex chars.
+</p></li><li data-coord="prj2.umt:447:0"><p data-coord="prj2.umt:447:4">Implement the <samp data-coord="prj2.umt:447:18">freeBigBits()</samp> function.  This should be trivial.
+</p></li><li data-coord="prj2.umt:449:0"><p data-coord="prj2.umt:449:4">Implement the <samp data-coord="prj2.umt:449:18">stringBigBits()</samp> function.  Depending on whether
+your representation is normalized, you may have to do some
+work to ensure that your returned hex string does not contain
+any non-significant zeros.
+</p><p data-coord="prj2.umt:454:4">At this point, you should be able to start testing your
+implementation with the provided postfix calculator; simply typing
+a hexadecimal representation into the calculator should round-trip
+the hex string into your ADT representation and back out as a hex
+string which is displayed by the calculator.
+</p></li><li data-coord="prj2.umt:460:0"><p data-coord="prj2.umt:460:4">Implement the <samp data-coord="prj2.umt:460:18">andBigBits()</samp> function.  This should be relatively
+straight-forward.  All you will need to is iterate the <samp data-coord="prj2.umt:460:129">&amp;</samp>-bitwise
+operation for the number of units contained in the shorter
+operand.
+</p></li><li data-coord="prj2.umt:465:0"><p data-coord="prj2.umt:465:4">Implement the <samp data-coord="prj2.umt:465:18">orBigBits()</samp> function.  This too should be
+relatively straight-forward.  In this case you will need to is
+iterate the <samp data-coord="prj2.umt:465:145">|</samp>-bitwise operation for the number of units
+contained in the longer operand, making sure that the higher-order
+units which are not present in the shorter operand are treated as
+<samp data-coord="prj2.umt:465:336">0</samp>.
+</p></li><li data-coord="prj2.umt:472:0"><p data-coord="prj2.umt:472:4">Implement the <samp data-coord="prj2.umt:472:18">xorBigBits()</samp> function.  This should be similar to
+the <samp data-coord="prj2.umt:472:78">orBigBits()</samp> function.
+</p></li><li data-coord="prj2.umt:475:0"><p data-coord="prj2.umt:475:4">Iterate until you meet all requirements.
+</p></li><li data-coord="prj2.umt:477:0"><p data-coord="prj2.umt:477:4">Add any relevant information to the <a href="prj2-sol/README" data-coord="prj2.umt:477:59">README.</a>
+</p></li></ol></section><section data-coord="prj2.umt:479:0"><h2 data-coord="prj2.umt:479:0">Submission</h2><p data-coord="prj2.umt:482:0">When you are happy with your project, move it over from your work
+directory to your submit directory:
+</p><pre data-coord="prj2.umt:486:0">$ cd ~/i220X #X is either a or b
+$ git mv work/prj2-sol submit
+$ git commit -a -m 'suitable comment'
+$ git push
+</pre><p data-coord="prj2.umt:492:0">This should submit your project as <samp data-coord="prj2.umt:492:35">submit/prj2-sol</samp> via github.  Your
+submission should not include any object files or executables; this
+will be prevented by the provided <em data-coord="prj2.umt:492:196"><a href="prj2-sol/.gitignore" data-coord="prj2.umt:492:196">.gitignore</a></em>
+file.
+</p><p data-coord="prj2.umt:497:0">If submitting late, please drop an email to the TA for
+your section:
+</p><dl data-coord="prj2.umt:500:0"><dt data-coord="prj2.umt:500:2"> <strong data-coord="prj2.umt:500:1">Section A</strong></dt><dd data-coord="prj2.umt:501:0"><p data-coord="prj2.umt:501:4"><a href="mailto:yli241@binghamton.edu" data-coord="prj2.umt:501:36">yli241@binghamton.edu</a>
+</p></dd><dt data-coord="prj2.umt:503:2"> <strong data-coord="prj2.umt:503:1">Section B</strong></dt><dd data-coord="prj2.umt:504:0"><p data-coord="prj2.umt:504:4"><a href="mailto:rrausha1@binghamton.edu" data-coord="prj2.umt:504:38">rrausha1@binghamton.edu</a>
+</p></dd></dl></section></section>
+    </div> <!-- #content -->
+  </body>
+</html>

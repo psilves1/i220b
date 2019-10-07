@@ -1,0 +1,246 @@
+EXERCISE 1
+
+log10.c  Makefile
+psilves1@remote06:~/i220b/work/lab7/files/log10$ cd log10.c
+-bash: cd: log10.c: Not a directory
+psilves1@remote06:~/i220b/work/lab7/files/log10$ emacs log10.c
+psilves1@remote06:~/i220b/work/lab7/files/log10$ make
+cc -g -Wall -std=c11   -c -o log10.o log10.c
+cc   log10.o   -o log10
+/usr/bin/ld: log10.o: in function `main':
+/home/psilves1/i220b/work/lab7/files/log10/log10.c:9: undefined reference to `log10'
+collect2: error: ld returned 1 exit status
+make: *** [<builtin>: log10] Error 1
+psilves1@remote06:~/i220b/work/lab7/files/log10$ man log10
+psilves1@remote06:~/i220b/work/lab7/files/log10$ ls
+log10.c  log10.o  Makefile
+psilves1@remote06:~/i220b/work/lab7/files/log10$ emacs Makefile
+psilves1@remote06:~/i220b/work/lab7/files/log10$ make
+cc   log10.o  -lm -o log10
+psilves1@remote06:~/i220b/work/lab7/files/log10$ echo 10 1000 2 | ./log10
+log10(10) = 1
+log10(1000) = 3
+log10(2) = 0.30103
+
+___________________________________________________________________________________________________
+EXERCISE 2
+
+psilves1@remote06:~/i220b/work/lab7/files/multiple-symbols$ ls
+def1.c	def2.c	main.c	Makefile
+psilves1@remote06:~/i220b/work/lab7/files/multiple-symbols$ emacs def1.c
+psilves1@remote06:~/i220b/work/lab7/files/multiple-symbols$ emacs def2.c
+psilves1@remote06:~/i220b/work/lab7/files/multiple-symbols$ make
+cc -g -Wall -std=c11   -c -o def1.o def1.c
+cc -g -Wall -std=c11   -c -o def2.o def2.c
+cc -g -Wall -std=c11   -c -o main.o main.c
+cc def1.o def2.o main.o  -o multiple-symbols
+/usr/bin/ld: def2.o:/home/psilves1/i220b/work/lab7/files/multiple-symbols/def2.c:1: multiple definition of `sym'; def1.o:/home/psilves1/i220b/work/lab7/files/multiple-symbols/def1.c:1: first defined here
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:4: multiple-symbols] Error 1
+psilves1@remote06:~/i220b/work/lab7/files/multiple-symbols$ emacs def2.c
+psilves1@remote06:~/i220b/work/lab7/files/multiple-symbols$ make
+cc -g -Wall -std=c11   -c -o def2.o def2.c
+def2.c:1:1: warning: data definition has no type or storage class
+ sym = 45;
+ ^~~
+def2.c:1:1: warning: type defaults to ‘int’ in declaration of ‘sym’ [-Wimplicit-int]
+cc def1.o def2.o main.o  -o multiple-symbols
+/usr/bin/ld: def2.o:/home/psilves1/i220b/work/lab7/files/multiple-symbols/def2.c:1: multiple definition of `sym'; def1.o:/home/psilves1/i220b/work/lab7/files/multiple-symbols/def1.c:1: first defined here
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:4: multiple-symbols] Error 1
+psilves1@remote06:~/i220b/work/lab7/files/multiple-symbols$ emacs def2.c
+psilves1@remote06:~/i220b/work/lab7/files/multiple-symbols$ make
+cc -g -Wall -std=c11   -c -o def2.o def2.c
+cc def1.o def2.o main.o  -o multiple-symbols
+
+______________________________________________________________________________________________________________________________
+EXERCISE 3
+
+psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ ls
+f.c  main.c  Makefile
+psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ emacs f.c
+psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ emacs main.c
+psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ emacs f.c
+psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ make
+cc -g -Wall -std=c11   -c -o main.o main.c
+cc -g -Wall -std=c11   -c -o f.o f.c
+cc main.o f.o  -o multiple-defs
+/usr/bin/ld: warning: alignment 4 of symbol `x' in main.o is smaller than 8 in f.o
+psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ ./main
+-bash: ./main: No such file or directory
+psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ ls
+f.c  f.o  main.c  main.o  Makefile  multiple-defs
+psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ ./multiple-defs
+x = 0x0, y = 0x80000000
+
+___________________________________________________________________________________________________________________________
+EXERCISE 4
+
+psilves1@remote06:~/i220b/work/lab7/files$ ls
+lab7.log  lab7.log~  libgeom  libvec  log10  multiple-defs  multiple-symbols  static-dynamic
+psilves1@remote06:~/i220b/work/lab7/files$ cd static-dynamic
+psilves1@remote06:~/i220b/work/lab7/files/static-dynamic$ make
+cc -g -Wall  -std=c11   -c -o log10.o log10.c
+cc -static log10.o -lm -o log10-static
+cc log10.o -lm -o log10-dynamic
+psilves1@remote06:~/i220b/work/lab7/files/static-dynamic$ ls -l
+total 940
+-rw-r----- 1 psilves1 psilves1    185 Oct  5 13:47 log10.c
+-rwxr-x--- 1 psilves1 psilves1  19248 Oct  5 14:38 log10-dynamic
+-rw-r----- 1 psilves1 psilves1   6048 Oct  5 14:38 log10.o
+-rwxr-x--- 1 psilves1 psilves1 924880 Oct  5 14:38 log10-static
+-rw-r----- 1 psilves1 psilves1    250 Oct  5 13:47 Makefile
+psilves1@remote06:~/i220b/work/lab7/files/static-dynamic$ nm log10-static >log10-static.nm 
+psilves1@remote06:~/i220b/work/lab7/files/static-dynamic$ nm log10-dynamic >log10-dynamic.nm 
+psilves1@remote06:~/i220b/work/lab7/files/static-dynamic$ ls
+log10.c  log10-dynamic	log10-dynamic.nm  log10.o  log10-static  log10-static.nm  Makefile
+psilves1@remote06:~/i220b/work/lab7/files/static-dynamic$ emacs log10-dynamic.nm
+psilves1@remote06:~/i220b/work/lab7/files/static-dynamic$ emacs log10-static.nm
+
+_________________________________________________________________________________________________________________-
+EXERCISE 5
+
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ ls
+addvec.c  Makefile  multvec.c  testvec.c  vectors.h
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ emacs addvec.c
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ emacs multvec.c
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ eamcs testvec.c
+-bash: eamcs: command not found
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ emacs testvec.c
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ make
+cc -g -Wall -fPIC -std=c11   -c -o addvec.o addvec.c
+cc -g -Wall -fPIC -std=c11   -c -o multvec.o multvec.c
+cc -shared addvec.o multvec.o -o libvec.so
+ar rcs libvec.a addvec.o multvec.o
+cc -g -Wall -fPIC -std=c11   -c -o testvec.o testvec.c
+cc  -static testvec.o -L. -lvec -o testvec-static
+cc testvec.o -L. -lvec -o testvec-dynamic
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ ls -l
+total 828
+-rw-r----- 1 psilves1 psilves1    111 Oct  5 13:47 addvec.c
+-rw-r----- 1 psilves1 psilves1   2896 Oct  5 14:46 addvec.o
+-rw-r----- 1 psilves1 psilves1   6008 Oct  5 14:46 libvec.a
+-rwxr-x--- 1 psilves1 psilves1  17352 Oct  5 14:46 libvec.so
+-rw-r----- 1 psilves1 psilves1    401 Oct  5 13:47 Makefile
+-rw-r----- 1 psilves1 psilves1    112 Oct  5 13:47 multvec.c
+-rw-r----- 1 psilves1 psilves1   2896 Oct  5 14:46 multvec.o
+-rw-r----- 1 psilves1 psilves1    644 Oct  5 13:47 testvec.c
+-rwxr-x--- 1 psilves1 psilves1  19968 Oct  5 14:46 testvec-dynamic
+-rw-r----- 1 psilves1 psilves1   8016 Oct  5 14:46 testvec.o
+-rwxr-x--- 1 psilves1 psilves1 759928 Oct  5 14:46 testvec-static
+-rw-r----- 1 psilves1 psilves1    163 Oct  5 13:47 vectors.h
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ ./testvec-dynamic 1 2 3
+./testvec-dynamic: error while loading shared libraries: libvec.so: cannot open shared object file: No such file or directory
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ ls
+addvec.c  addvec.o  libvec.a  libvec.so  Makefile  multvec.c  multvec.o  testvec.c  testvec-dynamic  testvec.o	testvec-static	vectors.h
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ ./testvec-static 1 2 3 
+sum = 2 4 6 
+product = 1 4 9 
+psilves1@remote06:~/i220b/work/lab7/files/libvec$  LD_LIBRARY_PATH=. ./testvec-dynamic 1 2 3
+sum = 2 4 6 
+product = 1 4 9 
+
+___________________________________________________________________________________________________________________________
+EXERCISE 6
+
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ nm testvec-static >testvec-static.nm
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ emacs testvec.static.nm
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ emacs testvec-static.nm
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ ls
+addvec.c  addvec.o  libvec.a  libvec.so  Makefile  multvec.c  multvec.o  testvec.c  testvec-dynamic  testvec.o	testvec-static	testvec-static.nm  vectors.h
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ gdb testvec-static
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from testvec-static...done.
+(gdb) p &main p &addvec p &multvec
+A syntax error in expression, near `p &addvec p &multvec'.
+(gdb) p &main
+$1 = (int (*)(int, const char **)) 0x401bf6 <main>
+(gdb) p &addvec
+$2 = (void (*)(int *, int *, int *, int)) 0x401f1f <addvec>
+(gdb) p &multvec
+$3 = (void (*)(int *, int *, int *, int)) 0x401f8e <multvec>
+(gdb) quit
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ nm testvec-dynamic >testvec-dynamic.nm
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ emacs testvec-dynamic.nm
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ gdb testvec-dynamic
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from testvec-dynamic...done.
+(gdb) p &main
+$1 = (int (*)(int, const char **)) 0x11ee <main>
+(gdb) p &addvec
+$2 = (<text variable, no debug info> *) 0x1060 <addvec@plt>
+(gdb) p &multvec
+$3 = (<text variable, no debug info> *) 0x1050 <multvec@plt>
+(gdb) quit
+psilves1@remote06:~/i220b/work/lab7/files/libvec$ gdb testvec-dynamic
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from testvec-dynamic...done.
+(gdb) set env LD_LIBRARY_PATH .
+(gdb) b main()
+Function "main()" not defined.
+Make breakpoint pending on future shared library load? (y or [n]) n
+(gdb) b main
+Breakpoint 1 at 0x1207: file testvec.c, line 15.
+(gdb) r 1 2 3
+Starting program: /import/linux/home1/psilves1/i220b/work/lab7/files/libvec/testvec-dynamic 1 2 3
+
+Breakpoint 1, main (argc=4, argv=0x7fffffffe828) at testvec.c:15
+15	{
+(gdb) p &main
+$1 = (int (*)(int, const char **)) 0x5555555551ee <main>
+(gdb) p &addvec
+$2 = (void (*)(int *, int *, int *, int)) 0x7ffff7fca0f5 <addvec>
+(gdb) p &multvec
+$3 = (void (*)(int *, int *, int *, int)) 0x7ffff7fca164 <multvec>
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [process 14021] will be killed.
+
+Quit anyway? (y or n) y
+
+__________________________________________________________________________________________________________
+EXERCISE 7
+

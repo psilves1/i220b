@@ -47,7 +47,7 @@ newBigBits(const char *hex)
     num->size[0]++;
   }
 
-  printf("size: %d \n", num->size[0]);
+  //  printf("size: %d \n", num->arr[0]);
 
   
   return num;
@@ -65,6 +65,30 @@ freeBigBits(BigBits *bigBits)
   free(bigBits);
 }
 
+char intToChar(int n){
+
+  switch(n){
+
+  case 1: return '1'; break;
+  case 2: return '2'; break;
+  case 3: return '3'; break;
+  case 4: return '4'; break;
+  case 5: return '5'; break;
+  case 6: return '6'; break;
+  case 7: return '7'; break;
+  case 8: return '8'; break;
+  case 9: return '9'; break;  
+  case 10: return 'a'; break;
+  case 11: return 'b'; break;
+  case 12: return 'c'; break;
+  case 13: return 'd'; break;
+  case 14: return 'e'; break;
+  case 15: return 'f'; break;
+  }
+
+  return '0';
+}
+
 
 /** Return a lower-case hex string representing bigBits. Returned
  *  string should not contain any non-significant leading zeros.
@@ -76,24 +100,38 @@ stringBigBits(const BigBits *bigBits)
 { 
   //@TODO
   
-  printf("size: %d \n", bigBits->size[0]);
+  // printf("size: %d \n", bigBits->arr[0]);
+
+  printf(" ");//This has to be here otherwise the output gets all messed up for some reason. Figure this out later
   
-  char str[bigBits->size[0]];
+  char str[bigBits->size[0] + 1];
 
-  int counter = bigBits->size[0];
+  int counterForArr = 0;
+  int counterForStr = 0;
+  
+  int doneWithLeadingZeroes = 0;
 
-  while(counter > 0){
+  while(counterForArr <  bigBits->size[0]){
 
-    if(bigBits->arr[counter-1] != '0'){
-
-      str[bigBits->size[0] - counter] = bigBits->arr[counter - 1] + '0';
+    if(doneWithLeadingZeroes == 0 && intToChar(bigBits->arr[counterForArr]) == '0'){
+      counterForArr++;
+      continue;
     }
-
-    counter--;
+    else{
+      doneWithLeadingZeroes = 1;
+      str[counterForStr] = intToChar(bigBits->arr[counterForArr]);
+      counterForStr++;
+    }
+    counterForArr++;
   }
 
-   
-  return str;
+  str[counterForStr] = '\0';
+
+  //printf("%c \n", str[0]);
+
+  char* p = str;
+  
+  return p;
 }
 
 

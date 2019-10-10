@@ -141,13 +141,20 @@ int returnLargest(int a, int b){
   return b;
 }
 
+int returnSmallest(int a, int b){
+  if(a>b){
+    return b;
+  }
+  return a;
+}
+
 /** Return a new BigBits which is the bitwise-& of bigBits1 and bigBits2.
  *  Returns NULL on error with errno set "appropriately".
  */
 const BigBits *
 andBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
 {
-  int len = returnLargest(bigBits1->size[0], bigBits2->size[0]);
+  int len = returnSmallest(bigBits1->size[0], bigBits2->size[0]);
 
   char arr[len];
 
@@ -155,7 +162,7 @@ andBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
     arr[i] = 'F';
   }
 
-  struct BigBits *returner = newBigBits(arr);
+  const struct BigBits *returner = newBigBits(arr);
 
   if(bigBits1->size[0] < bigBits2->size[0]){
     for(int i = 0; i < bigBits1->size[0]; i++){
@@ -195,17 +202,25 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
     arr[i] = 'F';
   }
 
-  struct BigBits *returner = newBigBits(arr);
+  const struct BigBits *returner = newBigBits(arr);
   
   if(bigBits1->size[0] < bigBits2->size[0]){    
     for(int i = 0; i < bigBits1->size[0]; i++){
      returner->arr[i] = bigBits1->arr[i] | bigBits2->arr[i];
+    }
+    for(int i = bigBits1->size[0]; i < bigBits2->size[0]; i++){
+      returner->arr[i] = bigBits2->arr[i];
     }
   }
   else{
     for(int i = 0; i < bigBits2->size[0]; i++){      
      returner->arr[i] = bigBits1->arr[i] | bigBits2->arr[i];
     }
+    for(int i = bigBits2->size[0]; i < bigBits1->size[0]; i++){
+      returner->arr[i] = bigBits1->arr[i];
+    }
+
+          
   }
 
   /*
@@ -214,9 +229,10 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
     printf("%d, ", arr[i]);
   }
   printf("}\n");
-
   //printf("%c \n", arr[0]);
   */
+
+  
   return returner;
 }
 
@@ -234,7 +250,7 @@ xorBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
     arr[i] = 'F';
   }
 
-  struct BigBits *returner = newBigBits(arr);
+  const struct BigBits *returner = newBigBits(arr);
 
   if(bigBits1->size[0] < bigBits2->size[0]){
     for(int i = 0; i < bigBits1->size[0]; i++){
@@ -258,4 +274,3 @@ xorBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
   */
   return returner;
 }
-

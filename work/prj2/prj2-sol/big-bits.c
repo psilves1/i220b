@@ -134,6 +134,12 @@ stringBigBits(const BigBits *bigBits)
   return p;
 }
 
+int returnLargest(int a, int b){
+  if(a > b){
+    return a;
+  }
+  return b;
+}
 
 /** Return a new BigBits which is the bitwise-& of bigBits1 and bigBits2.
  *  Returns NULL on error with errno set "appropriately".
@@ -141,8 +147,37 @@ stringBigBits(const BigBits *bigBits)
 const BigBits *
 andBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
 {
-  //@TODO
-  return NULL;
+  int len = returnLargest(bigBits1->size[0], bigBits2->size[0]);
+
+  char arr[len];
+
+  for(int i = 0; i < len; i++){
+    arr[i] = 'F';
+  }
+
+  struct BigBits *returner = newBigBits(arr);
+
+  if(bigBits1->size[0] < bigBits2->size[0]){
+    for(int i = 0; i < bigBits1->size[0]; i++){
+     returner->arr[i] = bigBits1->arr[i] & bigBits2->arr[i];
+    }
+  }
+  else{
+    for(int i = 0; i < bigBits2->size[0]; i++){
+     returner->arr[i] = bigBits1->arr[i] & bigBits2->arr[i];
+    }
+  }
+
+  /*                                                                                                                                                                         
+  printf("Value of Array: {");                                                                                                                                               
+  for(int i = 0; i < 1; i++){                                                                                                                                                
+    printf("%d, ", arr[i]);                                                                                                                                                  
+  }                                                                                                                                                                          
+  printf("}\n");                                                                                                                                                             
+                                                                                                                                                                             
+  //printf("%c \n", arr[0]);                                                                                                                                                 
+  */
+  return returner;
 }
 
 /** Return a new BigBits which is the bitwise-| of bigBits1 and bigBits2.
@@ -150,9 +185,39 @@ andBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
  */
 const BigBits *
 orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
-{
-  //@TODO
-  return NULL;
+{ 
+
+  int len = returnLargest(bigBits1->size[0], bigBits2->size[0]);
+  
+  char arr[len];
+
+  for(int i = 0; i < len; i++){
+    arr[i] = 'F';
+  }
+
+  struct BigBits *returner = newBigBits(arr);
+  
+  if(bigBits1->size[0] < bigBits2->size[0]){    
+    for(int i = 0; i < bigBits1->size[0]; i++){
+     returner->arr[i] = bigBits1->arr[i] | bigBits2->arr[i];
+    }
+  }
+  else{
+    for(int i = 0; i < bigBits2->size[0]; i++){      
+     returner->arr[i] = bigBits1->arr[i] | bigBits2->arr[i];
+    }
+  }
+
+  /*
+  printf("Value of Array: {");
+  for(int i = 0; i < 1; i++){
+    printf("%d, ", arr[i]);
+  }
+  printf("}\n");
+
+  //printf("%c \n", arr[0]);
+  */
+  return returner;
 }
 
 /** Return a new BigBits which is the bitwise-^ of bigBits1 and bigBits2.
@@ -161,6 +226,36 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
 const BigBits *
 xorBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
 {
-  //@TODO
-  return NULL;
+  int len = returnLargest(bigBits1->size[0], bigBits2->size[0]);
+
+  char arr[len];
+
+  for(int i = 0; i < len; i++){
+    arr[i] = 'F';
+  }
+
+  struct BigBits *returner = newBigBits(arr);
+
+  if(bigBits1->size[0] < bigBits2->size[0]){
+    for(int i = 0; i < bigBits1->size[0]; i++){
+     returner->arr[i] = bigBits1->arr[i] ^ bigBits2->arr[i];
+    }
+  }
+  else{
+    for(int i = 0; i < bigBits2->size[0]; i++){
+     returner->arr[i] = bigBits1->arr[i] ^ bigBits2->arr[i];
+    }
+  }
+
+  /*                                                                                                                                                                         
+  printf("Value of Array: {");                                                                                                                                               
+  for(int i = 0; i < 1; i++){                                                                                                                                                
+    printf("%d, ", arr[i]);                                                                                                                                                  
+  }                                                                                                                                                                          
+  printf("}\n");                                                                                                                                                             
+                                                                                                                                                                             
+  //printf("%c \n", arr[0]);                                                                                                                                                 
+  */
+  return returner;
 }
+

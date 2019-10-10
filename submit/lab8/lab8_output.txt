@@ -1,0 +1,628 @@
+Input: mkdir lab8.git
+Input:cd lab8.git
+Input:git init --bare
+
+Initialized empty Git repository in /import/linux/home1/psilves1/git-repos/lab8.git/
+
+Input: mkdir -p ~/tmp
+Input: cd ~/tmp
+Input: git clone \
+>   ssh://psilves1@remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+
+Cloning into 'lab8'...
+Warning: Permanently added the ECDSA host key for IP address '128.226.114.205' to the list of known hosts.
+psilves1@remote.cs.binghamton.edu's password: 
+warning: You appear to have cloned an empty repository.
+
+Input:cd lab8
+Input: ls
+Input:git remote -v
+
+origin	ssh://psilves1@remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git (fetch)
+origin	ssh://psilves1@remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git (push)
+
+Input:mkdir -p work/lab8
+Input:cd work/lab8
+Input: cp ~/cs220/labs/lab8/files/README.md .
+Input: git status
+
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	../
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Input:git add README.md
+Input: git status --short
+
+A  README.md
+
+Input: git commit -m 'added READMe'
+
+[master (root-commit) f8b470c] added READMe
+ Committer: Paul Silvestri <psilves1@cs.binghamton.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 4 insertions(+)
+ create mode 100644 work/lab8/README.md
+
+Input: git branch -l
+
+* master
+
+Input: git push
+
+psilves1@remote.cs.binghamton.edu's password: 
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 341 bytes | 170.00 KiB/s, done.
+Total 5 (delta 0), reused 0 (delta 0)
+To ssh://remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+ * [new branch]      master -> master
+
+Input: git status -s
+Input: cp ~/cs220/labs/lab8/files/Makefile .
+Input: cp ~/cs220/labs/lab8/files/hello-one.c hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+hello.c: In function ‘main’:
+hello.c:5:5: warning: implicit declaration of function ‘printf’ [-Wimplicit-function-declaration]
+     printf("usage: %s NAME\n", argv[0]);
+     ^~~~~~
+hello.c:5:5: warning: incompatible implicit declaration of built-in function ‘printf’
+hello.c:5:5: note: include ‘<stdio.h>’ or provide a declaration of ‘printf’
+hello.c:1:1:
++#include <stdio.h>
+ int
+hello.c:5:5:
+     printf("usage: %s NAME\n", argv[0]);
+     ^~~~~~
+hello.c:6:5: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+     exit(1);
+     ^~~~
+hello.c:6:5: warning: incompatible implicit declaration of built-in function ‘exit’
+hello.c:6:5: note: include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+hello.c:1:1:
++#include <stdlib.h>
+ int
+hello.c:6:5:
+     exit(1);
+     ^~~~
+hello.c:8:3: warning: incompatible implicit declaration of built-in function ‘printf’
+   printf("hello %s\n", argv[1]);
+   ^~~~~~
+hello.c:8:3: note: include ‘<stdio.h>’ or provide a declaration of ‘printf’
+
+Input: ./hello
+usage: ./hello NAME
+
+Input: ./hello john
+
+hello john
+
+Input: git status -s 
+
+?? Makefile
+?? hello
+?? hello.c
+
+Input: cp ~/cs220/labs/lab8/files/.gitignore .
+Input: git status -s 
+
+?? .gitignore
+?? Makefile
+?? hello.c
+
+Input: git add .
+Input: git status -s
+
+A  .gitignore
+A  Makefile
+A  hello.c
+
+Input: git commit -m 'working with warnings'
+
+[master 75a7a38] working with warnings
+ Committer: Paul Silvestri <psilves1@cs.binghamton.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 22 insertions(+)
+ create mode 100644 work/lab8/.gitignore
+ create mode 100644 work/lab8/Makefile
+ create mode 100644 work/lab8/hello.c
+
+Input: git status -s
+Input: git push
+
+psilves1@remote.cs.binghamton.edu's password: 
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (7/7), 674 bytes | 224.00 KiB/s, done.
+Total 7 (delta 0), reused 0 (delta 0)
+To ssh://remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+   f8b470c..75a7a38  master -> master
+
+Input: git log
+
+commit 75a7a3812d405a954f5891e62e979a057a2c096d (HEAD -> master, origin/master)
+Author: Paul Silvestri <psilves1@cs.binghamton.edu>
+Date:   Thu Oct 10 16:49:17 2019 -0400
+
+    working with warnings
+
+commit f8b470c220be12a165ddea5350ca1a09b5ad3cdf
+Author: Paul Silvestri <psilves1@cs.binghamton.edu>
+Date:   Thu Oct 10 16:43:05 2019 -0400
+
+    added READMe
+
+Input: emacs hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+hello.c: In function ‘main’:
+hello.c:8:5: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+     exit(1);
+     ^~~~
+hello.c:8:5: warning: incompatible implicit declaration of built-in function ‘exit’
+hello.c:8:5: note: include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+hello.c:2:1:
++#include <stdlib.h>
+ 
+hello.c:8:5:
+     exit(1);
+     ^~~~
+
+Input: emacs hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+Input: ./hello sue
+
+hello sue
+
+Input: git status -s
+
+ M hello.c
+
+Input: git commit -a -m 'working: clean compile'
+
+[master e742a39] working: clean compile
+ Committer: Paul Silvestri <psilves1@cs.binghamton.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 3 insertions(+)
+
+Input: git push
+
+psilves1@remote.cs.binghamton.edu's password: 
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (5/5), 405 bytes | 405.00 KiB/s, done.
+Total 5 (delta 2), reused 0 (delta 0)
+To ssh://remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+   75a7a38..e742a39  master -> master
+
+Input: git log hello.c
+commit e742a398cb83617e5e17d707a0a4aa1d87f538a0 (HEAD -> master, origin/master)
+Author: Paul Silvestri <psilves1@cs.binghamton.edu>
+Date:   Thu Oct 10 16:52:04 2019 -0400
+
+    working: clean compile
+
+commit 75a7a3812d405a954f5891e62e979a057a2c096d
+Author: Paul Silvestri <psilves1@cs.binghamton.edu>
+Date:   Thu Oct 10 16:49:17 2019 -0400
+
+    working with warnings
+
+Input: git log -1 hello.c
+commit e742a398cb83617e5e17d707a0a4aa1d87f538a0 (HEAD -> master, origin/master)
+Author: Paul Silvestri <psilves1@cs.binghamton.edu>
+Date:   Thu Oct 10 16:52:04 2019 -0400
+
+    working: clean compile
+
+Input: emacs hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+hello.c: In function ‘main’:
+hello.c:8:13: warning: passing argument 1 of ‘fprintf’ from incompatible pointer type [-Wincompatible-pointer-types]
+     fprintf("usage: %s NAME\n", argv[0]);
+             ^~~~~~~~~~~~~~~~~~
+In file included from hello.c:1:
+/usr/include/stdio.h:326:38: note: expected ‘FILE * restrict’ {aka ‘struct _IO_FILE * restrict’} but argument is of type ‘char *’
+ extern int fprintf (FILE *__restrict __stream,
+                     ~~~~~~~~~~~~~~~~~^~~~~~~~
+
+Input: emacs hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+hello.c: In function ‘main’:
+hello.c:8:17: warning: passing argument 1 of ‘fprintf’ from incompatible pointer type [-Wincompatible-pointer-types]
+     fprintf(argv[0]);
+             ~~~~^~~
+In file included from hello.c:1:
+/usr/include/stdio.h:326:38: note: expected ‘FILE * restrict’ {aka ‘struct _IO_FILE * restrict’} but argument is of type ‘const char *’
+ extern int fprintf (FILE *__restrict __stream,
+                     ~~~~~~~~~~~~~~~~~^~~~~~~~
+hello.c:8:5: error: too few arguments to function ‘fprintf’
+     fprintf(argv[0]);
+     ^~~~~~~
+In file included from hello.c:1:
+/usr/include/stdio.h:326:12: note: declared here
+ extern int fprintf (FILE *__restrict __stream,
+            ^~~~~~~
+make: *** [<builtin>: hello] Error 1
+
+Input: emacs hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+
+Input: ./hello
+
+usage: ./hello NAME
+
+Input: ./hello >/dev/null
+
+usage: ./hello NAME
+
+Input: git diff
+
+diff --git a/work/lab8/hello.c b/work/lab8/hello.c
+index 5f64ebb..48cd508 100644
+--- a/work/lab8/hello.c
++++ b/work/lab8/hello.c
+@@ -5,7 +5,7 @@ int
+ main(int argc, const char *argv[])
+ {
+   if (argc != 2) {
+-    printf("usage: %s NAME\n", argv[0]);
++    fprintf(stderr, "usage: %s NAME\n" , argv[0]);
+     exit(1);
+   }
+   printf("hello %s\n", argv[1]);
+
+Input: git commit -a -m 'send usage message to stderr'
+
+[master c66dbe6] send usage message to stderr
+ Committer: Paul Silvestri <psilves1@cs.binghamton.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Input: git push
+
+Warning: Permanently added the ECDSA host key for IP address '128.226.114.201' to the list of known hosts.
+psilves1@remote.cs.binghamton.edu's password: 
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (5/5), 420 bytes | 420.00 KiB/s, done.
+Total 5 (delta 2), reused 0 (delta 0)
+To ssh://remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+   e742a39..c66dbe6  master -> master
+
+Input: git shortlog
+
+Paul Silvestri (4):
+      added READMe
+      working with warnings
+      working: clean compile
+      send usage message to stderr
+
+Input: git checkout -b hello-multi
+Switched to a new branch 'hello-multi'
+
+Input: git branch -l
+
+* hello-multi
+  master
+
+Input: cp ~/cs220/labs/lab8/files/hello-multi.c hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+
+Input: ./hello
+
+usage: ./hello NAME...
+
+Input: ./hello john sue 
+
+hello john
+hello sue
+
+Input: git commit -a -m 'allow greeting multiple names'
+
+[hello-multi 096628c] allow greeting multiple names
+ Committer: Paul Silvestri <psilves1@cs.binghamton.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+Input: git push -u origin hello-multi
+
+Warning: Permanently added the ECDSA host key for IP address '128.226.114.203' to the list of known hosts.
+psilves1@remote.cs.binghamton.edu's password: 
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (5/5), 528 bytes | 528.00 KiB/s, done.
+Total 5 (delta 1), reused 0 (delta 0)
+To ssh://remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+ * [new branch]      hello-multi -> hello-multi
+Branch 'hello-multi' set up to track remote branch 'hello-multi' from 'origin'.
+
+Input: git checkout master 
+
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+
+Input: ./hello john sue
+
+usage: ./hello NAME
+
+Input: emacs hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+
+Input: ./hello 
+
+usage: ./hello NAME
+
+Input: ./hello sue
+
+hello sue
+
+Input: git commit -a -m 'added return at end of main()'
+
+[master 2e4431f] added return at end of main()
+ Committer: Paul Silvestri <psilves1@cs.binghamton.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+)
+
+Input: git checkout hello.multi
+
+error: pathspec 'hello.multi' did not match any file(s) known to git
+
+Input: git checkout hello.multi branch
+
+error: pathspec 'hello.multi' did not match any file(s) known to git
+error: pathspec 'branch' did not match any file(s) known to git
+
+Input: git checkout hello-multi
+
+Switched to branch 'hello-multi'
+Your branch is up to date with 'origin/hello-multi'.
+
+Input: git merge master
+
+Auto-merging work/lab8/hello.c
+CONFLICT (content): Merge conflict in work/lab8/hello.c
+Automatic merge failed; fix conflicts and then commit the result.
+
+Input: emacs hello.c
+Input: make
+
+cc -g -Wall -std=c11    hello.c   -o hello
+
+Input: .hello john sue
+
+bash: .hello: command not found
+
+Input: ./hello john sue
+
+hello john
+hello sue
+
+Input: git commit -a -m 'merged master' 
+
+[hello-multi 0ab41f8] merged master
+ Committer: Paul Silvestri <psilves1@cs.binghamton.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+Input: git push
+
+psilves1@remote.cs.binghamton.edu's password: 
+Enumerating objects: 18, done.
+Counting objects: 100% (18/18), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (10/10), 779 bytes | 389.00 KiB/s, done.
+Total 10 (delta 4), reused 0 (delta 0)
+To ssh://remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+   096628c..0ab41f8  hello-multi -> hello-multi
+psilves1@g7-28:~/tmp/lab8/work/lab8$ git checkout master
+Switched to branch 'master'
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Input: git merge hello-multi
+
+Updating 2e4431f..0ab41f8
+Fast-forward
+ work/lab8/hello.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+psilves1@g7-28:~/tmp/lab8/work/lab8$ make
+cc -g -Wall -std=c11    hello.c   -o hello
+psilves1@g7-28:~/tmp/lab8/work/lab8$ ./hello john sue
+hello john
+hello sue
+psilves1@g7-28:~/tmp/lab8/work/lab8$ git branch -l
+  hello-multi
+* master
+psilves1@g7-28:~/tmp/lab8/work/lab8$ git shortlog hello.c
+Paul Silvestri (6):
+      working with warnings
+      working: clean compile
+      send usage message to stderr
+      allow greeting multiple names
+      added return at end of main()
+      merged master
+
+Input: git commit -a -m 'merged hello-multi'
+On branch master
+Your branch is ahead of 'origin/master' by 3 commits.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+Input: git push
+
+psilves1@remote.cs.binghamton.edu's password: 
+Permission denied, please try again.
+psilves1@remote.cs.binghamton.edu's password: 
+Total 0 (delta 0), reused 0 (delta 0)
+To ssh://remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+   c66dbe6..0ab41f8  master -> master
+
+Input: cd ~/i220b
+Input: git remote add lab8 \
+>   ssh://psilves1@remote.cs.binghamton.edu/home/psilves1/git-repos/lab8.git
+Input: git pull --allow-unrelated-histories lab8 master
+
+psilves1@remote.cs.binghamton.edu's password: 
+warning: no common commits
+remote: Enumerating objects: 37, done.
+remote: Counting objects: 100% (37/37), done.
+remote: Compressing objects: 100% (20/20), done.
+remote: Total 37 (delta 11), reused 0 (delta 0)
+Unpacking objects: 100% (37/37), done.
+From ssh://remote.cs.binghamton.edu/home/psilves1/git-repos/lab8
+ * branch            master     -> FETCH_HEAD
+ * [new branch]      master     -> lab8/master
+Auto-merging work/lab8/Makefile
+CONFLICT (add/add): Merge conflict in work/lab8/Makefile
+Automatic merge failed; fix conflicts and then commit the result.
+
+Input: git branch -l
+* master
+
+Input: cd work/lab8
+Input: ls
+
+files  hello.c	lab8  lab8.html  lab8.pdf  lab8.umt  Makefile  README.md
+
+Input: git mv lab8 ../submit 
+Input: cd ../submit 
+
+Input: ls
+
+hl-fine_blue.css  hl-fine_blue.sty
+
+Input: cd ../work
+
+bash: cd: ../work: No such file or directory
+
+Input: ls
+
+hl-fine_blue.css  hl-fine_blue.sty
+
+Input: ls 
+
+hl-fine_blue.css  hl-fine_blue.sty
+
+Input: cd ..
+
+Input: ls
+
+lab2  lab3  lab5  lab6	lab7  lab8  prj1  prj2	submit
+
+Input: mv submit lab8
+Input: ls
+
+lab2  lab3  lab5  lab6	lab7  lab8  prj1  prj2
+
+Input: mv lab8 ../submit

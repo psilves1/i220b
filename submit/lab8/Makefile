@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 DOC =		lab8
 
 HOME_DIR =	../..
@@ -29,4 +30,15 @@ files-clean:
 		    ( cd $$d; make clean ); \
 		  fi \
 		done
+=======
+CFLAGS = -g -Wall -std=c11
+
+TARGET = hello
+
+all:		$(TARGET)
+
+.PHONY:		clean
+clean:
+		rm -f *.o 
+>>>>>>> 0ab41f804029c8053ff3d234b81e497065f8e949
 

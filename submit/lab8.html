@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../../assets/styles/article.css" rel="stylesheet" type="text/css" /> 
+    <title>CS 220: Lab 8</title>
+    <link href="lab8/hl-fine_blue.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <nav>
+      <ul>
+	<li><a href="../../index.html" class="material-icons">house</a></li>
+	<li><a href="../../docs/index.html">Docs</a></li>
+	<li><a href="../../exams-quizzes/index.html">Exams &amp; Quizzes</a></li>
+	<li><a href="../../exercises/index.html">Exercises</a></li>
+	<li><a href="../../hws/index.html">Homeworks</a></li>
+	<li><a href="../../labs/index.html">Labs</a></li>
+	<li><a href="../../misc/index.html">Misc</a></li>
+	<li><a href="../../projects/index.html">Projects</a></li>
+	<li><a href="../../slides/index.html">Slides</a></li>
+      </ul>
+    </nav>
+    <div class="content">
+      <section data-coord="lab8.umt:1:0"><h1 data-coord="lab8.umt:1:0">Lab 8</h1><p data-coord="lab8.umt:3:0"><strong data-coord="lab8.umt:3:0">Date</strong>: Oct 10, 2019
+</p><p data-coord="lab8.umt:5:0">This document first describes the aims of this lab.  It then provides
+necessary background.  It then describes the exercises which need to be
+performed.
+</p><section data-coord="lab8.umt:10:0"><h2 data-coord="lab8.umt:10:0">Aims</h2><p data-coord="lab8.umt:13:0">The aim of this lab is to provide you with intermediate-level
+knowledge of <a href="https://git-scm.com/" data-coord="lab8.umt:13:99">git.</a>  After completing this lab,
+you should have been exposed to the following topics:
+</p><ul data-coord="lab8.umt:17:0"><li data-coord="lab8.umt:17:0"><p data-coord="lab8.umt:17:4">Setting up git repositories.
+</p></li><li data-coord="lab8.umt:19:0"><p data-coord="lab8.umt:19:4">Basic git commands.
+</p></li><li data-coord="lab8.umt:21:0"><p data-coord="lab8.umt:21:4">Creating branches for independent feature development.
+</p></li><li data-coord="lab8.umt:23:0"><p data-coord="lab8.umt:23:4">Merging changes.
+</p></li></ul></section><section data-coord="lab8.umt:26:0"><h2 data-coord="lab8.umt:26:0">Background</h2><p data-coord="lab8.umt:29:0">The git homepage states: "Git is a free and open source distributed
+version control system designed to handle everything from small to
+very large projects with speed and efficiency."  Let's focus on the
+phrase "distributed version control system":
+</p><dl data-coord="lab8.umt:35:0"><dt data-coord="lab8.umt:35:2"> <strong data-coord="lab8.umt:35:1">Version Control System (VCS)</strong></dt><dd data-coord="lab8.umt:36:0"><p data-coord="lab8.umt:36:4">From
+<a href="https://www.atlassian.com/git/tutorials/what-is-version-control" data-coord="lab8.umt:36:84">atlassian:</a> Version control systems are a category of software
+tools that help a software team manage changes to source code over
+time. Version control software keeps track of every modification
+to the code in a special kind of database. If a mistake is made,
+developers can turn back the clock and compare earlier versions of
+the code to help fix the mistake while minimizing disruption to
+all team members.
+</p><p data-coord="lab8.umt:46:4">One of the earliest version control systems was
+<a href="https://en.wikipedia.org/wiki/Source_Code_Control_System" data-coord="lab8.umt:46:116">SCCS.</a>
+<a href="https://en.wikipedia.org/wiki/Concurrent_Versions_System" data-coord="lab8.umt:46:186">CVS</a>
+popularized the use of version control systems.  Another popular
+version control system was <a href="https://subversion.apache.org/" data-coord="lab8.umt:46:328">subversion.</a>
+</p></dd><dt data-coord="lab8.umt:53:2"> <strong data-coord="lab8.umt:53:1">Distributed</strong> </dt><dd data-coord="lab8.umt:54:0"><p data-coord="lab8.umt:54:4">All of the version control systems mentioned above depend on a
+central server hosting a master repository. In a distributed system,
+there is no privileged central repository and every repository has
+the same status as every other repository.
+</p></dd></dl><p data-coord="lab8.umt:59:0">In normal git usage, there are 3 areas where files can live:
+</p><dl data-coord="lab8.umt:61:0"><dt data-coord="lab8.umt:61:2"> <strong data-coord="lab8.umt:61:1">Working Directory</strong> </dt><dd data-coord="lab8.umt:62:0"><p data-coord="lab8.umt:62:4">The file is in the directory which is under control by git.
+</p></dd><dt data-coord="lab8.umt:64:2"> <strong data-coord="lab8.umt:64:1">Local Repository</strong> </dt><dd data-coord="lab8.umt:65:0"><p data-coord="lab8.umt:65:4">The file has been comitted to the local repository which
+is maintained in the <samp data-coord="lab8.umt:65:86">.git</samp> directory of the working
+directory.
+</p></dd><dt data-coord="lab8.umt:69:2"> <strong data-coord="lab8.umt:69:1">Shared Repositories</strong> </dt><dd data-coord="lab8.umt:70:0"><p data-coord="lab8.umt:70:4">The file has been comitted to a repository (usually remote) which
+is shared among multiple developers.  Though it is possible to
+have multiple remote repositories associated with a working
+directory, usually there is just one with name <samp data-coord="lab8.umt:70:252">origin</samp>.
+</p></dd></dl><p data-coord="lab8.umt:76:0">In git, a file can be in different states:
+</p><dl data-coord="lab8.umt:78:0"><dt data-coord="lab8.umt:78:2"> <strong data-coord="lab8.umt:78:1">Unknown to git</strong> </dt><dd data-coord="lab8.umt:79:0"><p data-coord="lab8.umt:79:4">The file has never been added to git.
+</p></dd><dt data-coord="lab8.umt:81:2"> <strong data-coord="lab8.umt:81:1">Staged</strong> </dt><dd data-coord="lab8.umt:82:0"><p data-coord="lab8.umt:82:4">The current version of the file is set up for addition to
+git.  This is usually done using a <samp data-coord="lab8.umt:82:101">git add</samp> command.
+It is possible to back out from this state.
+</p></dd><dt data-coord="lab8.umt:86:2"> <strong data-coord="lab8.umt:86:1">Committed</strong> </dt><dd data-coord="lab8.umt:87:0"><p data-coord="lab8.umt:87:4">All changes have been committed.  This is done using the <samp data-coord="lab8.umt:87:61">git
+    commit</samp> command.  Every commit has a unique ID which is a
+hexadecimal hash of the entire history of the repository so far.
+Since every commit is authenticated cryptographically, it is
+impossible to back out of a commit to a repository.
+</p></dd></dl><p data-coord="lab8.umt:93:0">Current VCS allow independent branches of development.  It is possible
+to merge changes from one branch to another.  In git, a branch name is
+merely a way of referring to a particular commit ID.
+</p><p data-coord="lab8.umt:97:0">In what follows, you can get the documentation for any git command
+<em data-coord="lab8.umt:97:67">CMD</em> using a web search or by doing a <samp data-coord="lab8.umt:97:106">man git-</samp><em data-coord="lab8.umt:97:120">CMD</em>.
+</p></section><section data-coord="lab8.umt:102:0"><h2 data-coord="lab8.umt:102:0">Lab Tasks</h2><p data-coord="lab8.umt:105:0">Since this lab involves working with git, the directions are different
+from the earlier labs.  Create an initial <samp data-coord="lab8.umt:105:113">work/lab8</samp> directory but do
+<strong data-coord="lab8.umt:105:142">not</strong> copy over the provided <a href="files" data-coord="lab8.umt:105:180">files</a> directory.  Instead,
+simply start up a script command in your terminal:
+</p><p data-coord="lab8.umt:110:0">Assuming that you are in your <samp data-coord="lab8.umt:110:30">i220a</samp> or <samp data-coord="lab8.umt:110:41">i220b</samp> directory:
+</p><pre data-coord="lab8.umt:113:0">$ mkdir work/lab8
+$ cd work/lab8
+$ script -a lab8.log
+</pre><section data-coord="lab8.umt:118:0"><h3 data-coord="lab8.umt:118:0">Creating and Cloning a Bare Repository</h3><p data-coord="lab8.umt:121:0">A <strong data-coord="lab8.umt:121:2">bare</strong> git repository allows you to share your work with other
+people.  In this exercise, you will create a bare git repository which
+you will subsequently share with yourself.
+</p><p data-coord="lab8.umt:125:0">Change over to the ~/git-repos directory you created when setting up
+your account for this course and create a directory to hold your bare
+git repository for this lab.
+</p><pre data-coord="lab8.umt:130:0">$ cd ~/git-repos   #this dir should exist as per earlier setup
+$ mkdir lab8.git   #traditionally, .git extension for bare repos
+</pre><p data-coord="lab8.umt:134:0">Now create the repo:
+</p><pre data-coord="lab8.umt:137:0">$ cd lab8.git
+$ git init --bare
+</pre><p data-coord="lab8.umt:141:0">Now clone this bare repository into a working directory:
+</p><pre data-coord="lab8.umt:144:0">$ mkdir -p ~/tmp #create tmp dir if it does not exist
+$ cd ~/tmp
+
+# replace LOGIN with your login-id below
+$ git clone \
+  ssh://LOGIN@remote.cs.binghamton.edu/home/LOGIN/git-repos/lab8.git
+Cloning into 'lab8'...
+warning: You appear to have cloned an empty repository.
+</pre><p data-coord="lab8.umt:154:0">where <samp data-coord="lab8.umt:154:6">LOGIN</samp> is your login-id.  This should work without requiring a
+password assuming that you have set up your account as per the earlier
+<a href="../../misc/cs-account-setup/cs-account-setup.html" data-coord="lab8.umt:154:194">instructions.</a>
+</p><p data-coord="lab8.umt:158:0">This should give you a warning that you have cloned an empty
+repository but will create a new <samp data-coord="lab8.umt:158:94">lab8</samp> working directory which you
+can use for subsequent development.  Go into the newly created
+directory:
+</p><pre data-coord="lab8.umt:164:0">$ cd lab8
+$ git remote -v #output the URL for your remote repo
+                #referred to as "origin"
+</pre><p data-coord="lab8.umt:169:0">If you do a <samp data-coord="lab8.umt:169:12">ls -a</samp> (the option <samp data-coord="lab8.umt:169:32">-a</samp> means <em data-coord="lab8.umt:169:43">all</em> and is used to show
+path-names starting with <samp data-coord="lab8.umt:169:94">.</samp> which are normally hidden), you should
+see a <samp data-coord="lab8.umt:169:143">.git</samp> directory which is where the local git repository is
+maintained.  If interested, you can poke around in that directory.
+</p><p data-coord="lab8.umt:174:0">Create a <samp data-coord="lab8.umt:174:9">work/lab8</samp> directory in the new working directory.  
+</p><pre data-coord="lab8.umt:177:0">$ mkdir -p work/lab8
+$ cd work/lab8
+</pre><p data-coord="lab8.umt:181:0">You will do all your work in this newly created directory.
+</p><p data-coord="lab8.umt:183:0">Copy over the <a href="files/README.md" data-coord="lab8.umt:183:33">README.md</a> from the files directory:
+</p><pre data-coord="lab8.umt:186:0">$ cp ~/cs220/labs/lab8/files/README.md .
+$ git status #should show README.md is untracked
+</pre><p data-coord="lab8.umt:190:0">Tell git about <samp data-coord="lab8.umt:190:15">README.md</samp>:
+</p><pre data-coord="lab8.umt:193:0">$ git add README.md  #add to git staging area
+$ git status --short #short status should show README.md
+                     #staged for adding
+$ git commit -m 'added README' #should commit to local repo
+$ git branch -l #should show newly created master branch
+                #the * shows the current branch
+</pre><p data-coord="lab8.umt:201:0">At this point, you have your <samp data-coord="lab8.umt:201:29">README.md</samp> committed to a <samp data-coord="lab8.umt:201:56">master</samp>
+branch only in your <strong data-coord="lab8.umt:201:85">local</strong> repo.  You need to <samp data-coord="lab8.umt:201:112">push</samp> your changes to
+the remote repo, telling it to create a corresponding <samp data-coord="lab8.umt:201:189">master</samp> branch
+set up to track your local <samp data-coord="lab8.umt:201:232">master</samp> branch:
+</p><pre data-coord="lab8.umt:207:0">$ git push --set-upstream origin master #will show push to origin
+$ git status -s #short status should be clean
+</pre></section><section data-coord="lab8.umt:213:0"><h3 data-coord="lab8.umt:213:0">Saying Hello</h3><p data-coord="lab8.umt:216:0">Assuming that you are still in your <samp data-coord="lab8.umt:216:36">~/tmp/lab8/work/lab8</samp> directory,
+copy over the provided <a href="files/Makefile" data-coord="lab8.umt:216:111">Makefile</a> and
+<a href="files/hello-one.c" data-coord="lab8.umt:216:145">hello-one.c</a> source file:
+</p><pre data-coord="lab8.umt:221:0">$ cp ~/cs220/labs/lab8/files/Makefile .
+$ cp ~/cs220/labs/lab8/files/hello-one.c hello.c
+</pre><p data-coord="lab8.umt:225:0">Try building the program:
+</p><pre data-coord="lab8.umt:228:0">$ make
+</pre><p data-coord="lab8.umt:231:0">You will get several warnings about implicit declarations, but the
+compilation will succeed and you should be able to run the <samp data-coord="lab8.umt:231:126">hello</samp>
+executable (the program will simply say hello to its single
+command-line argument).
+</p><pre data-coord="lab8.umt:237:0">$ ./hello
+usage: ./hello NAME
+$ ./hello john
+hello john
+$
+</pre><p data-coord="lab8.umt:244:0">We need to fix the warnings, but since the code seems to be working, let's
+save it to git:
+</p><pre data-coord="lab8.umt:248:0">$ git status -s
+?? Makefile
+?? hello
+?? hello.c
+$ 
+</pre><p data-coord="lab8.umt:255:0">The <samp data-coord="lab8.umt:255:4">?</samp> above shows that git does not know anything about the 3 files.
+Normally files like executables and object files which are produced by
+other programs like compilers should not be committed to git.  We can
+tell git to ignore specific such files by adding a <samp data-coord="lab8.umt:255:263">.gitignore</samp> file:
+</p><pre data-coord="lab8.umt:261:0">cp ~/cs220/labs/lab8/files/.gitignore .
+$ git status -s
+?? .gitignore
+?? Makefile
+?? hello.c
+$
+</pre><p data-coord="lab8.umt:269:0">Notice that the <samp data-coord="lab8.umt:269:16">hello</samp> executable is no longer listed, but the
+<samp data-coord="lab8.umt:269:64">.gitignore</samp> we just copied is listed.
+</p><p data-coord="lab8.umt:272:0">Let's add all three files to git:
+</p><pre data-coord="lab8.umt:275:0">$ git add . #stage all untracked files in current dir
+$ git status -s  #staged but not committed
+A  .gitignore
+A  Makefile
+A  hello.c
+#commit with message (option `-m`).
+$ git commit -m 'working with warnings'
+$ git status -s #should be clean
+$ git push #push additions to remote
+$ git log #show history of repo so far
+</pre><p data-coord="lab8.umt:287:0">Let's fix the warnings.  The problem is that the necessary header
+files have not been <samp data-coord="lab8.umt:287:86">#included</samp>.  Add <samp data-coord="lab8.umt:287:104">#include</samp>'s for <samp data-coord="lab8.umt:287:121">&lt;stdio.h&gt;</samp>
+(for <samp data-coord="lab8.umt:287:138">printf()</samp>) and <samp data-coord="lab8.umt:287:154">&lt;stdlib.h&gt;</samp> (for <samp data-coord="lab8.umt:287:172">exit()</samp>) to the start of
+of <samp data-coord="lab8.umt:287:201">hello.c</samp> and rebuild:
+</p><pre data-coord="lab8.umt:293:0">$ make  #clean compile without warnings
+# test
+./hello sue
+hello sue
+$
+</pre><p data-coord="lab8.umt:300:0">Since we seem to have our program working, let's commit our changes:
+</p><pre data-coord="lab8.umt:303:0">$ git status -s
+ M hello.c   #hell.c modified in working dir
+# -a will add all modified files which git knows about 
+$ git commit -a -m 'working: clean compile'
+$ git push #push to remote
+</pre><p data-coord="lab8.umt:310:0">You can show the history of commits for <samp data-coord="lab8.umt:310:40">hello.c</samp>:
+</p><pre data-coord="lab8.umt:313:0">$ git log hello.c
+</pre><p data-coord="lab8.umt:316:0">You can restrict yourself to seeing the messages for only
+the latest <samp data-coord="lab8.umt:316:69">N</samp> commits by specifying a <samp data-coord="lab8.umt:316:97">-N</samp> option:
+</p><pre data-coord="lab8.umt:320:0">#show log message of only last commit
+$ git log -1 hello.c
+</pre><p data-coord="lab8.umt:324:0">The program seems to be working, all tests seem to pass.  However, it
+is always a good idea to review the program before declaring it
+complete.  When you do so, you may notice that the usage error message
+is output using <samp data-coord="lab8.umt:324:221">printf()</samp> which means it is output to standard
+output.  However error messages should be output to standard
+error.  Hence change the <samp data-coord="lab8.umt:324:355">printf(...)</samp> for the usage message to
+<samp data-coord="lab8.umt:324:394">fprintf(stderr, ...)</samp>.
+</p><pre data-coord="lab8.umt:333:0">make #clean compile
+$ ./hello
+usage: ./hello NAME
+# we see usage message even when stdout is redirected
+$ ./hello &gt;/dev/null
+usage: ./hello NAME
+</pre><p data-coord="lab8.umt:341:0">You can see the <samp data-coord="lab8.umt:341:16">diff</samp>'s between what is in your working directory and
+what is committed:
+</p><pre data-coord="lab8.umt:345:0">$ git diff
+diff --git a/hello.c b/hello.c
+...
+-    printf("usage: %s NAME\n", argv[0]);
++    fprintf(stderr, "usage: %s NAME\n", argv[0]);
+...
+$
+</pre><p data-coord="lab8.umt:354:0">The <samp data-coord="lab8.umt:354:4">-</samp> line shows a line from the repository changed to the <samp data-coord="lab8.umt:354:61">+</samp> line
+from your working directory.  The lines printed before and after those
+lines provide context for the diff.
+</p><p data-coord="lab8.umt:358:0">Let's commit and push:
+</p><pre data-coord="lab8.umt:361:0">git commit -a -m 'send usage message to stderr'
+$ git push
+$ git shortlog #simply show commit messages
+</pre></section><section data-coord="lab8.umt:366:0"><h3 data-coord="lab8.umt:366:0">A Feature Branch</h3><p data-coord="lab8.umt:369:0">The program is working but is limited in that it greets only a
+single name.  It would be useful to change it to greet multiple names.
+However, we want to make sure that we do not loose the working program
+while making this change.  You could make sure of that by making a
+backup copy of your working program, but with git it is only necessary
+to create a new branch to work on this new feature.
+</p><p data-coord="lab8.umt:376:0">You can create a new git branch <samp data-coord="lab8.umt:376:32">hello-multi</samp> to work on this feature:
+</p><pre data-coord="lab8.umt:379:0">$ git checkout -b hello-multi
+</pre><p data-coord="lab8.umt:382:0">This switches you to a new <samp data-coord="lab8.umt:382:27">hello-multi</samp> branch.  You can do
+development in this new branch independently of development in
+<samp data-coord="lab8.umt:382:124">master</samp>.  If you do an <samp data-coord="lab8.umt:382:148">ls</samp> in this new branch, it does not look any
+different from what you had originally, but if you list the branches
+you see that you now have 2 branches:
+</p><pre data-coord="lab8.umt:389:0">$ git branch -l
+</pre><p data-coord="lab8.umt:392:0">Let's develop our new feature.  Fortunately, since this lab is
+only for git, the development has already been done for you:
+</p><pre data-coord="lab8.umt:396:0">$ cp ~/cs220/labs/lab8/files/hello-multi.c hello.c
+</pre><p data-coord="lab8.umt:399:0">Compile and test the new feature:
+</p><pre data-coord="lab8.umt:402:0">$ make
+$ ./hello
+usage: ./hello NAME...
+$ ./hello john sue
+hello john
+hello sue
+$
+</pre><p data-coord="lab8.umt:411:0">It seems to be working.  Let's commit and push our changes:
+</p><pre data-coord="lab8.umt:414:0">$ git commit -a -m 'allow greeting multiple names'
+# push changes onto tracking origin/hello-multi branch
+$ git push -u origin hello-multi 
+</pre></section><section data-coord="lab8.umt:420:0"><h3 data-coord="lab8.umt:420:0">Continuing Development on master</h3><p data-coord="lab8.umt:423:0">You can return to the <samp data-coord="lab8.umt:423:22">master</samp> branch:
+</p><pre data-coord="lab8.umt:426:0">$ git checkout master
+</pre><p data-coord="lab8.umt:429:0">Recompile and re-run your program:
+</p><pre data-coord="lab8.umt:432:0">$ make
+$ ./hello john sue
+usage: ./hello NAME
+$
+</pre><p data-coord="lab8.umt:438:0">Note that you have reverted to the original behavior where only a
+single name is accepted; the multi-name feature is gone.
+</p><p data-coord="lab8.umt:441:0">You decide that you do not want to depend on the c11 feature which
+allows <samp data-coord="lab8.umt:441:74">main()</samp> to not return a value.  So you add a <code><span class="hl kwa">return</span> <span class="hl num">0</span><span class="hl opt">;</span></code> at
+the bottom of <samp data-coord="lab8.umt:441:150">main()</samp>, resulting in the following <samp data-coord="lab8.umt:441:187">tail</samp> output:
+</p><pre data-coord="lab8.umt:446:0">$ tail -3 hello.c
+  printf("hello %s\n", argv[1]);
+  return 0;
+}
+$
+</pre><p data-coord="lab8.umt:453:0">You recompile and re-test:
+</p><pre data-coord="lab8.umt:456:0">$ make
+$ ./hello
+usage: ./hello NAME
+$ ./hello sue
+hello sue
+$
+</pre><p data-coord="lab8.umt:464:0">Everything seems ok, let's commit and push this change:
+</p><pre data-coord="lab8.umt:467:0">$ git commit -a -m 'added return at end of main()'
+$ git push
+$ 
+</pre></section></section><section data-coord="lab8.umt:472:0"><h2 data-coord="lab8.umt:472:0">Merging Master Changes to Feature Branch</h2><p data-coord="lab8.umt:475:0">You would like to apply the changes from <samp data-coord="lab8.umt:475:41">master</samp> to the <samp data-coord="lab8.umt:475:57">hello-multi</samp> branch.
+</p><pre data-coord="lab8.umt:478:0"># switch to hello-multi branch
+$ git checkout hello-multi
+Switched to branch 'hello-multi'
+Your branch is up to date with 'origin/hello-multi'.
+
+# apply changes from master to current hello-multi branch
+$ git merge master
+Auto-merging hello.c
+CONFLICT (content): Merge conflict in hello.c
+Automatic merge failed; fix conflicts and then commit the result.
+$
+</pre><p data-coord="lab8.umt:491:0">The problem is that the <samp data-coord="lab8.umt:491:24">return 0;</samp> statement added at the end of
+<samp data-coord="lab8.umt:491:66">main()</samp> in <samp data-coord="lab8.umt:491:78">master</samp> conflicts with all the changes we've made in the
+<samp data-coord="lab8.umt:491:136">hello-multi</samp> branch.  Looking at the end of the <samp data-coord="lab8.umt:491:185">hello.c</samp> file, you
+should see something like:
+</p><pre data-coord="lab8.umt:497:0">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+  for (int i = 1; i &lt; argc; i++) {
+    printf("hello %s\n", argv[i]);
+  }
+=======
+  printf("hello %s\n", argv[1]);
+  return 0;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; master
+</pre><p data-coord="lab8.umt:507:0">The <samp data-coord="lab8.umt:507:4">&lt;&lt;&lt;</samp>, <samp data-coord="lab8.umt:507:11">===</samp> and <samp data-coord="lab8.umt:507:21">&gt;&gt;&gt;</samp> lines are conflict markers.  You need to
+manually clean up this file so that you can proceed.  Remove the
+conflict marker lines and well as the <samp data-coord="lab8.umt:507:171">printf(..., argv[1]);</samp> line
+which is no longer needed.  After your cleanup, <samp data-coord="lab8.umt:507:248">tail</samp> should show
+something like the following:
+</p><pre data-coord="lab8.umt:514:0">$ tail -5 hello.c
+  for (int i = 1; i &lt; argc; i++) {
+    printf("hello %s\n", argv[i]);
+  }
+  return 0;
+}
+</pre><p data-coord="lab8.umt:522:0">You should now be able to build and re-run the feature branch:
+</p><pre data-coord="lab8.umt:525:0">$ make
+$ ./hello john sue
+hello john
+hello sue
+$
+</pre><p data-coord="lab8.umt:532:0">Commit your changes into the feature branch and push:
+</p><pre data-coord="lab8.umt:535:0">$ git commit -a -m 'merged master'
+$ git push
+</pre><section data-coord="lab8.umt:539:0"><h3 data-coord="lab8.umt:539:0">Merge Feature Branch into Master</h3><p data-coord="lab8.umt:542:0">You can now merge the <samp data-coord="lab8.umt:542:22">hello-multi</samp> feature branch into your <samp data-coord="lab8.umt:542:61">master</samp> branch:
+</p><pre data-coord="lab8.umt:545:0">$ git checkout master
+$ git merge hello-multi
+</pre><p data-coord="lab8.umt:549:0">Since all the changes from <samp data-coord="lab8.umt:549:27">master</samp> were already in <samp data-coord="lab8.umt:549:52">hello-multi</samp>, git
+only needs to add in the <samp data-coord="lab8.umt:549:96">hello-multi</samp> changes to <samp data-coord="lab8.umt:549:121">master</samp> without any
+merge.  This is referred to as a fast-forward.
+</p><p data-coord="lab8.umt:553:0">Recompile and test:
+</p><pre data-coord="lab8.umt:556:0">$ make
+$ ../hello john sue
+hello john
+hello sue
+$
+</pre><p data-coord="lab8.umt:563:0">We have the changes from hello-multi in <samp data-coord="lab8.umt:563:40">master</samp>.
+</p><pre data-coord="lab8.umt:566:0">$ git branch -l #list branches
+$ git shortlog hello.c #show all log messages for file
+</pre><p data-coord="lab8.umt:570:0">Note how the history encompasses work done on both <samp data-coord="lab8.umt:570:51">master</samp> and
+<samp data-coord="lab8.umt:570:64">hello-multi</samp>.
+</p><p data-coord="lab8.umt:573:0">Commit and push:
+</p><pre data-coord="lab8.umt:576:0">$ git commit -a -m 'merged hello-multi'
+$ git push
+$
+</pre><p data-coord="lab8.umt:581:0">The commit will not commit anything to the local repository since
+the merge was a fast-forward and all changes are already in the local
+repository.  However, the push will indeed push changes to the remote.
+</p></section><section data-coord="lab8.umt:585:0"><h3 data-coord="lab8.umt:585:0">Getting Your Lab8 Repository into Your i220X Repository</h3><p data-coord="lab8.umt:588:0">Change over to your <samp data-coord="lab8.umt:588:20">i220a</samp> or <samp data-coord="lab8.umt:588:31">i220b</samp> directory:
+</p><pre data-coord="lab8.umt:591:0">$ cd ~/i220X  #X is either a or b
+
+# specify URL for lab8 repo; replace LOGIN with your login-id
+$ git remote add lab8 \
+  ssh://LOGIN@remote.cs.binghamton.edu/home/LOGIN/git-repos/lab8.git
+</pre><p data-coord="lab8.umt:598:0">where <samp data-coord="lab8.umt:598:6">LOGIN</samp> is your login id on <samp data-coord="lab8.umt:598:34">remote.cs</samp>.
+</p><p data-coord="lab8.umt:600:0">Now you can pull in your <samp data-coord="lab8.umt:600:25">lab8</samp> repository:
+</p><pre data-coord="lab8.umt:603:0">$ git pull --allow-unrelated-histories lab8 master
+</pre><p data-coord="lab8.umt:606:0">Go in to the <samp data-coord="lab8.umt:606:13">lab8</samp> directory:
+</p><pre data-coord="lab8.umt:609:0">$ cd work/lab8
+$ ls
+</pre><p data-coord="lab8.umt:613:0">and you should see the contents of your <samp data-coord="lab8.umt:613:40">lab8</samp> repository.  In fact, you
+should see that the history has been transferred over too:
+</p><pre data-coord="lab8.umt:617:0">$ git log hello.c
+</pre><p data-coord="lab8.umt:620:0">Stop the script command which is recording your terminal session by typing
+a <samp data-coord="lab8.umt:620:77">^D</samp>.  This should create a <samp data-coord="lab8.umt:620:105">lab8.log</samp> file in your current directory.
+</p><p data-coord="lab8.umt:623:0">Add and commit this <samp data-coord="lab8.umt:623:20">lab8.log</samp> file to your local repository.  As
+usual, do a <samp data-coord="lab8.umt:623:78">git mv</samp> of your <samp data-coord="lab8.umt:623:95">work/lab8</samp> directory to <samp data-coord="lab8.umt:623:120">submit/lab8</samp>,
+commit and push to github.
+</p></section></section><section data-coord="lab8.umt:629:0"><h2 data-coord="lab8.umt:629:0">References</h2><p data-coord="lab8.umt:633:0"><em data-coord="lab8.umt:633:24"><a href="https://git-scm.com/" data-coord="lab8.umt:633:24">Official Git Site</a></em>.
+</p><p data-coord="lab8.umt:635:0">Scott Chacon, Ben Straub, <em data-coord="lab8.umt:635:60"><a href="https://git-scm.com/book/en/v2" data-coord="lab8.umt:635:60">Pro Git</a></em>.
+</p><p data-coord="lab8.umt:637:0"><em data-coord="lab8.umt:637:28"><a href="https://git-scm.com/docs" data-coord="lab8.umt:637:28">Reference Documentation</a></em>
+</p></section></section>
+    </div> <!-- #content -->
+  </body>
+</html>

@@ -1,0 +1,31 @@
+$ ./big-bits 
+enter 'h', 'H' or '?' for help
+>> h
+This program is a postfix big-bits calculator with operators
+'&' for bitwise-and, '|' for bitwise-or and '^' for bitwise-xor.
+Literals consist of a '0x' or '0X' prefix followed by one-or-more
+hexadecimal characters or underscores (which are ignored).
+
+Postfix allows arbitrary complex bitwise expressions without the
+use of parentheses: for example '0xa 0x1 &' denotes the infix
+expression '0xa & 0x1' while '0xa 0xb & 0xc 0xd & |' denotes the
+infix expression '(0xa & 0xb) | (0xc & 0xd)'.
+
+Input of long literals is facilitated by a repetition feature
+which allows a literal to contain a '*' followed by a single
+character positive hexadecimal repetition count N; the preceeding
+literal string is repeated N times.  For example, '0xa*3' denotes
+'0xaaa' and '0xa*3bb*2' denotes '0xaa_abba_aabb'.
+>> 0xa 0x1 |
+0xb
+>> 0xa 0x9 ^
+0x3
+>> 0xA 0x5 |
+0xf
+>> 0xa*a*5 0x1*a*4 |
+0xaa_aaaa_aaaa_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb
+>> 0xa*a*5 0x1*a*4 | 0xf*6 ^
+0xaa_aaaa_aaaa_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bb44_4444
+>> 0xa*a*5 0x1*a*4 | 0xf*6 ^ 0xf*c*400 &
+0xaa_aaaa_aaaa_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bbbb_bb44_4400
+>> 09-17T23:17:01|prj2-sol/prj2-sol $ 

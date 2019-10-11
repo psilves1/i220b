@@ -232,15 +232,6 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
           
   }
 
-  /*
-  printf("Value of Array: {");
-  for(int i = 0; i < 1; i++){
-    printf("%d, ", arr[i]);
-  }
-  printf("}\n");
-  //printf("%c \n", arr[0]);
-  */
-
   
   return returner;
 }
@@ -250,9 +241,10 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
  */
 const BigBits *
 xorBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
-{
-  int len = returnLargest(bigBits1->size[0], bigBits2->size[0]);
+{ 
 
+  int len = returnLargest(bigBits1->size[0], bigBits2->size[0]);
+  
   char arr[len];
 
   for(int i = 0; i < len; i++){
@@ -260,17 +252,28 @@ xorBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
   }
 
   const struct BigBits *returner = newBigBits(arr);
+
+  returner->size[0] = len;
   
-  if(bigBits1->size[0] < bigBits2->size[0]){
+  if(bigBits1->size[0] < bigBits2->size[0]){    
     for(int i = 0; i < bigBits1->size[0]; i++){
-     returner->arr[i] = bigBits1->arr[i] ^ bigBits2->arr[i];
+     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i -1] ^ bigBits2->arr[bigBits2->size[0] - i - 1];
+    }
+    for(int i = bigBits1->size[0]; i < bigBits2->size[0]; i++){
+      returner->arr[len - i - 1] = bigBits2->arr[bigBits2->size[0] - i - 1] ^ 0;
     }
   }
   else{
-    for(int i = 0; i < bigBits2->size[0]; i++){
-     returner->arr[i] = bigBits1->arr[i] ^ bigBits2->arr[i];
+    for(int i = 0; i < bigBits2->size[0]; i++){      
+     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] ^ bigBits2->arr[bigBits2->size[0] - i -1];
     }
+    for(int i = bigBits2->size[0]; i < bigBits1->size[0]; i++){
+      returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] ^ 0;
+    }
+
+          
   }
 
+  
   return returner;
 }

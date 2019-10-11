@@ -1,8 +1,8 @@
 #include "big-bits.h"
 #include "hex-util.h"
 
-
 #include <stdio.h>
+
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
@@ -16,7 +16,6 @@ struct BigBits {
   //@TODO
   char *arr;
   int *size;
-  char *strForm;
 };
 
 
@@ -36,22 +35,16 @@ newBigBits(const char *hex)
   assert(CHAR_BIT == 8);
   //@TODO
   struct BigBits *num;
-  num = (struct BigBits*) calloc(4,sizeof(num));
-  num->arr = (char*) calloc(4, strlen(hex));
-  num->size = (int *)calloc(4, sizeof(int));
+  num = (struct BigBits*) malloc(sizeof(num));
+  num->arr = (char*) malloc(strlen(hex));
+  num->size = (int *) malloc(sizeof(int));
 
-  num->strForm = (char*)calloc(4, strlen(hex)+1);
-  
-  
   num->size[0] = 0;
-
-  //  printf("%s \n" , hex);
   
   while(isHexChar(hex[num->size[0]])){
-    
+
     num->arr[num->size[0]] = charToHexet(hex[num->size[0]]);
     num->size[0]++;
-
   }
 
   //  printf("size: %d \n", num->arr[0]);
@@ -69,7 +62,6 @@ freeBigBits(BigBits *bigBits)
   //@TODO
   free(bigBits->arr);
   free(bigBits->size);
-  free(bigBits->strForm);
   free(bigBits);
 }
 
@@ -110,18 +102,16 @@ stringBigBits(const BigBits *bigBits)
   
   // printf("size: %d \n", bigBits->arr[0]);
 
-  //  printf(" ");//This has to be here otherwise the output gets all messed up for some reason. Figure this out later
-
-  //bigBits->strForm[bigBits->size[0]-1] = '\0';
+  printf(" ");//This has to be here otherwise the output gets all messed up for some reason. Figure this out later
   
-  //char str[bigBits->size[0]];
+  str[bigBits->size[0]];
 
   int counterForArr = 0;
   int counterForStr = 0;
   
   int doneWithLeadingZeroes = 0;
 
-  while(counterForArr <  bigBits->size[0] + 1){
+  while(counterForArr <  bigBits->size[0]){
 
     if(doneWithLeadingZeroes == 0 && intToChar(bigBits->arr[counterForArr]) == '0'){
       counterForArr++;
@@ -129,19 +119,20 @@ stringBigBits(const BigBits *bigBits)
     }
     else{
       doneWithLeadingZeroes = 1;
-      bigBits->strForm[counterForStr] = intToChar(bigBits->arr[counterForArr]);
+      str[counterForStr] = intToChar(bigBits->arr[counterForArr]);
       counterForStr++;
     }
     counterForArr++;
   }
 
-  bigBits->strForm[counterForStr] = '\0';
+  //str[counterForStr] = '\0';
 
-  //const char *p = str;
+  //printf("%c \n", str[0]);
+
+  //char* p = str;
   
-  return bigBits->strForm;
+  return str;
 }
-
 
 int returnLargest(int a, int b){
   if(a > b){
@@ -168,19 +159,19 @@ andBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
   char arr[len];
 
   for(int i = 0; i < len; i++){
-    arr[i] = '0';
+    arr[i] = 'F';
   }
 
   const struct BigBits *returner = newBigBits(arr);
 
   if(bigBits1->size[0] < bigBits2->size[0]){
     for(int i = 0; i < bigBits1->size[0]; i++){
-     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] & bigBits2->arr[bigBits2->size[0] - i - 1];
+     returner->arr[i] = bigBits1->arr[i] & bigBits2->arr[i];
     }
   }
   else{
     for(int i = 0; i < bigBits2->size[0]; i++){
-     returner->arr[len - i - 1] = bigBits1->arr[bigBits2->size[0] - i - 1] & bigBits2->arr[bigBits2->size[0] - i - 1];
+     returner->arr[i] = bigBits1->arr[i] & bigBits2->arr[i];
     }
   }
 
@@ -208,12 +199,10 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
   char arr[len];
 
   for(int i = 0; i < len; i++){
-    arr[i] = '0';
+    arr[i] = 'F';
   }
 
   const struct BigBits *returner = newBigBits(arr);
-
-  returner->size[0] = len;
   
   if(bigBits1->size[0] < bigBits2->size[0]){    
     for(int i = 0; i < bigBits1->size[0]; i++){
@@ -225,7 +214,7 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
   }
   else{
     for(int i = 0; i < bigBits2->size[0]; i++){      
-     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] | bigBits2->arr[bigBits2->size[0] - i -1];
+     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] | bigBits2->arr[bigBits->size[0] - i -1];
     }
     for(int i = bigBits2->size[0]; i < bigBits1->size[0]; i++){
       returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1];
@@ -233,6 +222,15 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
 
           
   }
+
+  /*
+  printf("Value of Array: {");
+  for(int i = 0; i < 1; i++){
+    printf("%d, ", arr[i]);
+  }
+  printf("}\n");
+  //printf("%c \n", arr[0]);
+  */
 
   
   return returner;
@@ -243,39 +241,36 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
  */
 const BigBits *
 xorBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
-{ 
-
+{
   int len = returnLargest(bigBits1->size[0], bigBits2->size[0]);
-  
+
   char arr[len];
 
   for(int i = 0; i < len; i++){
-    arr[i] = '0';
+    arr[i] = 'F';
   }
 
   const struct BigBits *returner = newBigBits(arr);
 
-  returner->size[0] = len;
-  
-  if(bigBits1->size[0] < bigBits2->size[0]){    
+  if(bigBits1->size[0] < bigBits2->size[0]){
     for(int i = 0; i < bigBits1->size[0]; i++){
-     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i -1] ^ bigBits2->arr[bigBits2->size[0] - i - 1];
-    }
-    for(int i = bigBits1->size[0]; i < bigBits2->size[0]; i++){
-      returner->arr[len - i - 1] = bigBits2->arr[bigBits2->size[0] - i - 1] ^ 0;
+     returner->arr[i] = bigBits1->arr[i] ^ bigBits2->arr[i];
     }
   }
   else{
-    for(int i = 0; i < bigBits2->size[0]; i++){      
-     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] ^ bigBits2->arr[bigBits2->size[0] - i -1];
+    for(int i = 0; i < bigBits2->size[0]; i++){
+     returner->arr[i] = bigBits1->arr[i] ^ bigBits2->arr[i];
     }
-    for(int i = bigBits2->size[0]; i < bigBits1->size[0]; i++){
-      returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] ^ 0;
-    }
-
-          
   }
 
-  
+  /*                                                                                                                                                                         
+  printf("Value of Array: {");                                                                                                                                               
+  for(int i = 0; i < 1; i++){                                                                                                                                                
+    printf("%d, ", arr[i]);                                                                                                                                                  
+  }                                                                                                                                                                          
+  printf("}\n");                                                                                                                                                             
+                                                                                                                                                                             
+  //printf("%c \n", arr[0]);                                                                                                                                                 
+  */
   return returner;
 }

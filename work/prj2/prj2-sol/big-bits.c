@@ -1,8 +1,8 @@
 #include "big-bits.h"
 #include "hex-util.h"
 
-#include <stdio.h>
 
+#include <stdio.h>
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>

@@ -41,6 +41,12 @@ newBigBits(const char *hex)
   num->size = (int *)calloc(4, sizeof(int));
 
   num->strForm = (char*)calloc(4, strlen(hex)+1);
+
+  if(num == NULL || num->arr == NULL || num->size == NULL || num->strForm == NULL){
+    fprintf(stderr, "failed allocation: %s\n", strerror(errno));
+
+    return NULL;
+  }
   
   
   num->size[0] = 0;

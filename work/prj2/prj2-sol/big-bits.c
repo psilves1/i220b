@@ -36,17 +36,19 @@ newBigBits(const char *hex)
   assert(CHAR_BIT == 8);
   //@TODO
   struct BigBits *num;
-  num = (struct BigBits*) malloc(sizeof(num));
-  num->arr = (char*) malloc(strlen(hex));
-  num->size = (int *) malloc(sizeof(int));
+  num = (struct BigBits*) calloc(4,sizeof(num));
+  num->arr = (char*) calloc(4, strlen(hex));
+  num->size = (int *)calloc(4, sizeof(int));
 
-  num->strForm = (char*)malloc(strlen(hex)+1);
+  num->strForm = (char*)calloc(4, strlen(hex)+1);
   
   
   num->size[0] = 0;
+
+  //  printf("%s \n" , hex);
   
   while(isHexChar(hex[num->size[0]])){
-
+    
     num->arr[num->size[0]] = charToHexet(hex[num->size[0]]);
     num->size[0]++;
 

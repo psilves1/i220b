@@ -234,9 +234,9 @@ outHexString(const char *hex, FILE *out)
   enum { GROUP_N = 4 };
   int len = strlen(hex);
   int len1 = len - 1;
-  for (int i = 0; i < len - 1; i++) {
+  for (int i = 0; i < len; i++) {
     fprintf(out, "%c", hex[i]);
-    if (i < (len1-1) && (len1 - i) % GROUP_N == 1) fprintf(out, "_");
+    if (i < len1 && (len1 - i) % GROUP_N == 0) fprintf(out, "_");
   }
 }
 

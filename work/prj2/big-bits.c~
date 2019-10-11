@@ -104,7 +104,7 @@ stringBigBits(const BigBits *bigBits)
 
   printf(" ");//This has to be here otherwise the output gets all messed up for some reason. Figure this out later
   
-  char str[bigBits->size[0] + 1];
+  char str[bigBits->size[0]];
 
   int counterForArr = 0;
   int counterForStr = 0;
@@ -125,20 +125,13 @@ stringBigBits(const BigBits *bigBits)
     counterForArr++;
   }
 
-  str[counterForStr] = '\0';
+  //str[counterForStr] = '\0';
 
   //printf("%c \n", str[0]);
 
   char* p = str;
   
   return p;
-}
-
-int returnSmallest(int a, int b){
-  if(a > b){
-    return b;
-  }
-  return a;
 }
 
 int returnLargest(int a, int b){
@@ -148,6 +141,12 @@ int returnLargest(int a, int b){
   return b;
 }
 
+int returnSmallest(int a, int b){
+  if(a>b){
+    return b;
+  }
+  return a;
+}
 
 /** Return a new BigBits which is the bitwise-& of bigBits1 and bigBits2.
  *  Returns NULL on error with errno set "appropriately".
@@ -167,12 +166,12 @@ andBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
 
   if(bigBits1->size[0] < bigBits2->size[0]){
     for(int i = 0; i < bigBits1->size[0]; i++){
-     returner->arr[returner->size[0] - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] & bigBits2->arr[bigBits2->size[0] - i - 1];
+     returner->arr[i] = bigBits1->arr[i] & bigBits2->arr[i];
     }
   }
   else{
     for(int i = 0; i < bigBits2->size[0]; i++){
-      returner->arr[returner->size[0] - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] & bigBits2->arr[bigBits2->size[0] - i - 1];
+     returner->arr[i] = bigBits1->arr[i] & bigBits2->arr[i];
     }
   }
 
@@ -185,14 +184,13 @@ andBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
                                                                                                                                                                              
   //printf("%c \n", arr[0]);                                                                                                                                                 
   */
-  
   return returner;
 }
 
 /** Return a new BigBits which is the bitwise-| of bigBits1 and bigBits2.
  *  Returns NULL on error with errno set "appropriately".
  */
-ldofij0w8econst BigBits *
+const BigBits *
 orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
 { 
 
@@ -200,28 +198,29 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
   
   char arr[len];
 
+  for(int i = 0; i < len; i++){
+    arr[i] = 'F';
+  }
+
   const struct BigBits *returner = newBigBits(arr);
   
   if(bigBits1->size[0] < bigBits2->size[0]){    
-
-    for(int i = 0; i < len; i++){
-      arr[i] = bigBits2->arr[i];
-    }
-   
     for(int i = 0; i < bigBits1->size[0]; i++){
-     returner->arr[returner->size[0] - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] | bigBits2->arr[bigBits2->size[0] - i - 1];
+     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i -1] | bigBits2->arr[bigBits2->size[0] - i - 1];
+    }
+    for(int i = bigBits1->size[0]; i < bigBits2->size[0]; i++){
+      returner->arr[len - i - 1] = bigBits2->arr[bigBits2->size[0] - i - 1];
     }
   }
   else{
-
-    for(int i = 0; i < len; i++){
-      arr[i] = bigBits1->arr[i];
-    }
-
-    
     for(int i = 0; i < bigBits2->size[0]; i++){      
-     returner->arr[returner->size[0] - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] | bigBits2->arr[bigBits2->size[0] - i - 1];
+     returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1] | bigBits2->arr[bigBits->size[0] - i -1];
     }
+    for(int i = bigBits2->size[0]; i < bigBits1->size[0]; i++){
+      returner->arr[len - i - 1] = bigBits1->arr[bigBits1->size[0] - i - 1];
+    }
+
+          
   }
 
   /*
@@ -230,9 +229,10 @@ orBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
     printf("%d, ", arr[i]);
   }
   printf("}\n");
-
   //printf("%c \n", arr[0]);
   */
+
+  
   return returner;
 }
 
@@ -274,4 +274,3 @@ xorBigBits(const BigBits *bigBits1, const BigBits *bigBits2)
   */
   return returner;
 }
-

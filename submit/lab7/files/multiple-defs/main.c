@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "f.h"
+
 void f(void);
 
 int x = 2234, y = 3924;

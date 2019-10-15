@@ -6,3 +6,6 @@ multiple-defs: 	main.o f.o
 .PHONY:		clean
 clean:
 		rm -f *.o multiple-defs
+
+main.o: main.c f.h
+f.o: f.c f.h

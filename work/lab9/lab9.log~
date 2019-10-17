@@ -310,3 +310,7 @@ $11 = 0x7fffffffe7a8 "\260\352\377\377\377\177"
 => 0x5555555551a6 <main+50>:	callq  0x555555555030 <fprintf@plt>
 (gdb) 
 usage: /import/linux/home1/psilves1/i220b/work/lab9/files/hello NAME...
+
+______________________________________________________________________________
+Exercise 4
+

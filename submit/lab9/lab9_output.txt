@@ -1,0 +1,22 @@
+EXERCISE 2:
+
+Discover the Mask and Exlain:
+	 The mask is 0x7fffff
+	 The reason I know this is the mask is because in the obj dump file, on line 'a' the code
+	 'ands' a value stored in a register with 0x7fffff. That is how I found out the value
+
+
+EXERCISE 4:
+
+You need to print out the variable as a pointer because pointers are totally untyped.
+Since we passed "joe" in as the argument, we need to let gdb know that the value in the register is a pointer to a String/Char pointer
+so instead of doing:
+
+p $rsi
+
+We had to do:
+
+p (char *)($rsi)
+
+To reiterate, the value in $rsi is a pointer, but gdb doesn't know that, so we have to explicitly tell gdb that
+so that gbb can properly output it

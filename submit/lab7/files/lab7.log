@@ -73,6 +73,12 @@ f.c  f.o  main.c  main.o  Makefile  multiple-defs
 psilves1@remote06:~/i220b/work/lab7/files/multiple-defs$ ./multiple-defs
 x = 0x0, y = 0x80000000
 
+
+ANSWER TO WHY Y VALUE CHANGES WHEN ONLY UPDATING X:
+The reason that changing the X-value modifies the Y-value in this case is because in the code modifying the X-value thought that X was double, so it modified the 8 bytes
+Where the X-value was "supposed" to be stored. However when intialized, a different set of code set the X-value to just an int (4 bytes) and so the
+Y-value which was initialized right after it that was also an int (4 bytes) was place right next to the X in memory. So, when the code went to modify the X
+it modified where the int X and int Y was. Had X been initalized as a double it, Y would never have been modified.
 ___________________________________________________________________________________________________________________________
 EXERCISE 4
 

@@ -377,3 +377,116 @@ $2 = 0x7fffffffeaac "joe"
 ___________________________________________________________________________
 Exercise 5
 
+psilves1@remote05:~/i220b/work/lab9/files$ gdb hello
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from hello...done.
+(gdb) start joe
+Temporary breakpoint 1 at 0x1183: file hello.c, line 16.
+Starting program: /import/linux/home1/psilves1/i220b/work/lab9/files/hello joe
+
+Temporary breakpoint 1, main (argc=2, argv=0x7fffffffe878) at hello.c:16
+16	  if (argc == 1) {
+(gdb) disass /m
+Dump of assembler code for function main:
+15	{
+   0x0000555555555174 <+0>:	push   %rbp
+   0x0000555555555175 <+1>:	mov    %rsp,%rbp
+   0x0000555555555178 <+4>:	sub    $0x20,%rsp
+   0x000055555555517c <+8>:	mov    %edi,-0x14(%rbp)
+   0x000055555555517f <+11>:	mov    %rsi,-0x20(%rbp)
+
+16	  if (argc == 1) {
+=> 0x0000555555555183 <+15>:	cmpl   $0x1,-0x14(%rbp)
+   0x0000555555555187 <+19>:	jne    0x5555555551b5 <main+65>
+
+17	    fprintf(stderr, "usage: %s NAME...\n", argv[0]);
+   0x0000555555555189 <+21>:	mov    -0x20(%rbp),%rax
+   0x000055555555518d <+25>:	mov    (%rax),%rdx
+   0x0000555555555190 <+28>:	mov    0x2ec9(%rip),%rax        # 0x555555558060 <stderr@@GLIBC_2.2.5>
+   0x0000555555555197 <+35>:	lea    0xe70(%rip),%rsi        # 0x55555555600e
+   0x000055555555519e <+42>:	mov    %rax,%rdi
+   0x00005555555551a1 <+45>:	mov    $0x0,%eax
+   0x00005555555551a6 <+50>:	callq  0x555555555030 <fprintf@plt>
+
+18	    exit(0xdeadbeef);
+   0x00005555555551ab <+55>:	mov    $0xdeadbeef,%edi
+   0x00005555555551b0 <+60>:	callq  0x555555555040 <exit@plt>
+
+19	  }
+20	  for (int i = 1; i < argc; i++) {
+   0x00005555555551b5 <+65>:	movl   $0x1,-0x4(%rbp)
+   0x00005555555551bc <+72>:	jmp    0x5555555551eb <main+119>
+   0x00005555555551e7 <+115>:	addl   $0x1,-0x4(%rbp)
+   0x00005555555551eb <+119>:	mov    -0x4(%rbp),%eax
+   0x00005555555551ee <+122>:	cmp    -0x14(%rbp),%eax
+   0x00005555555551f1 <+125>:	jl     0x5555555551be <main+74>
+
+21	    hello(stdout, argv[i]);
+   0x00005555555551be <+74>:	mov    -0x4(%rbp),%eax
+   0x00005555555551c1 <+77>:	cltq   
+   0x00005555555551c3 <+79>:	lea    0x0(,%rax,8),%rdx
+   0x00005555555551cb <+87>:	mov    -0x20(%rbp),%rax
+   0x00005555555551cf <+91>:	add    %rdx,%rax
+   0x00005555555551d2 <+94>:	mov    (%rax),%rdx
+   0x00005555555551d5 <+97>:	mov    0x2e64(%rip),%rax        # 0x555555558040 <stdout@@GLIBC_2.2.5>
+   0x00005555555551dc <+104>:	mov    %rdx,%rsi
+   0x00005555555551df <+107>:	mov    %rax,%rdi
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x00005555555551e2 <+110>:	callq  0x555555555145 <hello>
+
+22	  }
+23	  return 0;
+   0x00005555555551f3 <+127>:	mov    $0x0,%eax
+
+24	}
+   0x00005555555551f8 <+132>:	leaveq 
+   0x00005555555551f9 <+133>:	retq   
+
+End of assembler dump.
+(gdb) b *00005555555551ee
+Invalid number "00005555555551ee".
+(gdb) b *0x00005555555551ee
+Breakpoint 2 at 0x5555555551ee: file hello.c, line 20.
+(gdb) c
+Continuing.
+
+Breakpoint 2, 0x00005555555551ee in main (argc=2, argv=0x7fffffffe878) at hello.c:20
+20	  for (int i = 1; i < argc; i++) {
+(gdb) p i
+$1 = 1
+(gdb) c
+Continuing.
+hello joe
+
+Breakpoint 2, 0x00005555555551ee in main (argc=2, argv=0x7fffffffe878) at hello.c:20
+20	  for (int i = 1; i < argc; i++) {
+(gdb) p i
+$2 = 2
+(gdb) p $eax
+$3 = 2
+(gdb) set $eax = $eax-1
+(gdb) c
+Continuing.
+hello (null)
+
+Breakpoint 2, 0x00005555555551ee in main (argc=2, argv=0x7fffffffe878) at hello.c:20
+20	  for (int i = 1; i < argc; i++) {
+(gdb) quit
+
+
+
+

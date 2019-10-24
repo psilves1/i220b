@@ -1,0 +1,16 @@
+EXERCISE 1:
+
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files$ cd rotate
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ make 
+cc -S -Wall -Og -std=c11 rotate.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ vim main.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ ls
+Makefile  rotate.c  rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ vim rotate.c
+
+______________________________________________________________________________________________________
+EXERCISE 2:
+

@@ -1,0 +1,28 @@
+EXERCISE 1:
+
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files$ cd rotate
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ make 
+cc -S -Wall -Og -std=c11 rotate.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ vim main.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ ls
+Makefile  rotate.c  rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ vim rotate.c
+
+______________________________________________________________________________________________________
+EXERCISE 2:
+
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files$ cd cpuid1
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/cpuid1$ emacs cpuid.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/cpuid1$ make 
+cc -g -Wall -std=c11 -Og   -c -o main.o main.c
+cc -c -g -Wall -std=c11 -Og cpuid.s -o cpuid.o
+cc main.o cpuid.o -o cpuid
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/cpuid1$ ./cpuid
+cpuid: eax = 0xd; ebx = 0x756e6547; edx = 0x49656e69; ecx = 0x6c65746e
+vendor: GenuineIntel
+
+____________________________________________________________________________________________________
+EXERCISE 3:

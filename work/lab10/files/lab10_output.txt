@@ -1,0 +1,5 @@
+EXERCISE 1:
+
+In the C file, the programmer decided to make a function for rotating the bits,
+however, in the assembly file, the compiler simplified the program and turned
+the rotate functions into a single line

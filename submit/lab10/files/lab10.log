@@ -1,0 +1,462 @@
+EXERCISE 1:
+
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files$ cd rotate
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ make 
+cc -S -Wall -Og -std=c11 rotate.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ emacs rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ vim main.c
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ ls
+Makefile  rotate.c  rotate.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/rotate$ vim rotate.c
+
+______________________________________________________________________________________________________
+EXERCISE 2:
+
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files$ cd cpuid1
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/cpuid1$ emacs cpuid.s
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/cpuid1$ make 
+cc -g -Wall -std=c11 -Og   -c -o main.o main.c
+cc -c -g -Wall -std=c11 -Og cpuid.s -o cpuid.o
+cc main.o cpuid.o -o cpuid
+psilves1@g7-27:/import/linux/home1/psilves1/i220b/work/lab10/files/cpuid1$ ./cpuid
+cpuid: eax = 0xd; ebx = 0x756e6547; edx = 0x49656e69; ecx = 0x6c65746e
+vendor: GenuineIntel
+
+____________________________________________________________________________________________________
+EXERCISE 3:
+
+
+
+
+
+
+_____________________________________________________________________________________________________
+EXERCISE 4:
+psilves1@remote05:~/i220b/work/lab10/files$ cd parity 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -g -Wall -std=c11 -Og   -c -o main.o main.c
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 1
+parity(1) = 0
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 1 2 3 4 5 6 7 15 21
+parity(1) = 0
+parity(2) = 0
+Segmentation fault
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 3
+Segmentation fault
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 1 2 3 4 5 6 7 15 21
+Segmentation fault
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 1 2 3 4 5 6 7 15 21
+parity(1) = 0
+parity(2) = 0
+Segmentation fault
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 1 2 3 4 5 6 7 15 21
+parity(1) = 0
+parity(2) = 0
+Segmentation fault
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 1 2 3 4 5 6 7 15 21
+parity(1) = 0
+parity(2) = 0
+Segmentation fault
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 4
+parity(4) = 0
+psilves1@remote05:~/i220b/work/lab10/files/parity$ gbd ./parity
+-bash: gbd: command not found
+psilves1@remote05:~/i220b/work/lab10/files/parity$ gdb ./parity
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./parity...done.
+(gdb) n
+The program is not being run.
+(gdb) start
+Temporary breakpoint 1 at 0x1165: file main.c, line 9.
+Starting program: /import/linux/home1/psilves1/i220b/work/lab10/files/parity/parity 
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffe868) at main.c:9
+9	{
+(gdb) n
+10	  if (argc < 2) {
+(gdb) n
+11	    fprintf(stderr, "usage: %s INT1...\n", argv[0]);
+(gdb) n
+usage: /import/linux/home1/psilves1/i220b/work/lab10/files/parity/parity INT1...
+12	    exit(1);
+(gdb) n
+[Inferior 1 (process 3831) exited with code 01]
+(gdb) n
+The program is not being run.
+(gdb) n
+The program is not being run.
+(gdb) start 3
+Temporary breakpoint 2 at 0x555555555165: file main.c, line 9.
+Starting program: /import/linux/home1/psilves1/i220b/work/lab10/files/parity/parity 3
+
+Temporary breakpoint 2, main (argc=2, argv=0x7fffffffe858) at main.c:9
+9	{
+(gdb) n
+10	  if (argc < 2) {
+(gdb) n
+15	    int n = atoi(argv[i]);
+(gdb) n
+16	    printf("parity(%d) = %d\n", n, get_parity(n));
+(gdb) n
+
+Program received signal SIGSEGV, Segmentation fault.
+.even () at parity.s:12
+12		movl 1, %eax
+(gdb) p %eax
+A syntax error in expression, near `%eax'.
+(gdb) p eax
+No symbol "eax" in current context.
+(gdb) i r
+rax            0x0                 0
+rbx            0x1                 1
+rcx            0x1999999999999999  1844674407370955161
+rdx            0x0                 0
+rsi            0x7fffffffeb0b      140737488349963
+rdi            0x3                 3
+rbp            0x3                 0x3
+rsp            0x7fffffffe748      0x7fffffffe748
+r8             0x7fffffffeb0c      140737488349964
+r9             0x0                 0
+r10            0x7ffff7f41ae0      140737353358048
+r11            0x7ffff7f423e0      140737353360352
+r12            0x2                 2
+r13            0x7fffffffe858      140737488349272
+r14            0x0                 0
+r15            0x0                 0
+rip            0x5555555551fb      0x5555555551fb <.even>
+eflags         0x10206             [ PF IF RF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+gs             0x0                 0
+(gdb) n
+
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.
+(gdb) Quit
+(gdb) quit
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+parity.s: Assembler messages:
+parity.s:12: Error: incorrect register `%rax' used with `l' suffix
+make: *** [Makefile:9: parity.o] Error 1
+psilves1@remote05:~/i220b/work/lab10/files/parity$ gdb ./parity
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./parity...done.
+(gdb) start 3
+Temporary breakpoint 1 at 0x1165: file main.c, line 9.
+Starting program: /import/linux/home1/psilves1/i220b/work/lab10/files/parity/parity 3
+
+Temporary breakpoint 1, main (argc=2, argv=0x7fffffffe858) at main.c:9
+9	{
+(gdb) n
+10	  if (argc < 2) {
+(gdb) n
+15	    int n = atoi(argv[i]);
+(gdb) n
+16	    printf("parity(%d) = %d\n", n, get_parity(n));
+(gdb) n
+
+Program received signal SIGSEGV, Segmentation fault.
+.even () at parity.s:12
+warning: Source file is more recent than executable.
+12		movl 1, %rax
+(gdb) p $rax
+$1 = 0
+(gdb) n
+
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.
+(gdb) quit
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+parity.s: Assembler messages:
+parity.s:12: Error: incorrect register `%rax' used with `l' suffix
+parity.s:13: Error: incorrect register `%rbx' used with `l' suffix
+make: *** [Makefile:9: parity.o] Error 1
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ gdb ./parity
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./parity...done.
+(gdb) start 3
+Temporary breakpoint 1 at 0x1165: file main.c, line 9.
+Starting program: /import/linux/home1/psilves1/i220b/work/lab10/files/parity/parity 3
+
+Temporary breakpoint 1, main (argc=2, argv=0x7fffffffe858) at main.c:9
+9	{
+(gdb) n
+10	  if (argc < 2) {
+(gdb) n
+15	    int n = atoi(argv[i]);
+(gdb) n
+16	    printf("parity(%d) = %d\n", n, get_parity(n));
+(gdb) n
+
+Program received signal SIGSEGV, Segmentation fault.
+.even () at parity.s:12
+12		movl 1, %eax
+(gdb) n
+
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.
+(gdb) quit
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ gdb ./parity
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./parity...done.
+(gdb) start 3
+Temporary breakpoint 1 at 0x1165: file main.c, line 9.
+Starting program: /import/linux/home1/psilves1/i220b/work/lab10/files/parity/parity 3
+
+Temporary breakpoint 1, main (argc=2, argv=0x7fffffffe858) at main.c:9
+9	{
+(gdb) n
+10	  if (argc < 2) {
+(gdb) n
+15	    int n = atoi(argv[i]);
+(gdb) n
+16	    printf("parity(%d) = %d\n", n, get_parity(n));
+(gdb) n
+
+Program received signal SIGSEGV, Segmentation fault.
+.even () at parity.s:12
+12		xor 1, %eax
+(gdb) n
+
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.
+(gdb) quit
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ gdb ./parity
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./parity...done.
+(gdb) start 3
+Temporary breakpoint 1 at 0x1165: file main.c, line 9.
+Starting program: /import/linux/home1/psilves1/i220b/work/lab10/files/parity/parity 3
+
+Temporary breakpoint 1, main (argc=2, argv=0x7fffffffe858) at main.c:9
+9	{
+(gdb) n
+10	  if (argc < 2) {
+(gdb) n
+15	    int n = atoi(argv[i]);
+(gdb) n
+16	    printf("parity(%d) = %d\n", n, get_parity(n));
+(gdb) n
+
+Program received signal SIGSEGV, Segmentation fault.
+.even () at parity.s:12
+12		xor %eax, 1
+(gdb) n
+
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.
+(gdb) Quit
+(gdb) quit
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s 
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ gdb ./parity
+GNU gdb (Debian 8.2.1-2) 8.2.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./parity...done.
+(gdb) start 3
+Temporary breakpoint 1 at 0x1165: file main.c, line 9.
+Starting program: /import/linux/home1/psilves1/i220b/work/lab10/files/parity/parity 3
+
+Temporary breakpoint 1, main (argc=2, argv=0x7fffffffe858) at main.c:9
+9	{
+(gdb) n
+10	  if (argc < 2) {
+(gdb) n
+15	    int n = atoi(argv[i]);
+(gdb) n
+16	    printf("parity(%d) = %d\n", n, get_parity(n));
+(gdb) n
+parity(3) = 0
+18	  return 0;
+(gdb) Quit
+(gdb) uit
+Undefined command: "uit".  Try "help".
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [process 7605] will be killed.
+
+Quit anyway? (y or n) y
+psilves1@remote05:~/i220b/work/lab10/files/parity$ emacs parity.s
+psilves1@remote05:~/i220b/work/lab10/files/parity$ make
+cc -c -g -Wall -std=c11 -Og parity.s -o parity.o
+cc main.o parity.o -o parity
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity
+usage: ./parity INT1...
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 3
+parity(3) = 1
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity 1 2 3 4 5 6 7 15 21
+parity(1) = 0
+parity(2) = 0
+parity(3) = 1
+parity(4) = 0
+parity(5) = 1
+parity(6) = 1
+parity(7) = 0
+parity(15) = 1
+parity(21) = 0
+psilves1@remote05:~/i220b/work/lab10/files/parity$ ./parity -1 0 -2
+parity(-1) = 1
+parity(0) = 1
+parity(-2) = 0
+
+__________________________________________________________________________________
+EXERCISE 5
+
+psilves1@remote05:~/i220b/work/lab10/files/rip$ ls
+Makefile  rip.c
+psilves1@remote05:~/i220b/work/lab10/files/rip$ emacs rip.c
+psilves1@remote05:~/i220b/work/lab10/files/rip$ make
+cc -Wall -Og -std=c11 -S rip.c
+cc -Wall -Og -std=c11    rip.c   -o rip
+objdump -d rip > rip.dump
+psilves1@remote05:~/i220b/work/lab10/files/rip$ ./rip
+&get_rip() = 0x564381b31135; rip = 0x564381b3113c
+psilves1@remote05:~/i220b/work/lab10/files/rip$ 
+
+__________________________________________________________________________________
+EXERCISE 6
+
+psilves1@remote05:~/i220b/work/lab10/files/rsp$ ls
+Makefile  rsp.c
+psilves1@remote05:~/i220b/work/lab10/files/rsp$ emacs rsp.c
+psilves1@remote05:~/i220b/work/lab10/files/rsp$ make
+cc -Wall -Og -std=c11 -S rsp.c
+cc -Wall -Og -std=c11    rsp.c   -o rsp
+rsp.c: Assembler messages:
+rsp.c:9: Error: no such instruction: `leq (%rsp),%rax'
+make: *** [<builtin>: rsp] Error 1
+psilves1@remote05:~/i220b/work/lab10/files/rsp$ emacs rsp.c
+psilves1@remote05:~/i220b/work/lab10/files/rsp$ make
+cc -Wall -Og -std=c11 -S rsp.c
+cc -Wall -Og -std=c11    rsp.c   -o rsp
+objdump -d rsp > rsp.dump
+psilves1@remote05:~/i220b/work/lab10/files/rsp$ ls
+Makefile  rsp  rsp.c  rsp.dump	rsp.s
+psilves1@remote05:~/i220b/work/lab10/files/rsp$ ./rsp
+&stkVar = 0x7fff71167c6c; rsp = 0x7fff71167c58

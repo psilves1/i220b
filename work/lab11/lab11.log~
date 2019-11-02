@@ -1,0 +1,156 @@
+EXERCISE 1
+
+psilves1@remote00:~/i220b/work/lab11$ time ls 
+files  lab11.html  lab11.log  lab11.pdf  lab11.umt  Makefile
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.000s
+psilves1@remote00:~/i220b/work/lab11$ 
+psilves1@remote00:~/i220b/work/lab11$ time sleep 5
+
+real	0m5.003s
+user	0m0.002s
+sys	0m0.000s
+psilves1@remote00:~/i220b/work/lab11$ time wc -l `find /etc -type f 2>/dev/null` 2>/dev/null | tail
+     34 /etc/logrotate.conf.dpkg-old
+    618 /etc/matplotlibrc2
+     15 /etc/nftables.conf
+     56 /etc/ntp.conf.dpkg-old
+      3 /etc/sbclrc
+     40 /etc/usb_modeswitch.conf
+      1 /etc/video_format
+     21 /etc/xattr.conf
+     23 /etc/sysfs.conf
+ 166652 total
+
+real	0m2.133s
+user	0m0.024s
+sys	0m0.289s
+psilves1@remote00:~/i220b/work/lab11$ time wc -l `find /etc -type f 2>/dev/null` 2>/dev/null | tail
+     34 /etc/logrotate.conf.dpkg-old
+    618 /etc/matplotlibrc2
+     15 /etc/nftables.conf
+     56 /etc/ntp.conf.dpkg-old
+      3 /etc/sbclrc
+     40 /etc/usb_modeswitch.conf
+      1 /etc/video_format
+     21 /etc/xattr.conf
+     23 /etc/sysfs.conf
+ 166652 total
+
+real	0m0.871s
+user	0m0.013s
+sys	0m0.174s
+
+_____________________________________________________________________________________
+EXERCISE 2
+
+psilves1@remote00:~/i220b/work/lab11/files/parity$ ls
+main.c	Makefile  parity-c.c  parity-s.c
+psilves1@remote00:~/i220b/work/lab11/files/parity$ make
+cc -g -Wall -std=c11 -O1   -c -o parity-c.o parity-c.c
+cc -g -Wall -std=c11 -O1   -c -o main.o main.c
+cc   parity-c.o main.o   -o parity-c
+cc -g -Wall -std=c11 -O1   -c -o parity-s.o parity-s.c
+cc   parity-s.o main.o   -o parity-s
+psilves1@remote00:~/i220b/work/lab11/files/parity$ ./parity-c -d 10
+67: 0
+c6: 1
+69: 1
+73: 0
+51: 0
+ff: 1
+4a: 0
+ec: 0
+29: 0
+cd: 0
+3
+psilves1@remote00:~/i220b/work/lab11/files/parity$ ./parity-s -d 10
+67: 0
+c6: 1
+69: 1
+73: 0
+51: 0
+ff: 1
+4a: 0
+ec: 0
+29: 0
+cd: 0
+3
+psilves1@remote00:~/i220b/work/lab11/files/parity$ time ./parity-s 100
+41
+
+real	0m0.003s
+user	0m0.000s
+sys	0m0.001s
+psilves1@remote00:~/i220b/work/lab11/files/parity$ time ./parity-s 100000000
+49997794
+
+real	0m1.667s
+user	0m1.658s
+sys	0m0.008s
+psilves1@remote00:~/i220b/work/lab11/files/parity$ time ./parity-c 100000000
+50003700
+
+real	0m3.472s
+user	0m3.466s
+sys	0m0.004s
+
+
+_______________________________________________________________________________
+EXERCISE 3
+
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ emacs simple-matmul.c
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ make
+cc -g -Wall -std=c11 -O1   -c -o main.o main.c
+cc -g -Wall -std=c11 -O1   -c -o simple-matmul.o simple-matmul.c
+cc main.o simple-matmul.o  -o simple-matmul
+cc -g -Wall -std=c11 -O1   -c -o transpose-matmul.o transpose-matmul.c
+cc main.o transpose-matmul.o  -o transpose-matmul
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ ./simple-matmul 4 1
+2.91454e+17 5.98976e+17 6.35853e+17 2.89205e+17 
+2.07514e+18 3.24661e+18 3.10141e+18 1.15762e+18 
+3.31753e+18 6.20751e+18 5.50421e+18 3.40789e+18 
+4.06255e+18 7.63735e+18 6.38265e+18 5.0192e+18 
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ ./transpose-matmul 4 1
+       0        0        0        0 
+       0        0        0        0 
+       0        0        0        0 
+       0        0        0        0 
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ emacs transpose-matmul.c
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ make
+cc -g -Wall -std=c11 -O1   -c -o transpose-matmul.o transpose-matmul.c
+cc main.o transpose-matmul.o  -o transpose-matmul
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ ./simple-matmul 4 1
+2.91454e+17 5.98976e+17 6.35853e+17 2.89205e+17 
+2.07514e+18 3.24661e+18 3.10141e+18 1.15762e+18 
+3.31753e+18 6.20751e+18 5.50421e+18 3.40789e+18 
+4.06255e+18 7.63735e+18 6.38265e+18 5.0192e+18 
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ ./transpose-matmul 4 1
+2.91454e+17 5.98976e+17 6.35853e+17 2.89205e+17 
+2.07514e+18 3.24661e+18 3.10141e+18 1.15762e+18 
+3.31753e+18 6.20751e+18 5.50421e+18 3.40789e+18 
+4.06255e+18 7.63735e+18 6.38265e+18 5.0192e+18 
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ $ time ./simple-matmul 1500 1
+-bash: $: command not found
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ time ./simple-matmul 1500 1
+^C
+
+real	0m12.410s
+user	0m12.381s
+sys	0m0.024s
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ time ./simple-matmul 1500 1
+
+real	0m12.646s
+user	0m12.636s
+sys	0m0.008s
+psilves1@remote00:~/i220b/work/lab11/files/matmul-cache$ time ./transpose-matmul 1500 1
+
+real	0m12.684s
+user	0m12.667s
+sys	0m0.012s
+
+________________________________________________________________________________________
+EXCERCISE 4
+

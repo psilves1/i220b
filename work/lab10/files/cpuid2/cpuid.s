@@ -3,10 +3,10 @@
 	.text
 	.globl get_cpuid
 get_cpuid:
-#	pushq   %rax
+	popq    %rax
 	pushq   %rcx
 	pushq	%rdx
-	xorl 	%eax, %eax	#setup cpuid opcode to 0
+#	xorl 	%eax, %eax	#setup cpuid opcode to 0
 	cpuid	
 	#largest param in %eax
 	#12-char manufacturer string in ebx, edx, ecx.

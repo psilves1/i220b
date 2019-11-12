@@ -1,0 +1,52 @@
+EXERCISE 1:
+
+ls *\$*
+ls *\'*
+ls \\*
+ls -- ??
+
+__________________________________________________________________________________________________________________
+EXCERCISE 5:
+
+psilves1@remote04:~/cs220/projects$ wc -l `find ~/cs220/projects -name '*.[ch]'`
+   47 /home/psilves1/cs220/projects/prj1/prj1-sol/bits-to-ints.h
+   30 /home/psilves1/cs220/projects/prj1/prj1-sol/errors.c
+   14 /home/psilves1/cs220/projects/prj1/prj1-sol/errors.h
+   54 /home/psilves1/cs220/projects/prj1/prj1-sol/bits-to-ints.c
+   58 /home/psilves1/cs220/projects/prj1/prj1-sol/main.c
+  178 /home/psilves1/cs220/projects/prj1-sol/bits-to-ints.c
+   46 /home/psilves1/cs220/projects/prj1-sol/bits-to-ints.h
+   30 /home/psilves1/cs220/projects/prj1-sol/errors.c
+   14 /home/psilves1/cs220/projects/prj1-sol/errors.h
+   58 /home/psilves1/cs220/projects/prj1-sol/main.c
+   87 /home/psilves1/cs220/projects/prj2/prj2-sol/big-bits.c
+   61 /home/psilves1/cs220/projects/prj2/prj2-sol/big-bits.h
+   30 /home/psilves1/cs220/projects/prj2/prj2-sol/errors.c
+   14 /home/psilves1/cs220/projects/prj2/prj2-sol/errors.h
+   49 /home/psilves1/cs220/projects/prj2/prj2-sol/hex-util.c
+   18 /home/psilves1/cs220/projects/prj2/prj2-sol/hex-util.h
+  302 /home/psilves1/cs220/projects/prj2/prj2-sol/main.c
+   75 /home/psilves1/cs220/projects/prj2/prj2-sol/stack.c
+   52 /home/psilves1/cs220/projects/prj2/prj2-sol/stack.h
+  140 /home/psilves1/cs220/projects/prj2-sol/alt-big-bits.c
+  184 /home/psilves1/cs220/projects/prj2-sol/big-bits.c
+   61 /home/psilves1/cs220/projects/prj2-sol/big-bits.h
+   30 /home/psilves1/cs220/projects/prj2-sol/errors.c
+   14 /home/psilves1/cs220/projects/prj2-sol/errors.h
+   49 /home/psilves1/cs220/projects/prj2-sol/hex-util.c
+   18 /home/psilves1/cs220/projects/prj2-sol/hex-util.h
+  302 /home/psilves1/cs220/projects/prj2-sol/main.c
+   75 /home/psilves1/cs220/projects/prj2-sol/stack.c
+   52 /home/psilves1/cs220/projects/prj2-sol/stack.h
+  330 /home/psilves1/cs220/projects/prj4/aux-files/fns.c
+   68 /home/psilves1/cs220/projects/prj4/prj4-sol/fn-trace.c
+   47 /home/psilves1/cs220/projects/prj4/prj4-sol/fn-trace.h
+  116 /home/psilves1/cs220/projects/prj4/prj4-sol/main.c
+   40 /home/psilves1/cs220/projects/prj4/prj4-sol/x86-64_lde.c
+   15 /home/psilves1/cs220/projects/prj4/prj4-sol/x86-64_lde.h
+ 2758 total
+
+____________________________________________________________________________________________________
+EXERCISE 6
+
+sleep 5 && echo 123

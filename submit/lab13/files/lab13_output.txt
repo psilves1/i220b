@@ -1,0 +1,173 @@
+STANDARD INPUT CHARACTER COUNT
+
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ ls
+Makefile  stdin-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ emacs stdin-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ emacs Makefile
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ ./stdin-char-count <stdin-char-count.c
+-bash: ./stdin-char-count: No such file or directory
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ make
+gcc -g -Wall -std=c11 -funsigned-char    stdin-char-count.c   -o stdin-char-count
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ ./stdin-char-count <stdin-char-count.c
+EOF = -1
+^C
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ emacs stdin-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ make
+gcc -g -Wall -std=c11 -funsigned-char    stdin-char-count.c   -o stdin-char-count
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ ./stdin-char-count <stdin-char-count.c
+EOF = -1
+205
+psilves1@remote06:~/i220b/work/lab13/files/stdin-char-count$ wc stdin-char-count.c
+ 12  32 205 stdin-char-count.c
+
+__________________________________________________________________________________________________________
+FILE CHARACTER COUNT
+
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ ls
+file-char-count.c  Makefile
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ cd file-char-count.c
+-bash: cd: file-char-count.c: Not a directory
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ emacs file-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ make
+gcc -g -Wall -std=c11    file-char-count.c   -o file-char-count
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ ./file-char-count file-char-count.c
+566
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ wc file-char-count.c
+ 27  81 566 file-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ ./file-char-count xxx
+cannot read xxx: No such file or directory
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ valgrind ./file-char-count file-char-count.c
+==16243== Memcheck, a memory error detector
+==16243== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==16243== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==16243== Command: ./file-char-count file-char-count.c
+==16243== 
+566
+==16243== 
+==16243== HEAP SUMMARY:
+==16243==     in use at exit: 552 bytes in 1 blocks
+==16243==   total heap usage: 3 allocs, 2 frees, 9,768 bytes allocated
+==16243== 
+==16243== LEAK SUMMARY:
+==16243==    definitely lost: 0 bytes in 0 blocks
+==16243==    indirectly lost: 0 bytes in 0 blocks
+==16243==      possibly lost: 0 bytes in 0 blocks
+==16243==    still reachable: 552 bytes in 1 blocks
+==16243==         suppressed: 0 bytes in 0 blocks
+==16243== Rerun with --leak-check=full to see details of leaked memory
+==16243== 
+==16243== For counts of detected and suppressed errors, rerun with: -v
+==16243== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ emacs file-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ make
+gcc -g -Wall -std=c11    file-char-count.c   -o file-char-count
+file-char-count.c: In function ‘main’:
+file-char-count.c:26:10: error: incompatible type for argument 1 of ‘fclose’
+   fclose(*in);
+          ^~~
+In file included from file-char-count.c:2:
+/usr/include/stdio.h:213:26: note: expected ‘FILE *’ {aka ‘struct _IO_FILE *’} but argument is of type ‘FILE’ {aka ‘struct _IO_FILE’}
+ extern int fclose (FILE *__stream);
+                    ~~~~~~^~~~~~~~
+make: *** [<builtin>: file-char-count] Error 1
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ emacs file-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ make
+gcc -g -Wall -std=c11    file-char-count.c   -o file-char-count
+file-char-count.c: In function ‘main’:
+file-char-count.c:26:10: warning: passing argument 1 of ‘fclose’ from incompatible pointer type [-Wincompatible-pointer-types]
+   fclose(fName);
+          ^~~~~
+In file included from file-char-count.c:2:
+/usr/include/stdio.h:213:26: note: expected ‘FILE *’ {aka ‘struct _IO_FILE *’} but argument is of type ‘const char *’
+ extern int fclose (FILE *__stream);
+                    ~~~~~~^~~~~~~~
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ emacs file-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ make
+gcc -g -Wall -std=c11    file-char-count.c   -o file-char-count
+file-char-count.c: In function ‘main’:
+file-char-count.c:26:10: warning: passing argument 1 of ‘fclose’ makes pointer from integer without a cast [-Wint-conversion]
+   fclose(*fName);
+          ^~~~~~
+In file included from file-char-count.c:2:
+/usr/include/stdio.h:213:26: note: expected ‘FILE *’ {aka ‘struct _IO_FILE *’} but argument is of type ‘char’
+ extern int fclose (FILE *__stream);
+                    ~~~~~~^~~~~~~~
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ emacs file-char-count.c
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ make
+gcc -g -Wall -std=c11    file-char-count.c   -o file-char-count
+psilves1@remote06:~/i220b/work/lab13/files/file-char-count$ valgrind ./file-char-count file-char-count.c
+==17169== Memcheck, a memory error detector
+==17169== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17169== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==17169== Command: ./file-char-count file-char-count.c
+==17169== 
+580
+==17169== 
+==17169== HEAP SUMMARY:
+==17169==     in use at exit: 0 bytes in 0 blocks
+==17169==   total heap usage: 3 allocs, 3 frees, 9,768 bytes allocated
+==17169== 
+==17169== All heap blocks were freed -- no leaks are possible
+==17169== 
+==17169== For counts of detected and suppressed errors, rerun with: -v
+==17169== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+________________________________________________________________________________________________________________________________
+FILE COPY
+
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ ./file-copy file-copy.c t
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ cmp file-copy.c t
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ ./file-copy Makefile t
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ cmp Makefile t
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ chmod man
+chmod: missing operand after ‘man’
+Try 'chmod --help' for more information.
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ man chmod
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ chmod a-w t
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ ./file-copy file-copy.c t
+cannot write t: Permission denied
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ cmp Makefile t
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ emacs file-copy.c
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ ./file-copy file-copy.c t
+cannot write t: Permission denied
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ emacs file-copy.c
+psilves1@remote06:~/i220b/work/lab13/files/file-copy$ emacs file-copy.c
+
+____________________________________________________________________________________________________________________________
+APPENDING TO A FILE
+
+psilves1@remote05:~/i220b/work/lab13/files/file-copy$ emacs file-copy.c
+psilves1@remote05:~/i220b/work/lab13/files/file-copy$ make
+gcc -g -Wall -std=c11    file-copy.c   -o file-copy
+psilves1@remote05:~/i220b/work/lab13/files/file-copy$ rm -f t
+psilves1@remote05:~/i220b/work/lab13/files/file-copy$ ./file-copy file-copy.c t
+psilves1@remote05:~/i220b/work/lab13/files/file-copy$ ./file-copy Makefile t
+psilves1@remote05:~/i220b/work/lab13/files/file-copy$ wc -l file-copy.c Makefile
+  53 file-copy.c
+  10 Makefile
+  63 total
+psilves1@remote05:~/i220b/work/lab13/files/file-copy$ wc -l t
+63 t
+
+_________________________________________________________________________________________________________________________
+BUFFERING
+
+psilves1@remote05:~/i220b/work/lab13/files/no-buffer-copy$ emcas no-buffer-copy.c
+-bash: emcas: command not found
+psilves1@remote05:~/i220b/work/lab13/files/no-buffer-copy$ emacs no-buffer-copy.c
+psilves1@remote05:~/i220b/work/lab13/files/no-buffer-copy$ make
+gcc -g -Wall -std=c11    no-buffer-copy.c   -o no-buffer-copy
+psilves1@remote05:~/i220b/work/lab13/files/no-buffer-copy$ time ./no-buffer-copy `which gcc` /dev/null 1
+
+real	0m0.017s
+user	0m0.002s
+sys	0m0.011s
+psilves1@remote05:~/i220b/work/lab13/files/no-buffer-copy$ time ./no-buffer-copy `which gcc` /dev/null 0
+
+real	0m1.825s
+user	0m0.996s
+sys	0m0.827s
+
+__________________________________________________________________________________________________________________________
+RECORD I/O
+

@@ -24,6 +24,73 @@ static inline bool is_ret(unsigned op) {
 }
 
 
+
+
+int compare(const void *a, const void *b){
+
+  FnInfo **infoA = (FnInfo **) a;
+  FnInfo **infoB = (FnInfo **) b;
+
+  return (*infoA)->address-(*infoB)->address;
+}
+
+const FnsData* fnTrace(void* addr, FnsData *fnsdata){ //try making it void
+
+  int funcIndex = fnsdata->nIndex; //next index
+
+  if(fnsdata->len <= funcIndex){
+    if(fnsdata->len == 0){
+      fnsdata->len = 1;
+    }
+    else{
+      fnsdata->len *= 2;
+    }
+    fnsdata->arr = reallocChk(fnsdata->arr, fnsdata->len);
+  }
+  
+  fnsdata->arr[funcIndex] = mallocChk(sizeof(FnInfo));
+  fnsdata->arr[funcIndex]->nInCalls = 1;
+  fnsdata->arr[funcIndex]->nOutCalls = 0;
+  fnsdata->arr[funcIndex]->length = 0;
+  
+  unsigned char *ptr = addr;
+
+  int opLength = get_op_length(ptr);
+
+  while(!is_ret(*ptr)){
+  
+    if(is_call(*ptr)){
+
+      fnsdata->arr[funcIndex]->nOutCalls += 1;
+      
+      int offset =  *(ptr + 1);
+      void* other_address = ptr + offset + opLength;
+
+      bool wasFound = false;
+    
+      for(int i = 0; i < fnsdata->nIndex; i++){
+	if(fnsdata->arr[i]->address == other_address){
+	  fnsdata->arr[i]->nInCalls++;
+	  wasFound = true; //see if you can change it to 1
+	  break;
+	}
+	if(!wasFound){
+	  fnTrace(other_address, fnsdata);
+	}
+      }    
+    }
+
+    fnsdata->arr[funcIndex]->length += opLength;
+    
+    ptr += opLength; //goes to the next instruction
+    
+  }
+
+  fnsdata->arr[funcIndex]->length += get_op_length(ptr);
+
+  return fnsdata;
+}
+
 /** Return pointer to opaque data structure containing collection of
  *  FnInfo's for functions which are callable directly or indirectly
  *  from the function whose address is rootFn.
@@ -33,38 +100,21 @@ new_fns_data(void *rootFn)
 {
   //verify assumption used when decoding call address
   assert(sizeof(int) == 4);
+
   //@TODO
+  FnsData *tracker = mallocChk(sizeof(FnsData));
+  tracker->arr = NULL;
+  tracker->len = 0;
+  tracker->nIndex = 0;
 
-  FnInfo *base;
-  base = mallocChk(sizeof(FnInfo));
-  base->address = rootFn;
+  fnTrace(rootFn, tracker);
 
-  FnsData *tracker;
-  tracker = mallocChk(sizeof(FnsData));
-  tracker->arr = &base;
-  tracker->len = 1;
-  tracker->nIndex = len + 1;
+  //add q-sort here
+
+  qsort(tracker->arr, tracker->nIndex, sizeof(FnInfo *), compare);
   
-  unsigned char *ptr = (unsigned char *) rootFn;
-
-  base->length = get_op_length(ptr);
-
-  unsigned int opCode = *ptr * 16 + *(ptr + 1);
-
-  while(!is_ret(opCode)){
-
-    if(is_call(opCode)){
-      //do stuff
-    }
-
-    ptr++;
-
-    base->length += get_op_length(ptr);
-    opCode = *ptr * 16 + *(ptr + 1);
-    
-  }
-
-  return NULL;
+  
+  return tracker;
 }
 
 /** Free all resources occupied by fnsData. fnsData must have been
@@ -75,6 +125,11 @@ void
 free_fns_data(FnsData *fnsData)
 {
   //@TODO
+  for(int i = 0; i < fnsData->nIndex; i++){
+    free(fnsData->arr[i]);
+  }
+  free(fnsData->arr);
+  free(fnsData);  
 }
 
 /** Iterate over all FnInfo's in fnsData.  Make initial call with NULL
@@ -94,5 +149,14 @@ const FnInfo *
 next_fn_info(const FnsData *fnsData, const FnInfo *lastFnInfo)
 {
   //@TODO
-  return NULL;
+
+  if(lastFnInfo == NULL){
+    return fnsData->arr[0];
+  }
+
+  int i;
+
+  for(i = 0; lastFnInfo != fnsData->arr[i]; i++){} //finding the proper i value 
+  
+  return fnsData->arr[i+1];
 }

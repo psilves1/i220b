@@ -4,6 +4,10 @@
 
 #include <string.h>
 
+//DELETE THIS
+#include <stdio.h>
+
+
 /** Length decoder for x86_64 instructions. Uses BeaEngine disassembler
  *  library.
  *
@@ -36,5 +40,9 @@ get_op_length(void *p)
   bea.Archi = 64;
   bea.EIP = (UIntPtr)p;
   int n = Disasm(&bea);
+
+  //MY CODE
+  //  printf("Value of N: %d \n" , n);
+  
   return (n <= 0) ? -1 : n;
 }
